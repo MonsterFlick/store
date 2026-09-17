@@ -64,7 +64,7 @@ In the Supabase SQL Editor, execute the migration scripts located in `preq.store
    - Grants public read on catalog metadata, plans, and licenses.
    - **Blocks direct public/client read on `product_content` and private storage**.
    - Restricts orders, payments, entitlements, and devices strictly to the owning user (`auth.uid() = user_id`).
-3. **`003_seed_data.sql`**:
+3. **`003_seed_platform.sql & 004_seed_hiring_organizations.sql`**:
    - Seeds default categories (`Engineering`, `Careers`, `Remote Work`).
    - Seeds the initial product definition and plan for `hiring-organizations` at ₹99 INR.
 
