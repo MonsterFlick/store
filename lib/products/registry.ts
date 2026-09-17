@@ -1,7 +1,9 @@
-import React from "react";
+﻿import React from "react";
 import { ProductDefinition, StructuredBookContent } from "./types";
 import { product as hiringOrgProduct } from "@/products/hiring-organizations/product";
 import { sampleContent as hiringOrgSampleContent } from "@/products/hiring-organizations/sample";
+import { product as jobSearchBookProduct } from "@/products/the-job-search-book/product";
+import { sampleContent as jobSearchBookSampleContent } from "@/products/the-job-search-book/sample";
 
 export interface RegisteredProduct {
   definition: ProductDefinition;
@@ -24,6 +26,11 @@ export const productRegistry: Record<string, RegisteredProduct> = {
     definition: hiringOrgProduct,
     content: hiringOrgSampleContent,
     loadExperience: () => import("@/products/hiring-organizations/experience"),
+  },
+  "the-job-search-book": {
+    definition: jobSearchBookProduct,
+    content: jobSearchBookSampleContent,
+    loadExperience: () => import("@/products/the-job-search-book/experience"),
   },
 };
 
