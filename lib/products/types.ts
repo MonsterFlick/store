@@ -11,11 +11,25 @@ export interface ProductCapabilities {
 
 export type ContentBlockType =
   | "heading"
+  | "subheading"
   | "text"
+  | "paragraph"
+  | "lead-paragraph"
   | "code"
   | "callout"
+  | "pro-tip"
+  | "warning"
   | "image"
   | "quote"
+  | "quote-card"
+  | "diagram"
+  | "do-dont"
+  | "checklist"
+  | "table"
+  | "script"
+  | "invoice-case-study"
+  | "daily-routine"
+  | "resource-link"
   | "quiz"
   | "interactive";
 
@@ -30,6 +44,38 @@ export interface ContentBlock {
   filename?: string;
   variant?: "info" | "warning" | "tip" | "important";
   title?: string;
+  subtitle?: string;
+  dropCap?: string;
+  leadText?: string;
+  doTitle?: string;
+  doText?: string;
+  dontTitle?: string;
+  dontText?: string;
+  items?: string[];
+  headers?: string[];
+  rows?: string[][];
+  scriptSubject?: string;
+  scriptBody?: string;
+  url?: string;
+  urlLabel?: string;
+  urlDescription?: string;
+  buttonText?: string;
+  invoiceData?: {
+    vendor: string;
+    invoiceDate: string;
+    services: string[];
+    listedAmount: string;
+    discount: string;
+    taxableValue: string;
+    gst: string;
+    finalPaid: string;
+    note: string;
+  };
+  routinePhases?: {
+    time: string;
+    title: string;
+    tasks: string[];
+  }[];
   src?: string;
   alt?: string;
   caption?: string;
@@ -47,8 +93,14 @@ export interface ContentBlock {
 
 export interface Chapter {
   id: string;
+  chapterNumber?: number;
+  slug?: string;
+  volume?: string;
   title: string;
+  subtitle?: string;
   description?: string;
+  readingTime?: string;
+  epigraph?: { quote: string; author?: string };
   isFreePreview?: boolean;
   sections: ContentBlock[];
 }
@@ -68,8 +120,8 @@ export interface ProductDefinition {
   type: "ebook" | "guide" | "video" | "template" | "app" | "bundle";
   template?: "ebook" | "guide" | "video" | "custom";
   capabilities: ProductCapabilities;
-  price: number; // in INR ₹
-  originalPrice?: number; // in INR ₹
+  price: number; // in INR
+  originalPrice?: number; // in INR
   currency?: string; // "INR"
   categories: string[];
   tags: string[];
@@ -89,11 +141,25 @@ export const contentBlockSchema: z.ZodType<ContentBlock> = z.object({
   id: z.string().optional(),
   type: z.enum([
     "heading",
+    "subheading",
     "text",
+    "paragraph",
+    "lead-paragraph",
     "code",
     "callout",
+    "pro-tip",
+    "warning",
     "image",
     "quote",
+    "quote-card",
+    "diagram",
+    "do-dont",
+    "checklist",
+    "table",
+    "script",
+    "invoice-case-study",
+    "daily-routine",
+    "resource-link",
     "quiz",
     "interactive",
   ]),
@@ -105,6 +171,38 @@ export const contentBlockSchema: z.ZodType<ContentBlock> = z.object({
   filename: z.string().optional(),
   variant: z.enum(["info", "warning", "tip", "important"]).optional(),
   title: z.string().optional(),
+  subtitle: z.string().optional(),
+  dropCap: z.string().optional(),
+  leadText: z.string().optional(),
+  doTitle: z.string().optional(),
+  doText: z.string().optional(),
+  dontTitle: z.string().optional(),
+  dontText: z.string().optional(),
+  items: z.array(z.string()).optional(),
+  headers: z.array(z.string()).optional(),
+  rows: z.array(z.array(z.string())).optional(),
+  scriptSubject: z.string().optional(),
+  scriptBody: z.string().optional(),
+  url: z.string().optional(),
+  urlLabel: z.string().optional(),
+  urlDescription: z.string().optional(),
+  buttonText: z.string().optional(),
+  invoiceData: z.object({
+    vendor: z.string(),
+    invoiceDate: z.string(),
+    services: z.array(z.string()),
+    listedAmount: z.string(),
+    discount: z.string(),
+    taxableValue: z.string(),
+    gst: z.string(),
+    finalPaid: z.string(),
+    note: z.string(),
+  }).optional(),
+  routinePhases: z.array(z.object({
+    time: z.string(),
+    title: z.string(),
+    tasks: z.array(z.string()),
+  })).optional(),
   src: z.string().optional(),
   alt: z.string().optional(),
   caption: z.string().optional(),
@@ -122,8 +220,17 @@ export const contentBlockSchema: z.ZodType<ContentBlock> = z.object({
 
 export const chapterSchema: z.ZodType<Chapter> = z.object({
   id: z.string().min(1),
+  chapterNumber: z.number().optional(),
+  slug: z.string().optional(),
+  volume: z.string().optional(),
   title: z.string().min(1),
+  subtitle: z.string().optional(),
   description: z.string().optional(),
+  readingTime: z.string().optional(),
+  epigraph: z.object({
+    quote: z.string(),
+    author: z.string().optional(),
+  }).optional(),
   isFreePreview: z.boolean().optional(),
   sections: z.array(contentBlockSchema),
 });

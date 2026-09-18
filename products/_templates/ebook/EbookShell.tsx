@@ -243,16 +243,26 @@ export function EbookShell({
             <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-[var(--text-primary)]">
               {currentChapter.title}
             </h1>
-            {currentChapter.description && (
+            {(currentChapter.subtitle || currentChapter.description) && (
               <p className="mt-2 text-base text-[var(--text-secondary)]">
-                {currentChapter.description}
+                {currentChapter.subtitle || currentChapter.description}
               </p>
+            )}
+            {currentChapter.epigraph && (
+              <div className="mt-4 p-4 rounded-[var(--radius-md)] border-l-2 border-[var(--accent-primary)] bg-[var(--background-secondary)] italic text-sm text-[var(--text-secondary)]">
+                &ldquo;{currentChapter.epigraph.quote}&rdquo;
+                {currentChapter.epigraph.author && (
+                  <span className="block mt-1 font-normal not-italic text-xs text-[var(--accent-primary)]">
+                    — {currentChapter.epigraph.author}
+                  </span>
+                )}
+              </div>
             )}
           </div>
 
           {/* Render Chapter Sections */}
           <ContentRenderer
-            blocks={currentChapter.sections}
+            blocks={currentChapter.sections || (currentChapter as any).blocks || []}
             fontSize={progress.fontSize}
           />
 
