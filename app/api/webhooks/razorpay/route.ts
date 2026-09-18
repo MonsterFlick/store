@@ -17,7 +17,7 @@ export async function POST(request: Request) {
 
     // 1. Verify cryptographic signature with timing-safe length check
     const isValid = verifyRazorpayWebhookSignature(rawBody, signature);
-    if (!isValid && process.env.NODE_ENV === "production") {
+    if (!isValid) {
       console.error("❌ Invalid Razorpay webhook signature");
       return NextResponse.json(
         { error: "Invalid webhook signature." },

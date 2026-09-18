@@ -31,14 +31,15 @@ export async function GET(
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user && process.env.NODE_ENV === "production") {
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required to download assets." },
       { status: 401 }
     );
   }
 
-  const userId = user?.id || "dev-user-id";
+  const userId = user.id;
+
   const entitlementCheck = await verifyUserEntitlement(userId, slug);
 
   if (!entitlementCheck.entitled) {

@@ -18,6 +18,7 @@ export interface CheckoutButtonProps {
   couponCode?: string;
   className?: string;
   buttonText?: string;
+  showTrustBadge?: boolean;
 }
 
 export function CheckoutButton({
@@ -26,6 +27,7 @@ export function CheckoutButton({
   couponCode,
   className,
   buttonText,
+  showTrustBadge = true,
 }: CheckoutButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -112,7 +114,7 @@ export function CheckoutButton({
         key: data.keyId,
         amount: data.amount,
         currency: data.currency || "INR",
-        name: "Om Store",
+        name: "SoWeBuild Store",
         description: data.productName,
         order_id: data.razorpayOrderId,
         prefill: {
@@ -189,10 +191,12 @@ export function CheckoutButton({
         <ArrowRight className="w-4 h-4 ml-1.5" />
       </Button>
 
-      <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono">
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-        <span>Encrypted Razorpay Checkout • Instant Access</span>
-      </div>
+      {showTrustBadge && (
+        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+          <span>Encrypted Razorpay Checkout • Instant Access</span>
+        </div>
+      )}
     </div>
   );
 }

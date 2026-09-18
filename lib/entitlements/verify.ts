@@ -35,23 +35,6 @@ export async function verifyUserEntitlement(
     .single();
 
   if (productError || !productData) {
-    // Check if running in development mode with mock credentials
-    if (env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project")) {
-      // Allow dev test bypass if authenticated or configured
-      return {
-        entitled: true,
-        entitlement: {
-          id: "dev-entitlement",
-          user_id: userId,
-          product_id: "dev-prod-1",
-          order_id: "ORD-DEV-9999",
-          status: "active",
-          starts_at: new Date().toISOString(),
-          created_at: new Date().toISOString(),
-        },
-        orderId: "ORD-DEV-9999",
-      };
-    }
     return { entitled: false };
   }
 

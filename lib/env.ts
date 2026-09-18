@@ -3,9 +3,9 @@ import { z } from "zod";
 const isProduction = process.env.NODE_ENV === "production";
 
 const envSchema = z.object({
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url().default("https://mock-project.supabase.co"),
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().default("mock-anon-key"),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().default("mock-anon-key"),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().default("https://zmghgjsafxaldohyfkhb.supabase.co"),
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().default("sb_publishable_yFZDX6m1OYETqYybNHj89A_ja2rYH9q"),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().default("sb_publishable_yFZDX6m1OYETqYybNHj89A_ja2rYH9q"),
   SUPABASE_SERVICE_ROLE_KEY: isProduction
     ? z.string().min(1, "SUPABASE_SERVICE_ROLE_KEY is required in production")
     : z.string().default("mock-service-role-key"),
@@ -25,16 +25,16 @@ const envSchema = z.object({
         .min(32)
         .default("0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"),
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
-  NEXT_PUBLIC_SUPPORT_EMAIL: z.string().email().default("support@om.store"),
+  NEXT_PUBLIC_SUPPORT_EMAIL: z.string().email().default("sowebuild.in@gmail.com"),
 });
 
 const clientEnvSchema = z.object({
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url().default("https://mock-project.supabase.co"),
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().default("mock-anon-key"),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().default("mock-anon-key"),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url().default("https://zmghgjsafxaldohyfkhb.supabase.co"),
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string().default("sb_publishable_yFZDX6m1OYETqYybNHj89A_ja2rYH9q"),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().default("sb_publishable_yFZDX6m1OYETqYybNHj89A_ja2rYH9q"),
   NEXT_PUBLIC_RAZORPAY_KEY_ID: z.string().default("rzp_test_mock_key_12345"),
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
-  NEXT_PUBLIC_SUPPORT_EMAIL: z.string().email().default("support@om.store"),
+  NEXT_PUBLIC_SUPPORT_EMAIL: z.string().email().default("sowebuild.in@gmail.com"),
 });
 
 const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;

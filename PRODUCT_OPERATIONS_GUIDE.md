@@ -333,5 +333,5 @@ npm run sync:hiring-organizations --prefix "../preq.store"
 - **Storefront Home**: `http://localhost:3000/`
 - **Product Landing Page**: `http://localhost:3000/products/hiring-organizations`
 - **Preview Drawer**: Click **"Read Free Chapter 1 Excerpt"** on the product page
-- **Purchaser Experience (Dev Inspection)**: `http://localhost:3000/library/hiring-organizations?dev_preview=1`
+- **Purchaser Experience**: Login and open `http://localhost:3000/library/hiring-organizations` with an active entitlement
 - **Unpaid Protection Test**: Navigate to `http://localhost:3000/library/hiring-organizations` in an Incognito window — verify redirect to `/auth/login`.

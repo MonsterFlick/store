@@ -62,12 +62,6 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    // In local development ONLY, allow inspecting experience if dev_preview=1
-    const isDev = process.env.NODE_ENV === "development";
-    if (isDev && request.nextUrl.searchParams.get("dev_preview") === "1") {
-      return supabaseResponse;
-    }
-
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
     url.searchParams.set("next", pathname);

@@ -60,7 +60,7 @@ export const product: ProductDefinition = {
     {
       question: "How does access work after payment?",
       answer:
-        "Once your ₹99 payment is complete, you receive instant lifetime digital access in your personal Om Store library on up to 2 active devices, complete with search, filtering, and bookmarking.",
+        "Once your ₹99 payment is complete, you receive instant lifetime digital access in your personal SoWeBuild Store library, complete with search, filtering, and bookmarking.",
     },
     {
       question: "Is this a static PDF or an interactive app?",

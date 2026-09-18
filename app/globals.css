@@ -63,11 +63,17 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
   html {
     @apply font-sans;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Prevent layout thrashing on color transitions */
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
 }
 
@@ -89,9 +95,10 @@
   --color-accent-light: var(--accent-light);
   --color-accent-glow: var(--accent-glow);
 
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-sans), system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display), var(--font-sans), sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -165,6 +172,10 @@ body {
   font-family: var(--font-serif, "Georgia", "Instrument Serif", serif);
 }
 
+.font-display {
+  font-family: var(--font-display, var(--font-sans), sans-serif);
+}
+
 /* Reader Prose Styles */
 .reader-prose {
   color: var(--text-primary);
@@ -232,6 +243,205 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
+}
+
+/* Fluid custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translate3d(0, 0px, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+@keyframes shimmerText {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: translate3d(0,0,0) scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translate3d(0,0,0) scale(1.06);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
+  contain: layout style;
+}
+
+.animate-shimmer-text {
+  background-size: 200% auto;
+  animation: shimmerText 6s ease infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 4s ease-in-out infinite;
+  will-change: transform, opacity;
+  contain: layout style;
+}
+
+/* Staggered Letter Wave Animations - Left to Right Slower Wave
+   Perf: removed filter:blur() — uses only opacity + transform (composite-only) */
+@keyframes letterWaveEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.letter-wave-enter {
+  opacity: 0;
+  animation: letterWaveEnter 0.68s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+
+.letter-wave-exit {
+  opacity: 0 !important;
+  transform: translate3d(0, -14px, 0) scale(0.96) !important;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.5s ease !important;
+  will-change: opacity, transform;
+}
+
+/* Interactive cursor spotlight & Krishora Design Utilities */
+.cursor-spotlight {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+/* Krishora Atmospheric Cyber Grid */
+.kr-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.dark .kr-grid-bg {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Krishora Ambient Glowing Orb - 60fps optimized:
+   Use a lightweight blur + translate3d + contain to eliminate compositing cost during scroll */
+.kr-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(18px);
+  pointer-events: none;
+  opacity: 0.16;
+  transform: translate3d(0, 0, 0);
+  contain: strict;
+  content-visibility: auto;
+}
+
+.dark .kr-orb {
+  opacity: 0.32;
+  filter: blur(20px);
+}
+
+/* Krishora Frosted Glass Card – reduced backdrop-filter for perf */
+.kr-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  contain: layout style;
+}
+
+.dark .kr-card {
+  background: rgba(18, 18, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 40px -10px rgba(109, 93, 245, 0.15);
+}
+
+.kr-card:hover {
+  border-color: rgba(109, 93, 245, 0.35);
+}
+
+/* Custom Cursor Styles — perf: removed backdrop-filter from hover state */
+.kr-cursor-ring {
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease-out,
+              height 0.2s ease-out,
+              background-color 0.15s ease,
+              border-color 0.15s ease;
+  contain: layout style;
+}
+
+.kr-cursor-ring.kr-hovered {
+  width: 52px;
+  height: 52px;
+  background-color: rgba(109, 93, 245, 0.12);
+  border-color: rgba(109, 93, 245, 0.65);
+  /* Removed box-shadow and backdrop-filter — too expensive for a 60fps cursor */
+}
+
+.kr-cursor-center {
+  transform: translate(-50%, -50%);
+  transition: opacity 0.12s ease;
+  contain: layout style;
+}
+
+.kr-cursor-center.kr-hovered {
+  opacity: 0.25;
+}
+
+/* Scroll-based Nav to Dock Smooth Animation */
+.nav-dock-container {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+  contain: layout;
+}
+
+.nav-dock-pill {
+  transition: background-color 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.4s ease;
+  will-change: auto;
+  contain: layout style;
+}
+
+/* Ensure browser smooth scrolling never conflicts with Lenis smooth scrolling */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+@media (hover: none), (max-width: 768px) {
+  .kr-cursor-ring,
+  .kr-cursor-center {
+    display: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

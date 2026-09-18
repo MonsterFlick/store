@@ -24,7 +24,7 @@ export function ProductCard({
   return (
     <>
       <div
-        className={`group relative rounded-[var(--radius-lg)] bg-[var(--surface-card)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] transition-all duration-200 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-sm ${
+        className={`group relative rounded-[var(--radius-lg)] bg-[var(--surface-card)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] transition-[border-color,box-shadow] duration-150 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-sm ${
           featured ? "md:col-span-2 md:flex-row" : ""
         }`}
       >

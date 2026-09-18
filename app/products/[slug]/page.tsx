@@ -40,7 +40,7 @@ export async function generateMetadata({
     };
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://om.store";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://store.sowebuild.in";
   const canonicalUrl = `${appUrl}/products/${product.slug}`;
 
   return {
@@ -50,10 +50,10 @@ export async function generateMetadata({
       canonical: canonicalUrl,
     },
     openGraph: {
-      title: `${product.name} — Digital Experience`,
+      title: `${product.name} — SoWeBuild Store`,
       description: product.tagline,
       url: canonicalUrl,
-      siteName: "Om Store",
+      siteName: "SoWeBuild Store",
       type: "website",
     },
     twitter: {
@@ -93,7 +93,7 @@ export default async function ProductPage({
   }
 
   // JSON-LD Structured Data
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://om.store";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://store.sowebuild.in";
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -163,7 +163,7 @@ export default async function ProductPage({
             className="inline-flex items-center space-x-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to All Publications</span>
+            <span>Back to All Products</span>
           </Link>
         </div>
 

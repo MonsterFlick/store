@@ -41,19 +41,11 @@ export async function loadProtectedProduct(
     data: { user },
   } = await supabase.auth.getUser();
 
-  const activeUser =
-    user ||
-    (env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project")
-      ? {
-          id: "dev-user-id",
-          email: "reader@om.store",
-          user_metadata: { full_name: "Om Thakur" },
-        }
-      : null);
-
-  if (!activeUser) {
+  if (!user) {
     return { status: "unauthenticated", product };
   }
+
+  const activeUser = user;
 
   // 1. Device check (2-device limit enforcement)
   const deviceCheck = await verifyOrCreateDevice(activeUser.id);

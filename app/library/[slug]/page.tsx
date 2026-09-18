@@ -11,27 +11,10 @@ import { formatINR } from "@/lib/utils";
 
 export default async function ProtectedProductPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams?: Promise<{ dev_preview?: string }>;
 }) {
   const { slug } = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : undefined;
-
-  // Development preview bypass for inspecting verified experiences
-  if (process.env.NODE_ENV === "development" && resolvedSearchParams?.dev_preview === "1") {
-    const ExperienceComponent = await loadProductExperience(slug);
-    if (!ExperienceComponent) notFound();
-    return (
-      <ExperienceComponent
-        content={undefined}
-        user={{ id: "dev-purchaser", name: "Om Thakur", email: "reader@om.store" }}
-        orderId="ORD-DEV-9999"
-        isFreePreview={false}
-      />
-    );
-  }
 
   const result = await loadProtectedProduct(slug);
 

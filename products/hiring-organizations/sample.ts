@@ -62,7 +62,7 @@ export const sampleCompanies: HiringCompany[] = [
 
 export const sampleContent: StructuredBookContent = {
   title: "Companies That Hire Without Whiteboards: Sample Excerpt",
-  author: "Om Store Curated Research",
+  author: "SoWeBuild Store Curated Research",
   version: "1.0.0",
   chapters: [
     {

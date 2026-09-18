@@ -17,12 +17,11 @@ export default async function LibraryPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If in production with live Supabase and not logged in, redirect to login
-  if (!user && !env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project")) {
+  if (!user) {
     redirect("/auth/login?next=/library");
   }
 
-  const userId = user?.id || "dev-user-id";
+  const userId = user.id;
 
   // Query user's active entitlements
   const { data: entitlements } = await supabase
@@ -38,9 +37,6 @@ export default async function LibraryPage() {
     entitledProducts = productSlugs
       .map((slug) => getProductBySlug(slug))
       .filter((p): p is ProductDefinition => p !== null);
-  } else {
-    // In local development preview mode, show available catalog publications so the reader is testable
-    entitledProducts = getAllProducts();
   }
 
   return (

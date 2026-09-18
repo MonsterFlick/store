@@ -25,18 +25,11 @@ export default async function AccountPage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If in production with live Supabase and not logged in, redirect to login
-  if (!user && !env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project")) {
+  if (!user) {
     redirect("/auth/login?next=/account");
   }
 
-  // Fallback demo user for local preview if not authenticated
-  const currentUser = user || {
-    id: "dev-user-id",
-    email: "reader@om.store",
-    user_metadata: { full_name: "Om Thakur" },
-    created_at: new Date().toISOString(),
-  };
+  const currentUser = user;
 
   // 1. Fetch user orders
   const { data: orders } = await supabase

@@ -12,20 +12,14 @@ export async function POST(request: Request) {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const isDev = process.env.NODE_ENV !== "production";
-    const isMockEnv =
-      env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes("mock") ||
-      env.RAZORPAY_KEY_SECRET.includes("mock") ||
-      env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project");
-
-    const userId = user?.id || (isDev ? "dev-user-id" : null);
-
-    if (!userId) {
+    if (!user) {
       return NextResponse.json(
         { error: "Authentication required to confirm payment." },
         { status: 401 }
       );
     }
+
+    const userId = user.id;
 
     const {
       razorpayOrderId,
@@ -42,36 +36,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. Production Security & Mock Disallowance
-    const isMockOrder = razorpayOrderId.startsWith("order_mock_");
-    if (!isDev && isMockOrder) {
+    // 1. Security: Disallow mock orders in production
+    if (razorpayOrderId.startsWith("order_mock_") && process.env.NODE_ENV === "production") {
       return NextResponse.json(
         { error: "Mock orders are not allowed in production." },
         { status: 400 }
       );
     }
 
-    // In production or when using real keys, signature is strictly required
-    if (!isDev || !isMockOrder) {
-      if (!razorpaySignature) {
-        return NextResponse.json(
-          { error: "Missing cryptographic payment signature." },
-          { status: 400 }
-        );
-      }
-
-      const isValid = verifyRazorpayPaymentSignature(
-        razorpayOrderId,
-        razorpayPaymentId,
-        razorpaySignature
+    // Cryptographic signature is strictly required
+    if (!razorpaySignature) {
+      return NextResponse.json(
+        { error: "Missing cryptographic payment signature." },
+        { status: 400 }
       );
+    }
 
-      if (!isValid) {
-        return NextResponse.json(
-          { error: "Cryptographic payment signature verification failed." },
-          { status: 400 }
-        );
-      }
+    const isValid = verifyRazorpayPaymentSignature(
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature
+    );
+
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Cryptographic payment signature verification failed." },
+        { status: 400 }
+      );
     }
 
     const admin = createAdminClient();
@@ -106,17 +97,16 @@ export async function POST(request: Request) {
       // Database fallback
     }
 
-    // If database lookup failed or in dev mock mode, check registry
+    // Verify product exists in database
     const registryProduct = getProductBySlug(productSlug);
-    if (!productDbId && !isMockEnv) {
+    if (!productDbId) {
       return NextResponse.json(
         { error: "Product record not found in database." },
         { status: 404 }
       );
     }
 
-    // Fallback ID only for dev mock testing without a connected database
-    const resolvedProductId = productDbId || "00000000-0000-0000-0000-000000000001";
+    const resolvedProductId = productDbId;
 
     // 4. Resolve or update internal order
     let resolvedOrderId = internalOrderId;
@@ -126,11 +116,34 @@ export async function POST(request: Request) {
       try {
         const { data: orderRecord } = await admin
           .from("orders")
-          .select("id, total, status")
+          .select("id, user_id, total, status")
           .eq("id", internalOrderId)
           .maybeSingle();
 
         if (orderRecord) {
+          // Verify user ownership of the order
+          if (orderRecord.user_id && orderRecord.user_id !== userId) {
+            return NextResponse.json(
+              { error: "Order does not belong to authenticated user." },
+              { status: 403 }
+            );
+          }
+
+          // Anti-Tamper Check: Verify product in order_items matches requested product
+          const { data: orderItem } = await admin
+            .from("order_items")
+            .select("product_id")
+            .eq("order_id", internalOrderId)
+            .maybeSingle();
+
+          if (orderItem && productDbId && orderItem.product_id !== productDbId) {
+            console.error("🚨 Tampering detected: Purchased product does not match verification request.");
+            return NextResponse.json(
+              { error: "Order verification error: Purchased product mismatch." },
+              { status: 400 }
+            );
+          }
+
           orderAmount = Number(orderRecord.total) || orderAmount;
           if (orderRecord.status !== "paid") {
             await admin
@@ -147,15 +160,21 @@ export async function POST(request: Request) {
         console.warn("Order lookup/update warning:", err);
       }
     } else {
-      // If internalOrderId is not a valid UUID, create a valid order record or query by razorpay_order_id
+      // If internalOrderId is not a valid UUID, query by razorpay_order_id
       try {
         const { data: orderByRzp } = await admin
           .from("orders")
-          .select("id, total")
+          .select("id, user_id, total")
           .eq("razorpay_order_id", razorpayOrderId)
           .maybeSingle();
 
         if (orderByRzp) {
+          if (orderByRzp.user_id && orderByRzp.user_id !== userId) {
+            return NextResponse.json(
+              { error: "Order does not belong to authenticated user." },
+              { status: 403 }
+            );
+          }
           resolvedOrderId = orderByRzp.id;
           orderAmount = Number(orderByRzp.total) || orderAmount;
           await admin
@@ -189,9 +208,9 @@ export async function POST(request: Request) {
 
     // Ensure resolvedOrderId is a valid UUID for DB foreign key
     const isUuidOrder = resolvedOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(resolvedOrderId);
-    const validOrderUuid = isUuidOrder ? resolvedOrderId : (isMockEnv ? "00000000-0000-0000-0000-000000000002" : null);
+    const validOrderUuid = isUuidOrder ? resolvedOrderId : null;
 
-    if (!validOrderUuid && !isMockEnv) {
+    if (!validOrderUuid) {
       return NextResponse.json(
         { error: "Could not link payment to a valid database order UUID." },
         { status: 500 }
@@ -270,12 +289,10 @@ export async function POST(request: Request) {
       }
     } catch (entitlementErr) {
       console.error("Entitlement fulfillment error:", entitlementErr);
-      if (!isMockEnv) {
-        return NextResponse.json(
-          { error: "Failed to fulfill product entitlement." },
-          { status: 500 }
-        );
-      }
+      return NextResponse.json(
+        { error: "Failed to fulfill product entitlement." },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({

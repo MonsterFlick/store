@@ -12,19 +12,14 @@ export async function POST(request: Request) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isDev = process.env.NODE_ENV !== "production";
-  const isMockEnv =
-    env.NEXT_PUBLIC_RAZORPAY_KEY_ID.includes("mock") ||
-    env.NEXT_PUBLIC_SUPABASE_URL.includes("mock-project");
-
-  const userId = user?.id || (isDev ? "dev-user-id" : null);
-
-  if (!userId) {
+  if (!user) {
     return NextResponse.json(
       { error: "Authentication required to initiate purchase." },
       { status: 401 }
     );
   }
+
+  const userId = user.id;
 
   try {
     const { productSlug, couponCode } = await request.json();
@@ -62,14 +57,14 @@ export async function POST(request: Request) {
       // Database fallback
     }
 
-    if (!productDbId && !isMockEnv) {
+    if (!productDbId) {
       return NextResponse.json(
         { error: "Product record not found in database." },
         { status: 404 }
       );
     }
 
-    const resolvedProductId = productDbId || "00000000-0000-0000-0000-000000000001";
+    const resolvedProductId = productDbId;
 
     // 2. Check existing entitlement using Postgres UUID
     try {
@@ -147,13 +142,10 @@ export async function POST(request: Request) {
       });
     } catch (dbErr) {
       console.error("Order creation database error:", dbErr);
-      if (!isMockEnv) {
-        return NextResponse.json(
-          { error: "Failed to create order record in database." },
-          { status: 500 }
-        );
-      }
-      internalOrderId = "00000000-0000-0000-0000-000000000002";
+      return NextResponse.json(
+        { error: "Failed to create order record in database." },
+        { status: 500 }
+      );
     }
 
     // 5. Handle 100% Discount / Free (₹0) Orders
@@ -225,7 +217,7 @@ export async function POST(request: Request) {
       currency: "INR",
       internalOrderId,
       productName: product.name,
-      userEmail: user?.email || "customer@om.store",
+      userEmail: user?.email || "customer@sowebuild.in",
       userName: user?.user_metadata?.full_name || "Customer",
     });
   } catch (error) {

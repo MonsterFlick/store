@@ -1,4 +1,4 @@
-﻿import { ProductDefinition } from "@/lib/products/types";
+  import { ProductDefinition } from "@/lib/products/types";
 
 export const product: ProductDefinition = {
   slug: "the-job-search-book",
@@ -62,7 +62,7 @@ export const product: ProductDefinition = {
     {
       question: "How do I read the book after purchasing?",
       answer:
-        "Instant digital reader access is unlocked in your personal Om Store library. You can read comfortably on desktop, tablet, or mobile with adjustable typography, reading progress tracking, and chapter bookmarking.",
+        "Instant digital reader access is unlocked in your personal SoWeBuild Store library. You can read comfortably on desktop, tablet, or mobile with adjustable typography, reading progress tracking, and chapter bookmarking.",
     },
     {
       question: "Can I preview the book before buying?",
