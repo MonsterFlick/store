@@ -112,15 +112,15 @@ export function ProductPricingSection({
         <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2 text-xs text-[var(--text-secondary)]">
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Simultaneous access on up to 2 active devices</span>
+            <span>Instant access across your laptop, phone, or tablet</span>
           </div>
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Interactive code blocks & knowledge checks</span>
+            <span>Interactive tools, checklists & practical frameworks</span>
           </div>
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Non-refundable digital access (Try preview first)</span>
+            <span>Lifetime personal access with free future revisions</span>
           </div>
         </div>
       </Card>

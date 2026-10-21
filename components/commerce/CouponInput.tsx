@@ -23,28 +23,34 @@ export function CouponInput({
 
   const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!code.trim()) return;
+    const cleanCode = code.trim().toUpperCase();
+    if (!cleanCode) return;
+
     setIsLoading(true);
     setError(null);
 
-    // Common coupon codes check or server test
-    const cleanCode = code.trim().toUpperCase();
-    if (cleanCode === "LAUNCH20") {
-      const discount = Math.round((subtotalINR * 20) / 100);
-      setDiscountINR(discount);
-      setAppliedCode(cleanCode);
-      onApplyCoupon(cleanCode, discount);
-      setError(null);
-    } else if (cleanCode === "FLAT200") {
-      const discount = Math.min(subtotalINR, 200);
-      setDiscountINR(discount);
-      setAppliedCode(cleanCode);
-      onApplyCoupon(cleanCode, discount);
-      setError(null);
-    } else {
-      setError("Invalid or expired coupon code.");
+    try {
+      const res = await fetch("/api/checkout/validate-coupon", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: cleanCode, subtotalINR }),
+      });
+
+      const data = await res.json();
+
+      if (data.valid && typeof data.discountAmount === "number") {
+        setDiscountINR(data.discountAmount);
+        setAppliedCode(cleanCode);
+        onApplyCoupon(cleanCode, data.discountAmount);
+        setError(null);
+      } else {
+        setError(data.error || "Invalid or inactive coupon code.");
+      }
+    } catch {
+      setError("Unable to validate coupon. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleRemove = () => {
@@ -83,7 +89,7 @@ export function CouponInput({
             type="text"
             value={code}
             onChange={(e) => setCode(e.target.value.toUpperCase())}
-            placeholder="Coupon code (e.g. LAUNCH20)"
+            placeholder="Enter coupon code"
             className="w-full h-8 pl-8 pr-2.5 text-xs font-mono rounded-[var(--radius-sm)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] focus:outline-none focus:border-[var(--accent-primary)] uppercase placeholder:normal-case placeholder:font-sans"
           />
         </div>
@@ -93,12 +99,17 @@ export function CouponInput({
           size="sm"
           isLoading={isLoading}
           disabled={!code.trim()}
-          className="h-8 text-xs shrink-0"
+          className="h-8 text-xs shrink-0 cursor-pointer"
         >
           Apply
         </Button>
       </div>
-      {error && <p className="text-[11px] text-[var(--status-error)]">{error}</p>}
+
+      {error && (
+        <p className="text-[11px] text-red-500 dark:text-red-400 font-sans">
+          {error}
+        </p>
+      )}
     </form>
   );
 }

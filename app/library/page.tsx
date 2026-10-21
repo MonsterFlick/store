@@ -23,27 +23,52 @@ export default async function LibraryPage() {
 
   const userId = user.id;
 
-  // Query user's active entitlements
+  // Query user's active entitlements with product slug lookup
   const { data: entitlements } = await supabase
     .from("entitlements")
-    .select("product_id, status")
+    .select("product_id, products(slug), status")
     .eq("user_id", userId)
     .eq("status", "active");
 
   let entitledProducts: ProductDefinition[] = [];
 
   if (entitlements && entitlements.length > 0) {
-    const productSlugs = entitlements.map((e) => e.product_id);
+    const productSlugs = entitlements
+      .map((e: any) => (e.products && e.products.slug) || e.product_id)
+      .filter(Boolean);
+
     entitledProducts = productSlugs
-      .map((slug) => getProductBySlug(slug))
+      .map((slug: string) => getProductBySlug(slug))
       .filter((p): p is ProductDefinition => p !== null);
+
+    // Fallback: If joined product slug was not available and product_id is UUID, resolve via database
+    if (entitledProducts.length === 0 && entitlements.length > 0) {
+      try {
+        const { createAdminClient } = await import("@/lib/supabase/admin");
+        const admin = createAdminClient();
+        const productUuids = entitlements.map((e) => e.product_id);
+        const { data: dbProducts } = await admin
+          .from("products")
+          .select("id, slug")
+          .in("id", productUuids);
+
+        if (dbProducts && dbProducts.length > 0) {
+          entitledProducts = dbProducts
+            .map((p) => getProductBySlug(p.slug))
+            .filter((p): p is ProductDefinition => p !== null);
+        }
+      } catch {
+        // Fallback gracefully
+      }
+    }
   }
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-12 flex-1 w-full space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-1 w-full space-y-8">
+
         <div className="space-y-1">
           <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-wider text-[var(--accent-primary)] font-bold">
             <Sparkles className="w-3.5 h-3.5" />

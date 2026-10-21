@@ -308,7 +308,7 @@ export function ProductShowcaseSlider({
 
                         <div className="flex items-center space-x-1.5 text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">
                           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                          <span>Encrypted Razorpay Checkout • Instant Access</span>
+                          <span>100% Secure Checkout • Instant Digital Access</span>
                         </div>
                       </div>
                     </div>
@@ -326,10 +326,9 @@ export function ProductShowcaseSlider({
                           </span>
                         </div>
 
-                        <div className="flex items-center space-x-1 text-xs text-amber-500 dark:text-amber-400 font-mono font-bold">
-                          <Star className="w-3.5 h-3.5 fill-amber-500 dark:fill-amber-400" />
-                          <span>4.9 / 5.0</span>
-                        </div>
+                        <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">
+                          Verified Release
+                        </span>
                       </div>
 
                       {/* Excerpt Details */}

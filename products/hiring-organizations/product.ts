@@ -38,7 +38,7 @@ export const product: ProductDefinition = {
     "Direct verified careers links for every cataloged organization",
     "Interactive company modals with interview notes & preparation checklists",
     "Local bookmarking to shortlist companies and track applications",
-    "Cryptographically watermarked digital access on up to 2 active devices",
+    "Instant digital directory access with live search and personal bookmarks",
     "Continuous lifetime access with freshly verified hiring stages",
   ],
   license: {

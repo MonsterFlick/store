@@ -22,29 +22,9 @@ export interface CouponValidationResult {
   error?: string;
 }
 
-// Built-in fallback coupons for local development/testing without database
-const DEFAULT_COUPONS: Record<string, Coupon> = {
-  LAUNCH20: {
-    id: "00000000-0000-0000-0000-000000000101",
-    code: "LAUNCH20",
-    discount_type: "percentage",
-    discount_value: 20, // 20% off
-    active: true,
-    times_used: 0,
-  },
-  FLAT200: {
-    id: "00000000-0000-0000-0000-000000000102",
-    code: "FLAT200",
-    discount_type: "fixed",
-    discount_value: 200, // ₹200 off
-    minimum_order_value: 500,
-    active: true,
-    times_used: 0,
-  },
-};
-
 /**
  * Validates a coupon code server-side and computes the exact discount in INR.
+ * Strictly queries the Supabase database - no hardcoded or fake coupons.
  */
 export async function validateCouponServerSide(
   rawCode: string,
@@ -77,12 +57,7 @@ export async function validateCouponServerSide(
       coupon = data as Coupon;
     }
   } catch {
-    // Database fallback
-  }
-
-  // Fallback to in-memory launch coupons
-  if (!coupon && DEFAULT_COUPONS[code]) {
-    coupon = DEFAULT_COUPONS[code];
+    // Database connection error
   }
 
   if (!coupon) {
@@ -93,6 +68,7 @@ export async function validateCouponServerSide(
       error: "Invalid or inactive coupon code.",
     };
   }
+
 
   // 1. Check validity dates
   const now = Date.now();

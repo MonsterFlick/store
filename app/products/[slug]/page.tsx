@@ -155,17 +155,18 @@ export default async function ProductPage({
 
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 pt-20">
         {/* Navigation Breadcrumb */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4">
           <Link
-            href="/#products"
-            className="inline-flex items-center space-x-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
+            href="/#catalog"
+            className="inline-flex items-center space-x-1.5 text-xs font-mono text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to All Products</span>
           </Link>
         </div>
+
 
         {/* Product Hero Layout */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">

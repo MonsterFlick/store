@@ -108,103 +108,73 @@ export async function POST(request: Request) {
 
     const resolvedProductId = productDbId;
 
-    // 4. Resolve or update internal order
-    let resolvedOrderId = internalOrderId;
+    // 4. Resolve internal order strictly from database
+    let resolvedOrderId: string | null = null;
     let orderAmount = registryProduct?.price || 0;
+    let entitledProductId = resolvedProductId;
 
-    if (internalOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(internalOrderId)) {
-      try {
-        const { data: orderRecord } = await admin
-          .from("orders")
-          .select("id, user_id, total, status")
-          .eq("id", internalOrderId)
-          .maybeSingle();
+    // First attempt: lookup by razorpay_order_id (the single cryptographic anchor)
+    let { data: orderRecord } = await admin
+      .from("orders")
+      .select("id, user_id, total, status, order_items(product_id)")
+      .eq("razorpay_order_id", razorpayOrderId)
+      .maybeSingle();
 
-        if (orderRecord) {
-          // Verify user ownership of the order
-          if (orderRecord.user_id && orderRecord.user_id !== userId) {
-            return NextResponse.json(
-              { error: "Order does not belong to authenticated user." },
-              { status: 403 }
-            );
-          }
-
-          // Anti-Tamper Check: Verify product in order_items matches requested product
-          const { data: orderItem } = await admin
-            .from("order_items")
-            .select("product_id")
-            .eq("order_id", internalOrderId)
-            .maybeSingle();
-
-          if (orderItem && productDbId && orderItem.product_id !== productDbId) {
-            console.error("🚨 Tampering detected: Purchased product does not match verification request.");
-            return NextResponse.json(
-              { error: "Order verification error: Purchased product mismatch." },
-              { status: 400 }
-            );
-          }
-
-          orderAmount = Number(orderRecord.total) || orderAmount;
-          if (orderRecord.status !== "paid") {
-            await admin
-              .from("orders")
-              .update({
-                status: "paid",
-                razorpay_order_id: razorpayOrderId,
-                updated_at: new Date().toISOString(),
-              })
-              .eq("id", internalOrderId);
-          }
-        }
-      } catch (err) {
-        console.warn("Order lookup/update warning:", err);
-      }
-    } else {
-      // If internalOrderId is not a valid UUID, query by razorpay_order_id
-      try {
-        const { data: orderByRzp } = await admin
-          .from("orders")
-          .select("id, user_id, total")
-          .eq("razorpay_order_id", razorpayOrderId)
-          .maybeSingle();
-
-        if (orderByRzp) {
-          if (orderByRzp.user_id && orderByRzp.user_id !== userId) {
-            return NextResponse.json(
-              { error: "Order does not belong to authenticated user." },
-              { status: 403 }
-            );
-          }
-          resolvedOrderId = orderByRzp.id;
-          orderAmount = Number(orderByRzp.total) || orderAmount;
-          await admin
-            .from("orders")
-            .update({ status: "paid", updated_at: new Date().toISOString() })
-            .eq("id", resolvedOrderId);
-        } else {
-          // Create new paid order record with proper UUID
-          const { data: newOrder } = await admin
-            .from("orders")
-            .insert({
-              user_id: userId,
-              status: "paid",
-              currency: "INR",
-              subtotal: orderAmount,
-              discount: 0,
-              total: orderAmount,
-              razorpay_order_id: razorpayOrderId,
-            })
-            .select("id")
-            .single();
-
-          if (newOrder) {
-            resolvedOrderId = newOrder.id;
-          }
-        }
-      } catch (err) {
-        console.warn("Fallback order creation warning:", err);
-      }
+    // Fallback attempt: lookup by internalOrderId if razorpay_order_id link was pending
+    if (!orderRecord && internalOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(internalOrderId)) {
+      const { data: byInternalId } = await admin
+        .from("orders")
+        .select("id, user_id, total, status, order_items(product_id)")
+        .eq("id", internalOrderId)
+        .maybeSingle();
+      orderRecord = byInternalId;
     }
+
+    if (!orderRecord) {
+      return NextResponse.json(
+        { error: "No matching order record found for this transaction." },
+        { status: 400 }
+      );
+    }
+
+    // Verify user ownership: authenticated user must match order owner
+    if (orderRecord.user_id && orderRecord.user_id !== userId) {
+      return NextResponse.json(
+        { error: "Order does not belong to the authenticated user." },
+        { status: 403 }
+      );
+    }
+
+    resolvedOrderId = orderRecord.id;
+    orderAmount = Number(orderRecord.total) || orderAmount;
+
+    // Anti-Tamper Check: Derive product strictly from order_items in DB (never trust client productSlug)
+    const dbOrderItems = (orderRecord as any).order_items;
+    const dbItemProductId = Array.isArray(dbOrderItems) ? dbOrderItems[0]?.product_id : dbOrderItems?.product_id;
+
+    if (dbItemProductId) {
+      if (productDbId && dbItemProductId !== productDbId) {
+        console.error("🚨 Tampering detected: Purchased product does not match verification request.");
+        return NextResponse.json(
+          { error: "Order verification error: Purchased product mismatch." },
+          { status: 400 }
+        );
+      }
+      entitledProductId = dbItemProductId;
+    }
+
+    // Atomic status update to 'paid'
+    if (orderRecord.status !== "paid") {
+      await admin
+        .from("orders")
+        .update({
+          status: "paid",
+          razorpay_order_id: razorpayOrderId,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", resolvedOrderId);
+    }
+
 
     // Ensure resolvedOrderId is a valid UUID for DB foreign key
     const isUuidOrder = resolvedOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(resolvedOrderId);
@@ -242,8 +212,9 @@ export async function POST(request: Request) {
         await admin.from("entitlements").upsert(
           {
             user_id: userId,
-            product_id: resolvedProductId,
+            product_id: entitledProductId,
             order_id: validOrderUuid,
+
             status: "active",
             starts_at: new Date().toISOString(),
             expires_at: null,
@@ -278,8 +249,9 @@ export async function POST(request: Request) {
         // 7. Log authentic analytics event
         await admin.from("analytics_events").insert({
           user_id: userId,
-          product_id: resolvedProductId,
+          product_id: entitledProductId,
           event_type: "payment_success",
+
           metadata: {
             order_id: validOrderUuid,
             razorpay_order_id: razorpayOrderId,

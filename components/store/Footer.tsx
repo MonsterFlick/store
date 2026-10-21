@@ -20,22 +20,22 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-sm text-[var(--text-muted)] max-w-md leading-relaxed">
-              Curated digital playbooks, guides, tools, and high-impact resources crafted for builders, professionals, and operators.
+              An agnostic digital product engine. Engineering high-leverage software, courses, tactical playbooks, interactive tools, runbook vaults, and operational systems.
             </p>
             <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)] pt-2 font-medium">
               <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Instant Digital Access
+                Living Web Artifacts
               </span>
               <span>•</span>
               <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Curated & Practical
+                Zero-Friction Access
               </span>
               <span>•</span>
               <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Secure Checkout
+                Lifetime Revisions
               </span>
             </div>
           </div>
@@ -48,19 +48,26 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link href="/products/the-job-search-book" className="hover:text-[var(--text-primary)] transition-colors">
-                  The Job Search Book
+                  The Job Search Book (Live)
                 </Link>
               </li>
               <li>
                 <Link href="/products/hiring-organizations" className="hover:text-[var(--text-primary)] transition-colors">
-                  Hiring Without Whiteboards
+                  Hiring Organizations (Live)
                 </Link>
               </li>
               <li>
-                <Link href="/#products" className="hover:text-[var(--text-primary)] transition-colors">
-                  All Products
+                <Link href="/#catalog" className="hover:text-[var(--text-primary)] transition-colors">
+                  Product Catalog
                 </Link>
               </li>
+              <li>
+                <Link href="/#lab" className="hover:text-[var(--text-primary)] transition-colors">
+                  Interactive Lab
+                </Link>
+              </li>
+
+
               <li>
                 <Link href="/library" className="hover:text-[var(--text-primary)] transition-colors">
                   My Library

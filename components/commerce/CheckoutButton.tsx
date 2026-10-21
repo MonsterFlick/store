@@ -194,7 +194,7 @@ export function CheckoutButton({
       {showTrustBadge && (
         <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-          <span>Encrypted Razorpay Checkout • Instant Access</span>
+          <span>100% Secure Checkout • Instant Digital Access</span>
         </div>
       )}
     </div>

@@ -117,8 +117,26 @@ export interface ProductDefinition {
   name: string;
   tagline: string;
   description: string;
-  type: "ebook" | "guide" | "video" | "template" | "app" | "bundle";
-  template?: "ebook" | "guide" | "video" | "custom";
+  type:
+    | "ebook"
+    | "guide"
+    | "video"
+    | "course"
+    | "template"
+    | "app"
+    | "software"
+    | "tool"
+    | "doc"
+    | "tracker"
+    | "system"
+    | "asset"
+    | "bundle";
+  template?: "ebook" | "guide" | "video" | "course" | "custom";
+  status?: "live" | "upcoming" | "beta";
+  formatLabel?: string; // e.g. "Interactive Book", "Native Software", "Video Masterclass", "Interactive Tool", "Knowledge Vault", "System Tracker"
+  domain?: string; // e.g. "Engineering & Tech", "Business & Startups", "Wealth & Finance", "Personal Mastery", "Creative & Media"
+  badge?: string; // e.g. "Flagship Release", "In Development", "Interactive Demo"
+  releaseQuarter?: string; // e.g. "Instant Access", "Q3 2025"
   capabilities: ProductCapabilities;
   price: number; // in INR
   originalPrice?: number; // in INR
@@ -135,6 +153,7 @@ export interface ProductDefinition {
   faq?: Array<{ question: string; answer: string }>;
   includedSlugs?: string[]; // If bundle
 }
+
 
 // Zod validation schemas for product sync validation
 export const contentBlockSchema: z.ZodType<ContentBlock> = z.object({

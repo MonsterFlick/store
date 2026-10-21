@@ -37,22 +37,22 @@ export default async function ProtectedProductPage({
             </div>
             <div>
               <h2 className="text-lg font-bold text-[var(--text-primary)]">
-                Active Device Limit Reached
+                Connect This Device
               </h2>
               <p className="text-xs text-[var(--text-muted)]">
-                Maximum 2 devices allowed simultaneously
+                You have reached your connected device limit
               </p>
             </div>
           </div>
 
           <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-            Your account is currently active on two other devices. To read{" "}
-            <strong>{result.product.name}</strong> on this device, please revoke access to one of your active devices below:
+            Your account is currently active on your other registered devices. To read{" "}
+            <strong>{result.product.name}</strong> on this browser, please remove any older device below:
           </p>
 
           <DeviceManager
             initialDevices={result.activeDevices}
-            userId="current-user"
+            userId={result.userId}
           />
 
           <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center justify-between">
@@ -74,7 +74,7 @@ export default async function ProtectedProductPage({
     );
   }
 
-  // 2. Unauthorized (User has no active entitlement for this product)
+  // 2. Unauthorized (User has not purchased this product yet)
   if (result.status === "unauthorized") {
     return (
       <div className="min-h-screen flex items-center justify-center p-4 bg-[var(--background)]">
@@ -85,11 +85,10 @@ export default async function ProtectedProductPage({
 
           <div className="space-y-1.5">
             <h2 className="text-xl font-bold text-[var(--text-primary)]">
-              Digital Access Required
+              Unlock Access to Read
             </h2>
             <p className="text-xs text-[var(--text-secondary)]">
-              You do not currently possess an active entitlement for{" "}
-              <strong>{result.product.name}</strong>.
+              You haven&apos;t unlocked <strong>{result.product.name}</strong> on this account yet.
             </p>
           </div>
 

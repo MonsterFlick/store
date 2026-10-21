@@ -66,25 +66,75 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Payment already processed." });
     }
 
-    // 3. Resolve internal order UUID
+    // 3. Resolve internal order record from database
+    let resolvedUserId: string | null = userId || null;
     let validOrderUuid: string | null = null;
+    let resolvedProductId: string | null = null;
+    let resolvedProductSlug: string | null = productSlug || null;
 
+    let orderRec: any = null;
     if (internalOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(internalOrderId)) {
-      validOrderUuid = internalOrderId;
-    } else {
-      // Find order by razorpay_order_id
-      const { data: orderRec } = await supabase
+      const { data } = await supabase
         .from("orders")
-        .select("id")
+        .select("id, user_id, status, order_items(product_id)")
+        .eq("id", internalOrderId)
+        .maybeSingle();
+      orderRec = data;
+    }
+
+    if (!orderRec && razorpayOrderId) {
+      const { data } = await supabase
+        .from("orders")
+        .select("id, user_id, status, order_items(product_id)")
         .eq("razorpay_order_id", razorpayOrderId)
         .maybeSingle();
+      orderRec = data;
+    }
 
-      if (orderRec) {
-        validOrderUuid = orderRec.id;
+    if (orderRec) {
+      validOrderUuid = orderRec.id;
+      if (!resolvedUserId && orderRec.user_id) {
+        resolvedUserId = orderRec.user_id;
+      }
+      const orderItems = orderRec.order_items;
+      const dbProductId = Array.isArray(orderItems) ? orderItems[0]?.product_id : orderItems?.product_id;
+      if (dbProductId) {
+        resolvedProductId = dbProductId;
       }
     }
 
-    // Update order status to 'paid'
+    // Fallback: If product_id was in notes and not yet resolved from order_items
+    if (!resolvedProductId && noteProductId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(noteProductId)) {
+      resolvedProductId = noteProductId;
+    }
+
+    // Fallback: Resolve product UUID from slug if needed
+    if (!resolvedProductId && resolvedProductSlug) {
+      const { data: prodRec } = await supabase
+        .from("products")
+        .select("id")
+        .eq("slug", resolvedProductSlug)
+        .maybeSingle();
+
+      if (prodRec) {
+        resolvedProductId = prodRec.id;
+      }
+    }
+
+    // Resolve product slug from UUID if not already known
+    if (resolvedProductId && !resolvedProductSlug) {
+      const { data: prodRec } = await supabase
+        .from("products")
+        .select("slug")
+        .eq("id", resolvedProductId)
+        .maybeSingle();
+
+      if (prodRec?.slug) {
+        resolvedProductSlug = prodRec.slug;
+      }
+    }
+
+    // Atomic update order status to 'paid'
     if (validOrderUuid) {
       await supabase
         .from("orders")
@@ -111,30 +161,14 @@ export async function POST(request: Request) {
       });
     }
 
-    // 5. Resolve Product UUID from Supabase
-    let resolvedProductId: string | null = null;
-    if (noteProductId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(noteProductId)) {
-      resolvedProductId = noteProductId;
-    } else if (productSlug) {
-      const { data: prodRec } = await supabase
-        .from("products")
-        .select("id")
-        .eq("slug", productSlug)
-        .maybeSingle();
-
-      if (prodRec) {
-        resolvedProductId = prodRec.id;
-      }
-    }
-
-    // 6. Grant Entitlements using Postgres UUIDs
-    if (userId && resolvedProductId && validOrderUuid) {
-      const product = productSlug ? getProductBySlug(productSlug) : null;
+    // 5. Grant Entitlements using Postgres UUIDs
+    if (resolvedUserId && resolvedProductId && validOrderUuid) {
+      const product = resolvedProductSlug ? getProductBySlug(resolvedProductSlug) : null;
 
       // Create primary product entitlement
       await supabase.from("entitlements").upsert(
         {
-          user_id: userId,
+          user_id: resolvedUserId,
           product_id: resolvedProductId,
           order_id: validOrderUuid,
           status: "active",

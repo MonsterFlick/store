@@ -108,10 +108,10 @@ export default async function AccountPage() {
           <div className="mb-4">
             <h2 className="text-lg font-semibold tracking-tight flex items-center gap-2">
               <Smartphone className="w-5 h-5 text-[var(--accent-primary)]" />
-              <span>Active Devices (Limit: 2)</span>
+              <span>Connected Reading Devices</span>
             </h2>
             <p className="text-xs text-[var(--text-secondary)]">
-              Your account allows up to two active reading devices simultaneously. Revoking an older device allows you to connect a new one.
+              Read seamlessly on your laptop, tablet, or phone. You can manage or switch active devices here.
             </p>
           </div>
 
@@ -126,7 +126,7 @@ export default async function AccountPage() {
               <span>Purchase History & Receipts</span>
             </h2>
             <p className="text-xs text-[var(--text-secondary)]">
-              Permanent record of your digital transactions and lifetime access entitlements.
+              Permanent record of your digital transactions and lifetime access.
             </p>
           </div>
 
@@ -173,7 +173,7 @@ export default async function AccountPage() {
                             {item.products?.name || "Digital Product"}
                           </span>
                           <span className="text-xs text-[var(--text-muted)] block">
-                            Lifetime Access Entitlement
+                            Lifetime Access Included
                           </span>
                         </div>
                         {item.products?.slug && (
@@ -210,15 +210,15 @@ export default async function AccountPage() {
             <CardHeader>
               <CardTitle className="text-sm flex items-center gap-2">
                 <Shield className="w-4 h-4 text-emerald-500" />
-                Security & Content Integrity
+                Purchase Protection & Access
               </CardTitle>
             </CardHeader>
             <CardContent className="text-xs text-[var(--text-secondary)] space-y-2">
               <p>
-                Every product you open is cryptographically watermarked with your purchaser identity (Name, Email, Order #) to safeguard licensed distribution.
+                Your purchases are permanently linked to your verified account with unlimited lifetime access.
               </p>
               <p>
-                Structured content is encrypted at rest and delivered strictly through authenticated server-side decrypt pipelines.
+                Enjoy instant reading across your devices, with all future revisions and updates included at no extra charge.
               </p>
             </CardContent>
           </Card>

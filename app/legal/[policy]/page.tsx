@@ -44,7 +44,7 @@ export default async function LegalPage({
             3. Account Responsibility
           </h3>
           <p>
-            You are responsible for maintaining the confidentiality of your account credentials. Access entitlements are linked directly to your authenticated email address.
+            You are responsible for maintaining the confidentiality of your account credentials. Your purchases and digital access are linked directly to your authenticated email address.
           </p>
         </div>
       ),
@@ -87,7 +87,7 @@ export default async function LegalPage({
       content: (
         <div className="space-y-4 text-sm text-[var(--text-secondary)] leading-relaxed">
           <div className="p-4 rounded-[var(--radius-md)] bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-200 font-medium mb-6">
-            Notice: All purchases on SoWeBuild Store are non-refundable once digital access or entitlement is granted, subject to any statutory consumer rights that cannot legally be excluded.
+            Notice: All purchases on SoWeBuild Store are non-refundable once instant digital access is granted, subject to any statutory consumer rights that cannot legally be excluded.
           </div>
           <p>
             Because digital products provide immediate, irrevocable access to curated knowledge, proprietary playbooks, interactive experiences, and downloadable resources upon payment confirmation, <strong>all purchases are strictly non-refundable</strong>.
@@ -117,7 +117,8 @@ export default async function LegalPage({
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 py-12 flex-1">
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-1">
+
         <Link
           href="/"
           className="inline-flex items-center space-x-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] mb-8 transition-colors"

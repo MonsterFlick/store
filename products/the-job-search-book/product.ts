@@ -41,7 +41,7 @@ export const product: ProductDefinition = {
     "Engineering STAR method framework for high-stakes behavioral and ownership rounds",
     "Salary negotiation playbooks, timing tactics, and scripts for the Indian tech market",
     "Includes complete 30-day daily action calendar and 13-column metrics application tracker",
-    "Cryptographically watermarked digital reader access across your authorized devices",
+    "Instant digital reader access across your desktop, tablet, and mobile devices",
   ],
   license: {
     name: "Single-User Lifetime eBook License",

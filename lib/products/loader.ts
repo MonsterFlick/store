@@ -14,6 +14,7 @@ export type ProductAccessResult =
       product: ProductDefinition;
       activeDevices: UserDevice[];
       currentDeviceId: string;
+      userId: string;
     }
   | { status: "unauthorized"; product: ProductDefinition }
   | {
@@ -55,6 +56,7 @@ export async function loadProtectedProduct(
       product,
       activeDevices: deviceCheck.activeDevices,
       currentDeviceId: deviceCheck.currentDeviceId,
+      userId: activeUser.id,
     };
   }
 
