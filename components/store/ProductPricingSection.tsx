@@ -38,7 +38,9 @@ export function ProductPricingSection({
         <div className="flex items-start justify-between">
           <div>
             <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-1">
-              Lifetime Access
+              {product.type === "bundle" || product.includedSlugs?.length
+                ? "Bundle Lifetime Access"
+                : "Lifetime Access"}
             </span>
             <div className="flex items-baseline space-x-3">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
@@ -52,8 +54,10 @@ export function ProductPricingSection({
             </div>
           </div>
 
-          <Badge variant="success" className="text-xs">
-            One-Time Purchase
+          <Badge variant={product.type === "bundle" ? "accent" : "success"} className="text-xs">
+            {product.type === "bundle" || product.includedSlugs?.length
+              ? "Complete Bundle Deal"
+              : "One-Time Purchase"}
           </Badge>
         </div>
 
@@ -100,23 +104,71 @@ export function ProductPricingSection({
             </a>
           </div>
         ) : (
-          <CheckoutButton
-            productSlug={product.slug}
-            priceINR={finalPrice}
-            couponCode={couponCode}
-            buttonText={`Unlock Digital Access · ${formatINR(finalPrice)}`}
-          />
+          <div className="space-y-3">
+            <CheckoutButton
+              productSlug={product.slug}
+              priceINR={finalPrice}
+              couponCode={couponCode}
+              buttonText={
+                product.type === "bundle" || product.includedSlugs?.length
+                  ? `Get Complete Bundle (Book + Free Directory) · ${formatINR(finalPrice)}`
+                  : `Unlock Digital Access · ${formatINR(finalPrice)}`
+              }
+            />
+
+            {/* Bundle Bonus Callout */}
+            {(product.type === "bundle" || product.includedSlugs?.length) && (
+              <div className="p-3 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-1">
+                <span className="font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                  Free Bonus Directory Included
+                </span>
+                <p className="text-[11px] leading-relaxed text-emerald-700 dark:text-emerald-300">
+                  Unlocks instant lifetime access to both <strong>The Job Search Book</strong> AND the <strong>Companies That Hire Without Whiteboards Directory</strong> in your library.
+                </p>
+              </div>
+            )}
+
+            {/* Upsell Callout on hiring-organizations */}
+            {product.slug === "hiring-organizations" && (
+              <div className="p-3.5 rounded-[var(--radius-md)] bg-gradient-to-br from-indigo-500/10 to-emerald-500/10 border border-indigo-500/20 text-xs space-y-2">
+                <div className="flex items-center justify-between font-mono text-[11px]">
+                  <span className="font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Smarter Value
+                  </span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">Free in Bundle</span>
+                </div>
+                <p className="text-[11px] text-[var(--text-secondary)] leading-snug">
+                  Get this directory <strong>100% FREE</strong> when you get The Job Search Book bundle for ₹199 (only ₹100 more).
+                </p>
+                <a
+                  href="/products/the-job-search-book"
+                  className="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline gap-1"
+                >
+                  <span>View Bundle Deal (₹199) →</span>
+                </a>
+              </div>
+            )}
+          </div>
         )}
 
         {/* Capabilities Guarantee */}
         <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2 text-xs text-[var(--text-secondary)]">
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Instant access across your laptop, phone, or tablet</span>
+            <span>
+              {product.type === "bundle" || product.includedSlugs?.length
+                ? "Instant access to BOTH book and directory in your library"
+                : "Instant access across your laptop, phone, or tablet"}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Interactive tools, checklists & practical frameworks</span>
+            <span>
+              {product.type === "bundle" || product.includedSlugs?.length
+                ? "144-company directory included 100% FREE (Worth ₹99)"
+                : "Interactive tools, checklists & practical frameworks"}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />

@@ -18,13 +18,13 @@ export function getCatalogProducts(): ExtendedProduct[] {
       return {
         ...product,
         status: "live",
-        formatLabel: "Interactive Book",
-        domain: "Career & Strategy",
-        badge: "Flagship Publication",
+        formatLabel: "Playbook + Directory Bundle",
+        domain: "Career & Engineering",
+        badge: "Bundle · Free Directory Included",
         highlights: [
-          "30 Decrypted Chapters",
-          "ACR Proof Framework",
-          "Salary Counter-Math Scripts",
+          "30 Structured Chapters (148 Interactive Blocks)",
+          "ACR ATS Formula & Real Naukri Resdex Breakdown",
+          "🎁 INCLUDED FREE: 144-Company Hiring Directory (Worth ₹99)",
         ],
       };
     }

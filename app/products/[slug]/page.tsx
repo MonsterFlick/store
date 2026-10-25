@@ -9,6 +9,8 @@ import { Navbar } from "@/components/store/Navbar";
 import { Footer } from "@/components/store/Footer";
 import { ProductPricingSection } from "@/components/store/ProductPricingSection";
 import { ProductReviews } from "@/components/reviews/ProductReviews";
+import { BundleIncludedSection } from "@/components/store/BundleIncludedSection";
+import { BundleUpsellBanner } from "@/components/store/BundleUpsellBanner";
 import { Badge } from "@/components/ui/Badge";
 import {
   ArrowLeft,
@@ -167,6 +169,12 @@ export default async function ProductPage({
           </Link>
         </div>
 
+        {/* Suggestion Upsell Banner if user is viewing hiring-organizations */}
+        {slug === "hiring-organizations" && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <BundleUpsellBanner />
+          </div>
+        )}
 
         {/* Product Hero Layout */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
@@ -176,7 +184,7 @@ export default async function ProductPage({
               <div className="space-y-4">
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="accent" className="capitalize">
-                    {product.type} Experience
+                    {product.type === "bundle" ? "Flagship Bundle" : `${product.type} Experience`}
                   </Badge>
                   {product.categories.map((c) => (
                     <Badge key={c} variant="default">
@@ -198,6 +206,11 @@ export default async function ProductPage({
               <div className="prose dark:prose-invert text-sm text-[var(--text-secondary)] leading-relaxed space-y-4">
                 <p>{product.description}</p>
               </div>
+
+              {/* Dedicated Bundle Breakdown (if bundle) */}
+              {(product.type === "bundle" || product.includedSlugs?.length) && (
+                <BundleIncludedSection />
+              )}
 
               {/* What You Get / Core Features */}
               <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">

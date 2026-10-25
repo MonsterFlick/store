@@ -95,7 +95,7 @@ export function FlagshipSpotlight({ products, onOpenPreview }: FlagshipSpotlight
                 
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="text-xs font-mono font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/15 border border-indigo-200 dark:border-indigo-500/30 px-3 py-1 rounded-full">
-                    {activeProduct.slug === "the-job-search-book" ? "INTERACTIVE EBOOK · 30 CHAPTERS" : "LIVE DIRECTORY · 140+ COMPANIES"}
+                    {activeProduct.slug === "the-job-search-book" ? "CAREER BUNDLE · 30 CHAPTERS + FREE DIRECTORY" : "LIVE DIRECTORY · 144 COMPANIES"}
                   </span>
 
                   <span className="text-xs font-mono text-zinc-500 flex items-center space-x-1">

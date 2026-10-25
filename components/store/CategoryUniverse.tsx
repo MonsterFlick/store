@@ -30,8 +30,8 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
     return allProducts.filter((product) => {
       const matchesFormat =
         selectedFormat === "all" ||
-        (selectedFormat === "books" && product.type === "ebook") ||
-        (selectedFormat === "directories" && (product.type === "tool" || product.type === "guide"));
+        (selectedFormat === "books" && (product.type === "ebook" || product.type === "bundle")) ||
+        (selectedFormat === "directories" && (product.type === "tool" || product.type === "guide" || product.type === "app"));
 
       const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
@@ -131,7 +131,7 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-white/10 text-zinc-800 dark:text-zinc-200 text-xs font-mono font-medium">
-                        {product.type === "ebook" ? (
+                        {product.type === "ebook" || product.type === "bundle" ? (
                           <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
                         ) : (
                           <Building2 className="w-3.5 h-3.5 text-emerald-500" />

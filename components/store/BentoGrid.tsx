@@ -103,7 +103,7 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[var(--accent-light)] border border-[var(--accent-primary)]/20 text-xs font-mono font-bold text-[var(--accent-primary)]">
                 <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                <span>FLAGSHIP RELEASE · 30 CHAPTERS</span>
+                <span>BUNDLE DEAL · 30 CHAPTERS + FREE DIRECTORY</span>
               </div>
 
               <div className="flex items-center space-x-1.5 text-xs text-[var(--text-muted)] font-mono">
@@ -116,10 +116,10 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
             {/* Title & Description */}
             <div className="space-y-2">
               <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
-                The Job Search Book
+                The Job Search Book + Verified Directory Bundle
               </h3>
               <p className="text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl">
-                The definitive zero-fluff playbook for modern tech hiring: beating ATS screeners, building undeniable GitHub proof, cold-email sniper outreach, and offer negotiation scripts.
+                The definitive zero-fluff playbook for modern tech hiring: beating ATS screeners, building undeniable GitHub proof, cold-email sniper outreach, and offer negotiation — <strong className="text-[var(--text-primary)]">PLUS the 144-company verified hiring directory (₹99 value) included 100% free.</strong>
               </p>
             </div>
 
@@ -179,10 +179,10 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
                 ₹199
               </span>
               <span className="text-xs text-[var(--text-muted)] line-through font-mono">
-                ₹599
+                ₹1,098
               </span>
               <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-mono font-semibold">
-                67% Off Launch Price
+                Save ₹899 (82% Off) · Free Directory Included
               </span>
             </div>
 
@@ -202,7 +202,7 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
                 href="/products/the-job-search-book"
                 className="inline-flex items-center space-x-1.5 px-5 py-2 rounded-[var(--radius-md)] bg-[var(--accent-primary)] hover:bg-[var(--accent-hover)] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
               >
-                <span>Get Lifetime Access</span>
+                <span>Get Complete Bundle</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -220,7 +220,7 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
                 <span>144 VERIFIED EMPLOYERS</span>
               </div>
               <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                ₹99 Only
+                ₹99 · Or FREE in Bundle
               </span>
             </div>
 
@@ -231,6 +231,9 @@ export function BentoGrid({ onOpenPreview }: BentoGridProps) {
               <p className="text-xs text-[var(--text-secondary)] mt-1 leading-relaxed">
                 Skip generic LeetCode puzzles. 144 companies assessing engineers on practical take-homes and pair programming.
               </p>
+              <div className="mt-2.5 p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
+                🎁 <strong>Bundle Bonus:</strong> Included 100% free with <Link href="/products/the-job-search-book" className="underline font-bold">The Job Search Book</Link> (₹199 total).
+              </div>
             </div>
 
             {/* Interactive Mini Company Switcher */}
