@@ -24,12 +24,12 @@ import { cn } from "@/lib/utils";
 export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string) => void }) {
   // Kinetic Rotating Pillars covering the agnostic digital universe
   const rotatingMediums = [
-    { title: "Software & Micro-Apps.", color: "text-emerald-600 dark:text-emerald-400" },
-    { title: "Interactive Books.", color: "text-indigo-600 dark:text-indigo-400" },
-    { title: "Video Courses.", color: "text-purple-600 dark:text-purple-400" },
-    { title: "Tools & Simulators.", color: "text-sky-600 dark:text-sky-400" },
-    { title: "Docs & Knowledge Vaults.", color: "text-amber-600 dark:text-amber-400" },
-    { title: "Trackers & Systems.", color: "text-rose-600 dark:text-rose-400" },
+    { title: "Software & Micro-Apps", color: "text-emerald-600 dark:text-emerald-400" },
+    { title: "Interactive Books", color: "text-indigo-600 dark:text-indigo-400" },
+    { title: "Video Courses", color: "text-purple-600 dark:text-purple-400" },
+    { title: "Tools & Simulators", color: "text-sky-600 dark:text-sky-400" },
+    { title: "Knowledge Vaults", color: "text-amber-600 dark:text-amber-400" },
+    { title: "Trackers & Systems", color: "text-rose-600 dark:text-rose-400" },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,31 +72,38 @@ export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string
               </span>
             </div>
 
-            {/* Kinetic Dynamic Headline */}
-            <div className="space-y-2">
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-950 dark:text-white leading-[1.18] sm:leading-[1.15] font-display">
-                High-leverage digital assets for{" "}
-                <span className="block font-serif font-normal italic text-zinc-800 dark:text-zinc-200 tracking-tight">
-                  ambitious builders.
-                </span>
-                <span className="block text-2xl sm:text-4xl lg:text-5xl mt-2 font-display">
-                  We engineer{" "}
-                  <span className="relative inline-block h-[1.3em] align-top overflow-hidden">
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={currentIndex}
-                        initial={{ y: 35, opacity: 0, filter: "blur(4px)" }}
-                        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-                        exit={{ y: -35, opacity: 0, filter: "blur(4px)" }}
-                        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                        className={cn("inline-block font-extrabold whitespace-nowrap", rotatingMediums[currentIndex].color)}
-                      >
-                        {rotatingMediums[currentIndex].title}
-                      </motion.span>
-                    </AnimatePresence>
-                  </span>
+            {/* Kinetic Dynamic Headline with Zero Layout Shift */}
+            <div className="space-y-3 sm:space-y-4">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-950 dark:text-white leading-[1.12] sm:leading-[1.1] font-display">
+                High-leverage digital assets
+                <span className="block text-zinc-500 dark:text-zinc-400 font-medium">
+                  for ambitious builders.
                 </span>
               </h1>
+
+              {/* Stable Rotating Ticker - Baseline aligned with pre-allocated width to prevent layout shifts */}
+              <div className="flex items-center text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight font-display">
+                <span className="text-zinc-500 dark:text-zinc-400 font-normal shrink-0 mr-2 sm:mr-3">
+                  We engineer
+                </span>
+                <span className="relative inline-flex items-center h-[1.35em] overflow-hidden w-[230px] sm:w-[320px] lg:w-[390px]">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={currentIndex}
+                      initial={{ y: 26, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -26, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                      className={cn(
+                        "absolute left-0 font-extrabold whitespace-nowrap",
+                        rotatingMediums[currentIndex].color
+                      )}
+                    >
+                      {rotatingMediums[currentIndex].title}
+                    </motion.span>
+                  </AnimatePresence>
+                </span>
+              </div>
             </div>
 
             {/* Subtitle stating the product and category agnostic vision */}
