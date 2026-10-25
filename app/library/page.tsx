@@ -9,8 +9,6 @@ import { Footer } from "@/components/store/Footer";
 import { LibraryList } from "@/components/library/LibraryList";
 import { BookOpen, Sparkles } from "lucide-react";
 
-import { env } from "@/lib/env";
-
 export default async function LibraryPage() {
   const supabase = await createClient();
   const {

@@ -164,6 +164,31 @@ export async function POST(request: Request) {
           { onConflict: "user_id,product_id" }
         );
 
+        // Grant bundle items if present
+        if (product.includedSlugs && product.includedSlugs.length > 0) {
+          for (const incSlug of product.includedSlugs) {
+            const { data: incProd } = await admin
+              .from("products")
+              .select("id")
+              .eq("slug", incSlug)
+              .maybeSingle();
+
+            if (incProd) {
+              await admin.from("entitlements").upsert(
+                {
+                  user_id: userId,
+                  product_id: incProd.id,
+                  order_id: internalOrderId,
+                  status: "active",
+                  starts_at: new Date().toISOString(),
+                  expires_at: null,
+                },
+                { onConflict: "user_id,product_id" }
+              );
+            }
+          }
+        }
+
         // Increment coupon usage
         if (couponId) {
           try {
@@ -176,6 +201,18 @@ export async function POST(request: Request) {
             }
           }
         }
+
+        // Log analytics event
+        await admin.from("analytics_events").insert({
+          user_id: userId,
+          product_id: resolvedProductId,
+          event_type: "payment_success",
+          metadata: {
+            order_id: internalOrderId,
+            amount_inr: 0,
+            free_order: true,
+          },
+        });
       } catch (fErr) {
         console.warn("Free order fulfillment warning:", fErr);
       }

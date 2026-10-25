@@ -73,7 +73,9 @@ export function useLocalProgress(slug: string, defaultChapterId: string = "") {
   useEffect(() => {
     const loaded = getLocalProgress(slug);
     if (loaded) {
-      setProgressState(loaded);
+      queueMicrotask(() => {
+        setProgressState(loaded);
+      });
     } else if (defaultChapterId) {
       saveLocalProgress(slug, { lastChapterId: defaultChapterId });
     }

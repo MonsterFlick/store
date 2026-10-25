@@ -35,7 +35,9 @@ export function LibraryList({
       }
     });
 
-    setProgressMap(map);
+    queueMicrotask(() => {
+      setProgressMap(map);
+    });
   }, [entitledProducts]);
 
   if (entitledProducts.length === 0) {

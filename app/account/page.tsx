@@ -3,7 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { formatINR } from "@/lib/utils";
-import { env } from "@/lib/env";
+import { clientEnv } from "@/lib/env";
 import {
   User,
   Shield,
@@ -235,10 +235,10 @@ export default async function AccountPage() {
                 Need help with your account, order access, or billing questions? Reach our support team anytime at:
               </p>
               <a
-                href={`mailto:${env.NEXT_PUBLIC_SUPPORT_EMAIL}`}
+                href={`mailto:${clientEnv.NEXT_PUBLIC_SUPPORT_EMAIL}`}
                 className="font-mono text-[var(--accent-primary)] hover:underline font-semibold block"
               >
-                {env.NEXT_PUBLIC_SUPPORT_EMAIL}
+                {clientEnv.NEXT_PUBLIC_SUPPORT_EMAIL}
               </a>
               <p className="text-[11px] text-[var(--text-muted)] pt-2 border-t border-[var(--border-subtle)]">
                 To request permanent account deletion and data pruning, please email us directly with your account email address.

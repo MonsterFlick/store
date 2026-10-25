@@ -4,7 +4,6 @@ import { createClient } from "@/lib/supabase/server";
 import { verifyUserEntitlement } from "@/lib/entitlements/verify";
 import { verifyOrCreateDevice, UserDevice } from "@/lib/security/devices";
 import { decryptContent, encryptContent } from "@/lib/security/encryption";
-import { env } from "@/lib/env";
 
 export type ProductAccessResult =
   | { status: "not_found" }

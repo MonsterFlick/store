@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { env } from "@/lib/env";
+import { clientEnv } from "@/lib/env";
 import { Sparkles, Mail, CheckCircle2, ShieldCheck } from "lucide-react";
 
 export function Footer() {
-  const supportEmail = "sowebuild.in@gmail.com";
+  const supportEmail = clientEnv.NEXT_PUBLIC_SUPPORT_EMAIL || "sowebuild.in@gmail.com";
 
   return (
     <footer className="border-t border-[var(--border-subtle)] bg-[var(--background-secondary)] text-[var(--text-secondary)] mt-auto">

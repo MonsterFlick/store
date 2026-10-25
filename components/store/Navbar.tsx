@@ -34,7 +34,9 @@ export function Navbar() {
     });
 
     // Theme initialization
-    setIsDark(document.documentElement.classList.contains("dark"));
+    queueMicrotask(() => {
+      setIsDark(document.documentElement.classList.contains("dark"));
+    });
 
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);

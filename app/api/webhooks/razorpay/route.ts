@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     if (internalOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(internalOrderId)) {
       const { data } = await supabase
         .from("orders")
-        .select("id, user_id, status, order_items(product_id)")
+        .select("id, user_id, status, coupon_id, order_items(product_id)")
         .eq("id", internalOrderId)
         .maybeSingle();
       orderRec = data;
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     if (!orderRec && razorpayOrderId) {
       const { data } = await supabase
         .from("orders")
-        .select("id, user_id, status, order_items(product_id)")
+        .select("id, user_id, status, coupon_id, order_items(product_id)")
         .eq("razorpay_order_id", razorpayOrderId)
         .maybeSingle();
       orderRec = data;
@@ -134,8 +134,8 @@ export async function POST(request: Request) {
       }
     }
 
-    // Atomic update order status to 'paid'
-    if (validOrderUuid) {
+    // Atomic update order status to 'paid' and track coupon usage
+    if (validOrderUuid && orderRec?.status !== "paid") {
       await supabase
         .from("orders")
         .update({
@@ -144,6 +144,24 @@ export async function POST(request: Request) {
           updated_at: new Date().toISOString(),
         })
         .eq("id", validOrderUuid);
+
+      if (orderRec?.coupon_id) {
+        try {
+          await supabase.rpc("increment_coupon_usage", { c_id: orderRec.coupon_id });
+        } catch {
+          const { data: cData } = await supabase
+            .from("coupons")
+            .select("times_used")
+            .eq("id", orderRec.coupon_id)
+            .single();
+          if (cData) {
+            await supabase
+              .from("coupons")
+              .update({ times_used: (cData.times_used || 0) + 1 })
+              .eq("id", orderRec.coupon_id);
+          }
+        }
+      }
     }
 
     // 4. Record payment log with valid UUID
@@ -190,7 +208,7 @@ export async function POST(request: Request) {
           if (incProd) {
             await supabase.from("entitlements").upsert(
               {
-                user_id: userId,
+                user_id: resolvedUserId,
                 product_id: incProd.id,
                 order_id: validOrderUuid,
                 status: "active",
@@ -205,7 +223,7 @@ export async function POST(request: Request) {
 
       // 8. Log authentic analytics event with product UUID
       await supabase.from("analytics_events").insert({
-        user_id: userId,
+        user_id: resolvedUserId,
         product_id: resolvedProductId,
         event_type: "payment_success",
         metadata: {

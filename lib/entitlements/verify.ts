@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { env } from "@/lib/env";
 
 export interface Entitlement {
   id: string;

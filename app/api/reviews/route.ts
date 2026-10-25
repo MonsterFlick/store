@@ -25,9 +25,20 @@ export async function POST(request: Request) {
     );
   }
 
-  if (rating < 1 || rating > 5) {
+  const parsedRating = Number(rating);
+  if (parsedRating < 1 || parsedRating > 5 || !Number.isInteger(parsedRating)) {
     return NextResponse.json(
-      { error: "Rating must be between 1 and 5." },
+      { error: "Rating must be an integer between 1 and 5." },
+      { status: 400 }
+    );
+  }
+
+  const cleanTitle = String(title).trim().slice(0, 120);
+  const cleanContent = String(content).trim().slice(0, 2000);
+
+  if (cleanTitle.length === 0 || cleanContent.length === 0) {
+    return NextResponse.json(
+      { error: "Title and content cannot be empty." },
       { status: 400 }
     );
   }
@@ -38,7 +49,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          "Reviews are restricted strictly to verified purchasers. No entitlement found.",
+          "Reviews are restricted strictly to verified purchasers. No active entitlement found.",
       },
       { status: 403 }
     );
@@ -61,27 +72,38 @@ export async function POST(request: Request) {
     // Database fallback
   }
 
-  const resolvedProductId = productDbId || "00000000-0000-0000-0000-000000000001";
-  const validOrderUuid = entitlementCheck.orderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(entitlementCheck.orderId)
-    ? entitlementCheck.orderId
-    : "00000000-0000-0000-0000-000000000002";
+  if (!productDbId) {
+    return NextResponse.json(
+      { error: "Product not found in database." },
+      { status: 404 }
+    );
+  }
 
-  // 3. Insert or update review with UUIDs
+  const orderId = entitlementCheck.orderId;
+  const isUuid = orderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(orderId);
+  if (!isUuid) {
+    return NextResponse.json(
+      { error: "Valid order record required to submit review." },
+      { status: 400 }
+    );
+  }
+
+  // 3. Insert or update review with authentic UUIDs
   const { data, error } = await admin
     .from("reviews")
     .upsert(
       {
         user_id: user.id,
-        product_id: resolvedProductId,
-        order_id: validOrderUuid,
-        rating,
-        title,
-        content,
+        product_id: productDbId,
+        order_id: orderId,
+        rating: parsedRating,
+        title: cleanTitle,
+        content: cleanContent,
         updated_at: new Date().toISOString(),
       },
       { onConflict: "user_id,product_id" }
     )
-    .select()
+    .select("id, rating, title, content, created_at")
     .single();
 
   if (error) {
@@ -126,9 +148,10 @@ export async function GET(request: Request) {
     return NextResponse.json({ reviews: [] });
   }
 
+  // Omit user_id from public response to protect user privacy
   const { data: reviews } = await admin
     .from("reviews")
-    .select("id, rating, title, content, created_at, user_id")
+    .select("id, rating, title, content, created_at")
     .eq("product_id", productDbId)
     .order("created_at", { ascending: false });
 

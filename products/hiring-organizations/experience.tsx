@@ -81,13 +81,15 @@ export default function HiringExperience({
   useEffect(() => {
     try {
       const saved = localStorage.getItem("om_store_hiring_bookmarks");
-      if (saved) {
-        setBookmarkedIds(JSON.parse(saved));
-      }
       const savedNotes = localStorage.getItem("om_store_hiring_notes");
-      if (savedNotes) {
-        setUserNotes(JSON.parse(savedNotes));
-      }
+      queueMicrotask(() => {
+        if (saved) {
+          setBookmarkedIds(JSON.parse(saved));
+        }
+        if (savedNotes) {
+          setUserNotes(JSON.parse(savedNotes));
+        }
+      });
     } catch {
       // Ignore localStorage errors
     }
@@ -96,7 +98,9 @@ export default function HiringExperience({
   // Update current note when active company changes
   useEffect(() => {
     if (activeCompany) {
-      setCurrentNote(userNotes[activeCompany.id] || "");
+      queueMicrotask(() => {
+        setCurrentNote(userNotes[activeCompany.id] || "");
+      });
     }
   }, [activeCompany, userNotes]);
 

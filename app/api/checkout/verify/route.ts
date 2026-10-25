@@ -116,18 +116,24 @@ export async function POST(request: Request) {
     // First attempt: lookup by razorpay_order_id (the single cryptographic anchor)
     let { data: orderRecord } = await admin
       .from("orders")
-      .select("id, user_id, total, status, order_items(product_id)")
+      .select("id, user_id, total, status, coupon_id, razorpay_order_id, order_items(product_id)")
       .eq("razorpay_order_id", razorpayOrderId)
+      .eq("user_id", userId)
       .maybeSingle();
 
-    // Fallback attempt: lookup by internalOrderId if razorpay_order_id link was pending
+    // Secure fallback: lookup by internalOrderId ONLY if belonging to this user and razorpay_order_id matches or was pending
     if (!orderRecord && internalOrderId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(internalOrderId)) {
       const { data: byInternalId } = await admin
         .from("orders")
-        .select("id, user_id, total, status, order_items(product_id)")
+        .select("id, user_id, total, status, coupon_id, razorpay_order_id, order_items(product_id)")
         .eq("id", internalOrderId)
+        .eq("user_id", userId)
         .maybeSingle();
-      orderRecord = byInternalId;
+
+      // Only accept if razorpay_order_id matches or was pending (null)
+      if (byInternalId && (!byInternalId.razorpay_order_id || byInternalId.razorpay_order_id === razorpayOrderId)) {
+        orderRecord = byInternalId;
+      }
     }
 
     if (!orderRecord) {
@@ -163,7 +169,7 @@ export async function POST(request: Request) {
       entitledProductId = dbItemProductId;
     }
 
-    // Atomic status update to 'paid'
+    // Atomic status update to 'paid' and coupon usage tracking
     if (orderRecord.status !== "paid") {
       await admin
         .from("orders")
@@ -173,6 +179,25 @@ export async function POST(request: Request) {
           updated_at: new Date().toISOString(),
         })
         .eq("id", resolvedOrderId);
+
+      // Increment coupon usage counter if coupon was applied
+      if (orderRecord.coupon_id) {
+        try {
+          await admin.rpc("increment_coupon_usage", { c_id: orderRecord.coupon_id });
+        } catch {
+          const { data: cData } = await admin
+            .from("coupons")
+            .select("times_used")
+            .eq("id", orderRecord.coupon_id)
+            .single();
+          if (cData) {
+            await admin
+              .from("coupons")
+              .update({ times_used: (cData.times_used || 0) + 1 })
+              .eq("id", orderRecord.coupon_id);
+          }
+        }
+      }
     }
 
 

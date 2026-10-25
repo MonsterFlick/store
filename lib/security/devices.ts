@@ -120,15 +120,19 @@ export async function verifyOrCreateDevice(userId: string): Promise<{
     return { allowed: false, activeDevices, currentDeviceId };
   }
 
-  // Under limit: register new active device
+  // Under limit: register or reactivate active device
   try {
-    await supabase.from("user_devices").insert({
-      user_id: userId,
-      device_identifier: currentDeviceId,
-      device_name: deviceName,
-      last_seen_at: new Date().toISOString(),
-      created_at: new Date().toISOString(),
-    });
+    await supabase.from("user_devices").upsert(
+      {
+        user_id: userId,
+        device_identifier: currentDeviceId,
+        device_name: deviceName,
+        last_seen_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        revoked_at: null,
+      },
+      { onConflict: "user_id,device_identifier" }
+    );
   } catch (insErr) {
     console.warn("Device registration insert warning:", insErr);
   }

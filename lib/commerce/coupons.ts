@@ -139,16 +139,19 @@ export async function validateCouponServerSide(
     }
   }
 
-  // 5. Calculate discount in INR
+  // 5. Calculate discount in INR with bounds enforcement
   let discountAmount = 0;
+  const rawValue = Number(coupon.discount_value) || 0;
+
   if (coupon.discount_type === "percentage") {
-    discountAmount = Math.round((subtotalINR * coupon.discount_value) / 100);
+    const clampedPercentage = Math.min(100, Math.max(0, rawValue));
+    discountAmount = Math.round((subtotalINR * clampedPercentage) / 100);
   } else {
-    discountAmount = Math.round(coupon.discount_value);
+    discountAmount = Math.max(0, Math.round(rawValue));
   }
 
   // Discount cannot exceed subtotal
-  discountAmount = Math.min(discountAmount, subtotalINR);
+  discountAmount = Math.min(discountAmount, Math.max(0, subtotalINR));
   const finalPrice = Math.max(0, subtotalINR - discountAmount);
 
   return {
