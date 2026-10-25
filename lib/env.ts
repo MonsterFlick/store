@@ -49,6 +49,7 @@ function getServerEnv() {
     RAZORPAY_WEBHOOK_SECRET: process.env.RAZORPAY_WEBHOOK_SECRET || "mock_webhook_secret_abcde",
     CONTENT_ENCRYPTION_KEY:
       process.env.CONTENT_ENCRYPTION_KEY ||
+      process.env.BOOK_ENCRYPTION_KEY ||
       "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
   });
 }
