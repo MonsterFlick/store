@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "product:sync": "tsx scripts/product-sync.ts"
+    "product:sync": "tsx --env-file=.env.local scripts/product-sync.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
