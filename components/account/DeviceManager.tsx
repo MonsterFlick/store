@@ -2,9 +2,23 @@
 
 import React, { useState } from "react";
 import { Laptop, Smartphone, Trash2, CheckCircle2 } from "lucide-react";
-import { UserDevice } from "@/lib/security/devices";
+import type { UserDevice } from "@/lib/security/devices";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+
+function formatLastSeen(dateStr: string | null | undefined): string {
+  if (!dateStr) return "Recently";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "Recently";
+    return d.toLocaleString("en-IN", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  } catch {
+    return "Recently";
+  }
+}
 
 export interface DeviceManagerProps {
   initialDevices: UserDevice[];
@@ -50,7 +64,7 @@ export function DeviceManager({ initialDevices }: DeviceManagerProps) {
       {devices.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {devices.map((device, index) => {
-            const isPhone = /android|ios|iphone|ipad/i.test(device.device_name);
+            const isPhone = /android|ios|iphone|ipad/i.test(device.device_name || "");
             return (
               <Card key={device.id || index} className="p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
@@ -62,13 +76,9 @@ export function DeviceManager({ initialDevices }: DeviceManagerProps) {
                     )}
                   </div>
                   <div>
-                    <h4 className="text-sm font-semibold">{device.device_name}</h4>
+                    <h4 className="text-sm font-semibold">{device.device_name || "Unknown Device"}</h4>
                     <p className="text-xs text-[var(--text-muted)]">
-                      Last seen:{" "}
-                      {new Date(device.last_seen_at).toLocaleDateString("en-IN", {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                      })}
+                      Last seen: {formatLastSeen(device.last_seen_at)}
                     </p>
                   </div>
                 </div>

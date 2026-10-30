@@ -17,7 +17,22 @@ import {
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
+import { Navbar } from "@/components/store/Navbar";
+import { Footer } from "@/components/store/Footer";
 import { DeviceManager } from "@/components/account/DeviceManager";
+
+function formatDate(dateStr: string | null | undefined): string {
+  if (!dateStr) return "Recent";
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return "Recent";
+    return d.toLocaleDateString("en-IN", {
+      dateStyle: "medium",
+    });
+  } catch {
+    return "Recent";
+  }
+}
 
 export default async function AccountPage() {
   const supabase = await createClient();
@@ -64,18 +79,26 @@ export default async function AccountPage() {
     .is("revoked_at", null)
     .order("last_seen_at", { ascending: false });
 
+  const initialLetter = (
+    currentUser.user_metadata?.full_name ||
+    currentUser.email ||
+    "U"
+  )[0].toUpperCase();
+
   return (
-    <div className="min-h-screen bg-[var(--background)] text-[var(--text-primary)]">
-      {/* Account Header */}
-      <header className="border-b border-[var(--border-subtle)] bg-[var(--surface-elevated)]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="min-h-screen flex flex-col bg-[var(--background)] text-[var(--text-primary)]">
+      <Navbar />
+
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 pt-24 pb-16 flex-1 w-full space-y-10">
+        {/* Account Profile Card */}
+        <section className="rounded-[var(--radius-xl)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 shadow-xs">
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-full bg-[var(--accent-light)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-lg border border-[var(--accent-primary)]/20">
-              {(currentUser.user_metadata?.full_name || currentUser.email || "U")[0].toUpperCase()}
+            <div className="w-14 h-14 rounded-full bg-[var(--accent-light)] text-[var(--accent-primary)] flex items-center justify-center font-bold text-xl border border-[var(--accent-primary)]/20 shadow-xs">
+              {initialLetter}
             </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                {currentUser.user_metadata?.full_name || "Account"}
+            <div className="space-y-0.5">
+              <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+                {currentUser.user_metadata?.full_name || "Account Profile"}
               </h1>
               <p className="text-xs text-[var(--text-muted)] font-mono">
                 {currentUser.email}
@@ -98,11 +121,7 @@ export default async function AccountPage() {
               </Button>
             </form>
           </div>
-        </div>
-      </header>
-
-      {/* Main Content Sections */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 space-y-10">
+        </section>
         {/* Active Devices (2-Device Policy) */}
         <section>
           <div className="mb-4">
@@ -143,14 +162,11 @@ export default async function AccountPage() {
                         <Badge
                           variant={order.status === "paid" ? "success" : "default"}
                         >
-                          {order.status.toUpperCase()}
+                          {(order.status || "PENDING").toUpperCase()}
                         </Badge>
                       </div>
                       <p className="text-xs text-[var(--text-muted)]">
-                        Purchased on{" "}
-                        {new Date(order.created_at).toLocaleDateString("en-IN", {
-                          dateStyle: "medium",
-                        })}
+                        Purchased on {formatDate(order.created_at)}
                       </p>
                     </div>
 
@@ -247,6 +263,8 @@ export default async function AccountPage() {
           </Card>
         </section>
       </main>
+
+      <Footer />
     </div>
   );
 }
