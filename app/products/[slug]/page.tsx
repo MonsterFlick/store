@@ -11,16 +11,12 @@ import { ProductPricingSection } from "@/components/store/ProductPricingSection"
 import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { BundleIncludedSection } from "@/components/store/BundleIncludedSection";
 import { BundleUpsellBanner } from "@/components/store/BundleUpsellBanner";
-import { Badge } from "@/components/ui/Badge";
+import { EditorialCurriculum } from "@/components/store/EditorialCurriculum";
 import {
   ArrowLeft,
-  BookOpen,
-  ShieldCheck,
   CheckCircle2,
-  Sparkles,
   HelpCircle,
-  FileCode,
-  Laptop,
+  Lock,
 } from "lucide-react";
 
 export async function generateStaticParams() {
@@ -57,6 +53,7 @@ export async function generateMetadata({
       url: canonicalUrl,
       siteName: "SoWeBuild Store",
       type: "website",
+      locale: "en_US",
     },
     twitter: {
       card: "summary_large_image",
@@ -131,8 +128,8 @@ export default async function ProductPage({
       {
         "@type": "ListItem",
         position: 2,
-        name: "Products",
-        item: `${appUrl}/#products`,
+        name: "Publications",
+        item: `${appUrl}/#catalog`,
       },
       {
         "@type": "ListItem",
@@ -142,6 +139,49 @@ export default async function ProductPage({
       },
     ],
   };
+
+  // Curated highlights (4 high-signal editorial points)
+  const isBundle = product.type === "bundle" || (product.includedSlugs && product.includedSlugs.length > 0);
+  const curatedHighlights = isBundle
+    ? [
+        {
+          title: "The 8-Second Recruiter Scan",
+          desc: "ATS algorithm indexing rules, keyword placement, and the ACR (Action-Context-Result) bullet formula.",
+        },
+        {
+          title: "Proof of Competence Audits",
+          desc: "Restructuring GitHub repos and engineering case studies so tech leads cannot dismiss your code.",
+        },
+        {
+          title: "Sniper Outreach & Sourcing",
+          desc: "Direct cold DM scripts that get recruiter and founder replies, plus Naukri Resdex visibility dominance.",
+        },
+        {
+          title: "Compensation & Timing Math",
+          desc: "Timing counter-offers, leverage arithmetic, and realistic negotiation frameworks for the tech market.",
+        },
+      ]
+    : [
+        {
+          title: "144 Verified Employers",
+          desc: "Curated tech companies hiring across India and worldwide remote without whiteboard trivia.",
+        },
+        {
+          title: "Evaluation Formats",
+          desc: "Exact breakdown of practical interview rounds, pairing sessions, and take-home assignments.",
+        },
+        {
+          title: "Direct Careers Links",
+          desc: "Verified application URLs and contact pathways for every cataloged organization.",
+        },
+        {
+          title: "Continuous Updates",
+          desc: "Regularly revised hiring criteria, remote eligibility tags, and bookmarkable shortlist tools.",
+        },
+      ];
+
+  // Curated 3-question FAQ
+  const curatedFaq = product.faq?.slice(0, 3) || [];
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--background)]">
@@ -165,7 +205,7 @@ export default async function ProductPage({
             className="inline-flex items-center space-x-1.5 text-xs font-mono text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to All Products</span>
+            <span>Catalogue</span>
           </Link>
         </div>
 
@@ -176,130 +216,94 @@ export default async function ProductPage({
           </div>
         )}
 
-        {/* Product Hero Layout */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Product Presentation */}
+        {/* Editorial Product Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            
+            {/* Left Column: Editorial Presentation */}
             <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge variant="accent" className="capitalize">
-                    {product.type === "bundle" ? "Flagship Bundle" : `${product.type} Experience`}
-                  </Badge>
-                  {product.categories.map((c) => (
-                    <Badge key={c} variant="default">
-                      {c}
-                    </Badge>
-                  ))}
+              
+              {/* Header Folio */}
+              <div className="space-y-3">
+                <div className="flex items-center space-x-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                  <span className="uppercase font-semibold tracking-wider text-indigo-600 dark:text-indigo-400">
+                    {isBundle ? "EDITION № 01 · CAREER BUNDLE" : "EDITION № 02 · DIRECTORY"}
+                  </span>
+                  <span>·</span>
+                  <span>PERPETUAL ACCESS</span>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-[var(--text-primary)] leading-[1.1]">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text-primary)] leading-[1.12] font-display">
                   {product.name}
                 </h1>
 
-                <p className="text-lg text-[var(--text-secondary)] leading-relaxed font-editorial italic">
+                <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-serif italic">
                   {product.tagline}
                 </p>
               </div>
 
-              {/* Description */}
-              <div className="prose dark:prose-invert text-sm text-[var(--text-secondary)] leading-relaxed space-y-4">
+              {/* Concise Editorial Summary */}
+              <div className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed border-l-2 border-indigo-500/40 pl-4 py-0.5">
                 <p>{product.description}</p>
               </div>
 
               {/* Dedicated Bundle Breakdown (if bundle) */}
-              {(product.type === "bundle" || product.includedSlugs?.length) && (
-                <BundleIncludedSection />
-              )}
+              {isBundle && <BundleIncludedSection />}
 
-              {/* What You Get / Core Features */}
+              {/* Curated Highlights (4 Pillars) */}
               <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-primary)]">
-                  Experience Highlights
-                </h3>
+                <div className="space-y-1">
+                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                    Core Architecture
+                  </h3>
+                  <h4 className="text-lg font-bold text-[var(--text-primary)] font-display">
+                    What You&apos;ll Master
+                  </h4>
+                </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {product.features.map((feat, i) => (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {curatedHighlights.map((feat, i) => (
                     <div
                       key={i}
-                      className="p-3 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] flex items-start space-x-2.5 text-xs text-[var(--text-secondary)]"
+                      className="p-4 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] space-y-1.5"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                      <span>{feat}</span>
+                      <div className="flex items-center space-x-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                        <h5 className="text-xs font-bold text-[var(--text-primary)]">
+                          {feat.title}
+                        </h5>
+                      </div>
+                      <p className="text-xs text-[var(--text-secondary)] leading-relaxed pl-6">
+                        {feat.desc}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Table of Contents Preview */}
-              {content && content.chapters.length > 0 && (
-                <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-primary)] flex items-center justify-between">
-                    <span>Structured Curriculum</span>
-                    <span className="font-mono text-xs text-[var(--text-muted)] font-normal">
-                      {content.chapters.length} Chapters
-                    </span>
-                  </h3>
-
-                  <div className="space-y-2">
-                    {content.chapters.map((ch, idx) => (
-                      <div
-                        key={ch.id}
-                        className="p-3.5 rounded-[var(--radius-md)] bg-[var(--surface-card)] border border-[var(--border-subtle)] flex items-center justify-between text-xs"
-                      >
-                        <div className="flex items-center space-x-3">
-                          <span className="font-mono text-[var(--text-muted)] w-5">
-                            {String(idx + 1).padStart(2, "0")}
-                          </span>
-                          <span className="font-medium text-[var(--text-primary)]">
-                            {ch.title}
-                          </span>
-                        </div>
-
-                        {ch.isFreePreview && (
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[var(--accent-light)] text-[var(--accent-primary)] font-semibold">
-                            Free Excerpt
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              {/* Table of Contents / Curriculum */}
+              {content && content.chapters && content.chapters.length > 0 && (
+                <EditorialCurriculum chapters={content.chapters} />
               )}
 
-              {/* Licensing Information */}
-              <div className="pt-6 border-t border-[var(--border-subtle)] space-y-3">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-primary)]">
-                  License & Usage Terms
-                </h3>
-                <div className="p-4 rounded-[var(--radius-md)] bg-[var(--background-secondary)] border border-[var(--border-subtle)] space-y-1.5">
-                  <h4 className="text-xs font-bold text-[var(--text-primary)]">
-                    {product.license.name}
-                  </h4>
-                  <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                    {product.license.terms}
-                  </p>
-                </div>
-              </div>
-
-              {/* FAQ Section */}
-              {product.faq && product.faq.length > 0 && (
+              {/* Curated FAQ */}
+              {curatedFaq.length > 0 && (
                 <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--text-primary)]">
+                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
                     Frequently Asked Questions
                   </h3>
 
                   <div className="space-y-3">
-                    {product.faq.map((item, idx) => (
+                    {curatedFaq.map((item, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-[var(--radius-md)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] space-y-1.5"
+                        className="p-4 rounded-[var(--radius-lg)] bg-[var(--surface-elevated)] border border-[var(--border-subtle)] space-y-1.5"
                       >
-                        <h4 className="text-xs font-semibold text-[var(--text-primary)] flex items-center gap-1.5">
-                          <HelpCircle className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+                        <h4 className="text-xs font-semibold text-[var(--text-primary)] flex items-start gap-2">
+                          <HelpCircle className="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5" />
                           <span>{item.question}</span>
                         </h4>
-                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed pl-5">
+                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed pl-5.5">
                           {item.answer}
                         </p>
                       </div>
@@ -308,13 +312,21 @@ export default async function ProductPage({
                 </div>
               )}
 
+              {/* License Colophon */}
+              <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center space-x-2 text-[11px] font-mono text-[var(--text-muted)]">
+                <Lock className="w-3.5 h-3.5 shrink-0 opacity-70" />
+                <span>
+                  Single-user personal license with perpetual digital reader access across two authorized devices.
+                </span>
+              </div>
+
               {/* Verified Purchaser Reviews */}
-              <div className="pt-8 border-t border-[var(--border-subtle)]">
+              <div className="pt-6 border-t border-[var(--border-subtle)]">
                 <ProductReviews productSlug={product.slug} isEntitled={isEntitled} />
               </div>
             </div>
 
-            {/* Right Column: Sticky Pricing & Purchase Box */}
+            {/* Right Column: Sticky Pricing & Action Card */}
             <div className="lg:col-span-5 lg:sticky lg:top-24">
               <ProductPricingSection
                 product={product}
@@ -322,6 +334,7 @@ export default async function ProductPage({
                 isAlreadyPurchased={isEntitled}
               />
             </div>
+
           </div>
         </section>
       </main>

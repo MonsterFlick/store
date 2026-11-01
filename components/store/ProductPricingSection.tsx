@@ -27,51 +27,48 @@ export function ProductPricingSection({
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const finalPrice = Math.max(0, product.price - discountAmount);
+  const isBundle = product.type === "bundle" || (product.includedSlugs && product.includedSlugs.length > 0);
 
   return (
     <>
       <Card
         id="pricing"
-        className="p-6 sm:p-8 bg-[var(--surface-elevated)] border-2 border-[var(--border-subtle)] shadow-md space-y-6"
+        className="p-6 sm:p-7 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] shadow-lg shadow-zinc-950/5 space-y-5 rounded-[var(--radius-xl)]"
       >
         {/* Pricing Header */}
         <div className="flex items-start justify-between">
           <div>
-            <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-1">
-              {product.type === "bundle" || product.includedSlugs?.length
-                ? "Bundle Lifetime Access"
-                : "Lifetime Access"}
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-1">
+              {isBundle ? "Complete Edition" : "Single Edition"}
             </span>
-            <div className="flex items-baseline space-x-3">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)]">
+            <div className="flex items-baseline space-x-2.5">
+              <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] font-mono">
                 {formatINR(finalPrice)}
               </span>
               {product.originalPrice && (
-                <span className="text-base text-[var(--text-muted)] line-through font-mono">
+                <span className="text-sm text-[var(--text-muted)] line-through font-mono">
                   {formatINR(product.originalPrice)}
                 </span>
               )}
             </div>
           </div>
 
-          <Badge variant={product.type === "bundle" ? "accent" : "success"} className="text-xs">
-            {product.type === "bundle" || product.includedSlugs?.length
-              ? "Complete Bundle Deal"
-              : "One-Time Purchase"}
+          <Badge variant={isBundle ? "accent" : "default"} className="text-xs font-mono font-medium">
+            {isBundle ? "Bundle Deal" : "Lifetime Access"}
           </Badge>
         </div>
 
-        {/* Free Preview Button */}
+        {/* Free Sample Button */}
         {previewChapter && (
           <Button
             type="button"
             variant="outline"
             size="md"
             onClick={() => setPreviewOpen(true)}
-            className="w-full text-xs font-medium"
+            className="w-full text-xs font-medium border-[var(--border-subtle)]"
           >
-            <Eye className="w-4 h-4 mr-1.5" />
-            <span>Read Free Chapter 1 Excerpt</span>
+            <Eye className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
+            <span>Read Free Sample</span>
           </Button>
         )}
 
@@ -92,58 +89,48 @@ export function ProductPricingSection({
 
         {/* Checkout CTA */}
         {isAlreadyPurchased ? (
-          <div className="p-4 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-center space-y-2">
+          <div className="p-4 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-center space-y-1.5">
             <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 flex items-center justify-center gap-1.5">
-              <Check className="w-4 h-4" /> You own lifetime access
+              <Check className="w-4 h-4" /> Lifetime Access Active
             </span>
             <a
               href={`/library/${product.slug}`}
               className="inline-block text-xs font-bold text-[var(--accent-primary)] hover:underline"
             >
-              Open Reader Experience →
+              Open in Library →
             </a>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             <CheckoutButton
               productSlug={product.slug}
               priceINR={finalPrice}
               couponCode={couponCode}
-              buttonText={
-                product.type === "bundle" || product.includedSlugs?.length
-                  ? `Get Complete Bundle (Book + Free Directory) · ${formatINR(finalPrice)}`
-                  : `Unlock Digital Access · ${formatINR(finalPrice)}`
-              }
+              buttonText={isBundle ? `Buy Bundle • ${formatINR(finalPrice)}` : `Get Access • ${formatINR(finalPrice)}`}
             />
 
-            {/* Bundle Bonus Callout */}
-            {(product.type === "bundle" || product.includedSlugs?.length) && (
-              <div className="p-3 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-xs space-y-1">
-                <span className="font-bold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                  Free Bonus Directory Included
-                </span>
-                <p className="text-[11px] leading-relaxed text-emerald-700 dark:text-emerald-300">
-                  Unlocks instant lifetime access to both <strong>The Job Search Book</strong> AND the <strong>Companies That Hire Without Whiteboards Directory</strong> in your library.
-                </p>
-              </div>
+            {/* Micro Inclusions Note */}
+            {isBundle && (
+              <p className="text-[11px] text-center text-zinc-500 dark:text-zinc-400 font-mono">
+                Includes 30-Chapter Book + 144-Company Directory Free
+              </p>
             )}
 
             {/* Upsell Callout on hiring-organizations */}
             {product.slug === "hiring-organizations" && (
-              <div className="p-3.5 rounded-[var(--radius-md)] bg-gradient-to-br from-indigo-500/10 to-emerald-500/10 border border-indigo-500/20 text-xs space-y-2">
+              <div className="p-3 rounded-[var(--radius-md)] bg-indigo-500/5 border border-indigo-500/20 text-xs space-y-1.5">
                 <div className="flex items-center justify-between font-mono text-[11px]">
-                  <span className="font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Smarter Value
+                  <span className="font-semibold text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5" /> Smarter Value
                   </span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-bold">Free in Bundle</span>
                 </div>
                 <p className="text-[11px] text-[var(--text-secondary)] leading-snug">
-                  Get this directory <strong>100% FREE</strong> when you get The Job Search Book bundle for ₹199 (only ₹100 more).
+                  Get this directory free with The Job Search Book bundle for ₹199.
                 </p>
                 <a
                   href="/products/the-job-search-book"
-                  className="inline-flex items-center text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline gap-1"
+                  className="inline-flex items-center text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline gap-1"
                 >
                   <span>View Bundle Deal (₹199) →</span>
                 </a>
@@ -152,27 +139,15 @@ export function ProductPricingSection({
           </div>
         )}
 
-        {/* Capabilities Guarantee */}
-        <div className="pt-4 border-t border-[var(--border-subtle)] space-y-2 text-xs text-[var(--text-secondary)]">
+        {/* Capabilities Checklist */}
+        <div className="pt-3 border-t border-[var(--border-subtle)] space-y-2 text-xs text-[var(--text-secondary)]">
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>
-              {product.type === "bundle" || product.includedSlugs?.length
-                ? "Instant access to BOTH book and directory in your library"
-                : "Instant access across your laptop, phone, or tablet"}
-            </span>
+            <span className="text-[11px] leading-tight">Instant in-browser reader on phone, tablet & desktop</span>
           </div>
           <div className="flex items-center space-x-2">
             <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>
-              {product.type === "bundle" || product.includedSlugs?.length
-                ? "144-company directory included 100% FREE (Worth ₹99)"
-                : "Interactive tools, checklists & practical frameworks"}
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span>Lifetime personal access with free future revisions</span>
+            <span className="text-[11px] leading-tight">All future revisions and updates included perpetual</span>
           </div>
         </div>
       </Card>

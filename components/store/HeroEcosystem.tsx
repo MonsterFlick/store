@@ -4,20 +4,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { MagneticButton } from "@/components/ui/MagneticButton";
 import {
-  Sparkles,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
+  Eye,
   BookOpen,
-  Building2,
-  Sliders,
-  Terminal,
-  Code2,
-  GraduationCap,
-  Layers,
-  Zap,
+  Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -41,17 +33,11 @@ export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string
     return () => clearInterval(interval);
   }, [rotatingMediums.length]);
 
-  // Mini Specimen active tab in the 3D Hero card
-  const [specimenTab, setSpecimenTab] = useState<"book" | "tool" | "directory">("book");
-  const [simulatorValue, setSimulatorValue] = useState(24);
-
-
   return (
     <section className="relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-20 sm:pb-28 border-b border-zinc-200/80 dark:border-white/5 bg-[var(--background)]">
       {/* Ambient Lighting Orbs */}
       <div className="kr-orb w-[450px] sm:w-[700px] h-[350px] sm:h-[500px] -top-24 left-1/4 -translate-x-1/2 bg-indigo-500/10 dark:bg-indigo-600/15" />
       <div className="kr-orb w-[350px] sm:w-[600px] h-[350px] sm:h-[500px] top-1/3 right-4 sm:right-12 bg-purple-500/10 dark:bg-purple-600/15" />
-      <div className="kr-orb w-[250px] sm:w-[450px] h-[250px] sm:h-[450px] bottom-0 left-10 bg-emerald-500/5 dark:bg-emerald-600/10" />
 
       {/* Subtle Grain Overlay */}
       <div className="grain-overlay absolute inset-0 z-0 opacity-40 dark:opacity-60" />
@@ -59,17 +45,15 @@ export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
           
-          {/* Hero Left: Manifesto, Kinetic Headline, CTAs */}
+          {/* Hero Left: Editorial Manifesto, Kinetic Headline, Clean Actions */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-7 text-left">
             
-            {/* Agnostic Platform Badge */}
-            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-white/[0.08] border border-zinc-200 dark:border-white/15 text-xs font-mono shadow-xs backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.7)] shrink-0 animate-pulse" />
-              <span className="font-bold text-zinc-900 dark:text-white tracking-wider">SOWEBUILD</span>
+            {/* Masthead Tag */}
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/10 text-xs font-mono shadow-xs backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+              <span className="font-semibold text-zinc-900 dark:text-white tracking-wider">SOWEBUILD</span>
               <span className="text-zinc-300 dark:text-white/20">·</span>
-              <span className="text-indigo-600 dark:text-indigo-400 font-semibold tracking-wide">
-                UNIVERSAL DIGITAL GOODS ENGINE
-              </span>
+              <span className="text-zinc-500 dark:text-zinc-400">DIGITAL PRESS &amp; EDITIONS</span>
             </div>
 
             {/* Kinetic Dynamic Headline with Zero Layout Shift */}
@@ -81,7 +65,7 @@ export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string
                 </span>
               </h1>
 
-              {/* Stable Rotating Ticker - Baseline aligned with pre-allocated width to prevent layout shifts */}
+              {/* Stable Rotating Ticker */}
               <div className="flex items-center text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight font-display">
                 <span className="text-zinc-500 dark:text-zinc-400 font-normal shrink-0 mr-2 sm:mr-3">
                   We engineer
@@ -106,254 +90,121 @@ export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string
               </div>
             </div>
 
-            {/* Subtitle stating the product and category agnostic vision */}
+            {/* Editorial Subtitle */}
             <p className="max-w-2xl text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans">
-              Not a generic marketplace or static PDF dump. SoWeBuild is an interactive digital products engine—delivering living playbooks, software tools, masterclasses, runbooks, and operational systems built to give you real leverage across craft, career, and enterprise.
+              Not a generic marketplace or static PDF dump. SoWeBuild publishes living digital playbooks, verified directories, and operational software engineered for career and enterprise leverage.
             </p>
 
-            {/* CTAs */}
-            <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5">
-              <a href="#catalog" className="inline-block">
-                <MagneticButton className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-[var(--radius-md)] bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold shadow-lg shadow-indigo-600/25 transition-all duration-200 hover:shadow-indigo-600/40">
-                  <span>Explore Product Universe</span>
-                  <ArrowRight className="w-4 h-4" />
-                </MagneticButton>
+            {/* Clean Single-Line CTAs */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <a
+                href="#catalog"
+                className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-[var(--radius-md)] bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer shadow-sm whitespace-nowrap"
+              >
+                <span>Explore Publications</span>
+                <ArrowRight className="w-4 h-4" />
               </a>
 
-              <a href="#lab" className="inline-block">
-                <MagneticButton className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-5 py-3.5 rounded-[var(--radius-md)] border border-zinc-200 dark:border-white/20 bg-white dark:bg-white/10 hover:bg-zinc-50 dark:hover:bg-white/15 text-zinc-800 dark:text-white text-sm font-medium transition-all duration-150 shadow-xs">
-                  <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                  <span>Try Interactive Specimen Lab</span>
-                </MagneticButton>
-              </a>
+              {onOpenPreview && (
+                <button
+                  type="button"
+                  onClick={() => onOpenPreview("the-job-search-book")}
+                  className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-[var(--radius-md)] border border-zinc-200 dark:border-white/15 bg-white dark:bg-white/[0.05] hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-800 dark:text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer whitespace-nowrap"
+                >
+                  <Eye className="w-4 h-4 text-indigo-500" />
+                  <span>Read Free Sample</span>
+                </button>
+              )}
             </div>
 
-            {/* Platform Guarantees / Metrics Bar */}
-            <div className="pt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono text-zinc-600 dark:text-zinc-400 border-t border-zinc-200/80 dark:border-white/10">
-              <div className="flex flex-col space-y-0.5">
+            {/* Editorial Index Metrics */}
+            <div className="pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono text-zinc-600 dark:text-zinc-400 border-t border-zinc-200/80 dark:border-white/10">
+              <div className="space-y-0.5">
                 <span className="text-zinc-950 dark:text-white font-bold text-sm">30 Chapters</span>
-                <span className="text-[11px] text-zinc-500">In-Depth Playbook</span>
+                <span className="text-[11px] text-zinc-500 block">Complete Playbook</span>
               </div>
-              <div className="flex flex-col space-y-0.5">
-                <span className="text-zinc-950 dark:text-white font-bold text-sm">140+ Companies</span>
-                <span className="text-[11px] text-zinc-500">Verified Directory</span>
+              <div className="space-y-0.5">
+                <span className="text-zinc-950 dark:text-white font-bold text-sm">144 Companies</span>
+                <span className="text-[11px] text-zinc-500 block">Verified Directory</span>
               </div>
-              <div className="flex flex-col space-y-0.5">
-                <span className="text-zinc-950 dark:text-white font-bold text-sm">Lifetime Access</span>
-                <span className="text-[11px] text-zinc-500">Free Future Updates</span>
+              <div className="space-y-0.5">
+                <span className="text-zinc-950 dark:text-white font-bold text-sm">In-Browser</span>
+                <span className="text-[11px] text-zinc-500 block">Reading Engine</span>
               </div>
-              <div className="flex flex-col space-y-0.5">
-                <span className="text-zinc-950 dark:text-white font-bold text-sm">Instant</span>
-                <span className="text-[11px] text-zinc-500">Digital Unlocking</span>
+              <div className="space-y-0.5">
+                <span className="text-zinc-950 dark:text-white font-bold text-sm">Lifetime</span>
+                <span className="text-[11px] text-zinc-500 block">Continuous Revisions</span>
               </div>
             </div>
-
 
           </div>
 
-          {/* Hero Right: Interactive Specimen 3D Glass Card */}
+          {/* Hero Right: Editorial Publication Slipcase / Book Presentation */}
           <div className="lg:col-span-5 relative">
-            <TiltCard maxTilt={6} className="rounded-[var(--radius-xl)]">
-              <div className="rounded-[var(--radius-xl)] bg-white/90 dark:bg-[#121218]/90 border border-zinc-200/90 dark:border-white/15 p-6 shadow-2xl shadow-indigo-900/10 dark:shadow-black/70 backdrop-blur-xl space-y-5">
+            <TiltCard maxTilt={4} className="rounded-[var(--radius-xl)]">
+              <div className="rounded-[var(--radius-xl)] bg-white dark:bg-[#121218] border border-zinc-200 dark:border-white/15 p-7 sm:p-8 shadow-2xl shadow-indigo-950/5 space-y-6">
                 
-                {/* Specimen Header & Mode Switcher */}
-                <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-white/10 pb-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-mono font-semibold text-zinc-700 dark:text-zinc-300">
-                      LIVE SPECIMEN VIEWER
-                    </span>
+                {/* Volume Top Folio */}
+                <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-white/10 pb-3 text-xs font-mono">
+                  <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 font-semibold">
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>VOLUME 01 · BUNDLE</span>
                   </div>
-
-                  {/* Switcher Pills */}
-                  <div className="flex items-center bg-zinc-100 dark:bg-white/10 p-0.5 rounded-lg text-[10px] font-mono">
-                    <button
-                      type="button"
-                      onClick={() => setSpecimenTab("book")}
-                      className={cn(
-                        "px-2 py-1 rounded cursor-pointer transition-colors",
-                        specimenTab === "book"
-                          ? "bg-white dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400 font-bold shadow-xs"
-                          : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
-                      )}
-                    >
-                      Book
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSpecimenTab("tool")}
-                      className={cn(
-                        "px-2 py-1 rounded cursor-pointer transition-colors",
-                        specimenTab === "tool"
-                          ? "bg-white dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400 font-bold shadow-xs"
-                          : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
-                      )}
-                    >
-                      Tool
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSpecimenTab("directory")}
-                      className={cn(
-                        "px-2 py-1 rounded cursor-pointer transition-colors",
-                        specimenTab === "directory"
-                          ? "bg-white dark:bg-zinc-800 text-indigo-600 dark:text-indigo-400 font-bold shadow-xs"
-                          : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
-                      )}
-                    >
-                      Directory
-                    </button>
-                  </div>
+                  <span className="text-[11px] text-zinc-500">October 2026</span>
                 </div>
 
-                {/* Dynamic Specimen Content */}
-                <div className="min-h-[220px]">
-                  {specimenTab === "book" && (
-                    <motion.div
-                      key="book"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-3.5"
+                {/* Title & Editorial Note */}
+                <div className="space-y-2">
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white leading-tight font-display">
+                    The Job Search Book
+                  </h3>
+                  <p className="text-sm text-zinc-600 dark:text-zinc-300 font-serif italic">
+                    The Practical Playbook for Getting a Tech Job.
+                  </p>
+                </div>
+
+                {/* Excerpt Pull-Quote */}
+                <div className="p-4 rounded-[var(--radius-md)] bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/5 space-y-2 text-xs font-serif italic text-zinc-700 dark:text-zinc-300 leading-relaxed">
+                  &ldquo;Hiring is a high-stakes bet made by tired people reading exaggerated claims. Give them proof they cannot explain away.&rdquo;
+                </div>
+
+                {/* Bundle Inclusions Tag */}
+                <div className="p-3 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-xs flex items-center justify-between font-mono">
+                  <span className="text-emerald-700 dark:text-emerald-300 font-medium">
+                    + 144-Company Directory
+                  </span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">
+                    Included Free
+                  </span>
+                </div>
+
+                {/* Action Row */}
+                <div className="flex items-center gap-3 pt-2">
+                  <Link
+                    href="/products/the-job-search-book"
+                    className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-[var(--radius-md)] bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shadow-xs"
+                  >
+                    <span>Order Edition • ₹199</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+
+                  {onOpenPreview && (
+                    <button
+                      type="button"
+                      onClick={() => onOpenPreview("the-job-search-book")}
+                      className="inline-flex items-center justify-center space-x-1.5 px-3.5 py-2.5 rounded-[var(--radius-md)] border border-zinc-200 dark:border-white/15 bg-white dark:bg-white/[0.05] hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-800 dark:text-white text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
                     >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-500/15 px-2 py-0.5 rounded">
-                          EBook & Reader Engine
-                        </span>
-                        <span className="text-[11px] font-mono text-zinc-400">Chapter 0 Preview</span>
-                      </div>
-
-                      <h3 className="text-base font-bold text-zinc-950 dark:text-white">
-                        The Job Search Book (30 Chapters)
-                      </h3>
-
-                      <div className="p-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200/60 dark:border-white/5 space-y-2 text-xs font-sans">
-                        <p className="italic text-zinc-600 dark:text-zinc-300 leading-relaxed font-serif">
-                          &ldquo;Hiring is a high-stakes bet made by tired people reading exaggerated claims. Give them proof they cannot explain away.&rdquo;
-                        </p>
-                        <div className="flex items-center justify-between pt-1 text-[10px] font-mono text-zinc-500">
-                          <span>Framework: ACR Proof Model</span>
-                          <span className="text-emerald-600 dark:text-emerald-400 font-semibold">148 Rich Blocks</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <div>
-                          <span className="text-xl font-bold font-mono text-zinc-950 dark:text-white">₹199</span>
-                          <span className="text-[10px] font-mono text-zinc-400 ml-1.5">Lifetime Reader Access</span>
-                        </div>
-
-                        {onOpenPreview && (
-                          <button
-                            type="button"
-                            onClick={() => onOpenPreview("the-job-search-book")}
-                            className="inline-flex items-center space-x-1 px-3 py-1.5 rounded-md bg-indigo-50 dark:bg-indigo-500/20 hover:bg-indigo-100 dark:hover:bg-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold cursor-pointer border border-indigo-200 dark:border-indigo-500/30 transition-colors"
-                          >
-                            <span>Read Excerpt</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </button>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {specimenTab === "tool" && (
-                    <motion.div
-                      key="tool"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-3.5"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/15 px-2 py-0.5 rounded">
-                          Interactive Simulator Engine
-                        </span>
-                        <span className="text-[11px] font-mono text-zinc-400">Live Simulation</span>
-                      </div>
-
-                      <h3 className="text-base font-bold text-zinc-950 dark:text-white">
-                        Market Salary Counter-Math Simulator
-                      </h3>
-
-                      <div className="p-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200/60 dark:border-white/5 space-y-2.5">
-                        <div className="flex justify-between items-center text-xs">
-                          <span className="text-zinc-600 dark:text-zinc-300 font-mono">Current Base Compensation:</span>
-                          <span className="font-mono font-bold text-zinc-900 dark:text-white">₹{simulatorValue} LPA</span>
-                        </div>
-                        <input
-                          type="range"
-                          min="10"
-                          max="60"
-                          value={simulatorValue}
-                          onChange={(e) => setSimulatorValue(Number(e.target.value))}
-                          className="w-full accent-indigo-600 cursor-pointer"
-                        />
-                        <div className="flex justify-between items-center text-[11px] font-mono pt-1 text-emerald-600 dark:text-emerald-400 font-semibold border-t border-zinc-200/50 dark:border-white/5">
-                          <span>Target Counter Offer (35% Leverage):</span>
-                          <span>₹{(simulatorValue * 1.35).toFixed(1)} LPA</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs font-mono text-zinc-500">From Chapter 14 of Book</span>
-                        <a
-                          href="#lab"
-                          className="inline-flex items-center space-x-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
-                        >
-                          <span>Open Full Lab</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </a>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {specimenTab === "directory" && (
-                    <motion.div
-                      key="directory"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-3.5"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded">
-                          Curated Directory
-                        </span>
-                        <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-semibold">120+ Companies</span>
-                      </div>
-
-                      <h3 className="text-base font-bold text-zinc-950 dark:text-white">
-                        Hiring Without Whiteboards
-                      </h3>
-
-                      <div className="p-3 rounded-lg bg-zinc-50 dark:bg-white/[0.04] border border-zinc-200/60 dark:border-white/5 space-y-1.5 text-xs font-mono">
-                        <div className="flex justify-between items-center">
-                          <span className="font-bold text-zinc-900 dark:text-white">Basecamp (37signals)</span>
-                          <span className="text-[10px] text-zinc-400">Worldwide Remote</span>
-                        </div>
-                        <p className="text-[11px] text-zinc-600 dark:text-zinc-300">
-                          Format: Pragmatic Architecture Discussion. No LeetCode algorithm grilling.
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-1">
-                        <span className="text-xs font-mono text-zinc-500">Free Curated Resource</span>
-                        <Link
-                          href="/products/hiring-organizations"
-                          className="inline-flex items-center space-x-1 text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
-                        >
-                          <span>View Directory</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                      </div>
-                    </motion.div>
+                      <Eye className="w-3.5 h-3.5 text-indigo-500" />
+                      <span>Sample</span>
+                    </button>
                   )}
                 </div>
 
-
-                {/* Card Footer Guarantee */}
+                {/* Colophon Guarantee */}
                 <div className="pt-3 border-t border-zinc-200/80 dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
-                  <span className="flex items-center space-x-1.5">
+                  <span className="flex items-center space-x-1">
                     <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Instant Digital Access</span>
+                    <span>Instant Digital Reader</span>
                   </span>
                   <span>Perpetual Access</span>
                 </div>

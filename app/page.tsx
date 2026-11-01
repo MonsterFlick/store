@@ -6,8 +6,6 @@ import { Navbar } from "@/components/store/Navbar";
 import { Footer } from "@/components/store/Footer";
 import { HeroEcosystem } from "@/components/store/HeroEcosystem";
 import { CategoryUniverse } from "@/components/store/CategoryUniverse";
-import { FlagshipSpotlight } from "@/components/store/FlagshipSpotlight";
-import { DigitalLab } from "@/components/store/DigitalLab";
 import { ProductPreviewModal } from "@/components/store/ProductPreviewModal";
 
 export default function HomePage() {
@@ -32,24 +30,15 @@ export default function HomePage() {
       {/* Universal Fixed Top Navigation */}
       <Navbar />
 
-      {/* 1. Hero: Dynamic Manifesto & Kinetic Mediums */}
+      {/* 1. Editorial Hero: Manifesto, Kinetic Engine & Volume 01 Showcase */}
       <HeroEcosystem
         onOpenPreview={(slug) => setPreviewProductSlug(slug)}
       />
 
-      {/* 2. Curated Digital Catalog */}
+      {/* 2. Curated Publications Catalogue */}
       <CategoryUniverse
         onOpenPreview={(slug) => setPreviewProductSlug(slug)}
       />
-
-      {/* 3. Flagship Premieres Spotlight */}
-      <FlagshipSpotlight
-        products={liveProducts}
-        onOpenPreview={(slug) => setPreviewProductSlug(slug)}
-      />
-
-      {/* 4. The Digital Goods Laboratory: Interactive Live Specimen Sandbox */}
-      <DigitalLab />
 
       {/* Excerpt Reader Drawer Modal */}
       {activePreviewProduct && (

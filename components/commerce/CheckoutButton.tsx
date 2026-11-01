@@ -172,7 +172,7 @@ export function CheckoutButton({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       {error && (
         <div className="p-2.5 rounded-[var(--radius-md)] bg-red-500/10 border border-red-500/20 text-xs text-[var(--status-error)] flex items-center gap-1.5">
           <AlertCircle className="w-3.5 h-3.5 shrink-0" />
@@ -184,17 +184,17 @@ export function CheckoutButton({
         onClick={handleCheckout}
         isLoading={isLoading}
         size="lg"
-        className={className || "w-full text-base font-semibold"}
+        className={className || "w-full text-xs sm:text-sm font-semibold whitespace-nowrap"}
       >
-        <Lock className="w-4 h-4 mr-1.5 opacity-80" />
-        <span>{buttonText || `Get Lifetime Access • ${formatINR(priceINR)}`}</span>
-        <ArrowRight className="w-4 h-4 ml-1.5" />
+        <Lock className="w-3.5 h-3.5 mr-1.5 opacity-80 shrink-0" />
+        <span className="whitespace-nowrap">{buttonText || `Get Access • ${formatINR(priceINR)}`}</span>
+        <ArrowRight className="w-3.5 h-3.5 ml-1.5 shrink-0" />
       </Button>
 
       {showTrustBadge && (
-        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-          <span>100% Secure Checkout • Instant Digital Access</span>
+        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono whitespace-nowrap">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+          <span>Instant Digital Access • Verified Checkout</span>
         </div>
       )}
     </div>
