@@ -7,7 +7,10 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "product:sync": "tsx --env-file=.env.local scripts/product-sync.ts"
+    "product:sync": "tsx --env-file=.env.local scripts/product-sync.ts",
+    "razorpay:live": "tsx scripts/switch-razorpay-mode.ts live",
+    "razorpay:test": "tsx scripts/switch-razorpay-mode.ts test",
+    "razorpay:status": "tsx scripts/switch-razorpay-mode.ts status"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
