@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" rx="36" fill="#FAF8F5" />
+  <rect width="200" height="200" rx="36" stroke="#E8DFF2" stroke-width="1.5" />
+  <circle cx="100" cy="80" r="45" fill="#7C3AED" opacity="0.12" filter="blur(18px)" />
+  <!-- Symbol Center -->
+  <g transform="translate(80, 42)">
+    <polygon points="26,2 38,2 14,58 2,58" fill="url(#violetStacked)" filter="drop-shadow(0 4px 12px rgba(124,58,237,0.25))" />
+  </g>
+  <!-- Centered Typography -->
+  <text x="100" y="138" text-anchor="middle" font-family="'Syne', system-ui, -apple-system, sans-serif" font-weight="700" font-size="14" letter-spacing="0.22em" fill="#161124">SO WE</text>
+  <text x="100" y="162" text-anchor="middle" font-family="'Syne', system-ui, -apple-system, sans-serif" font-weight="700" font-size="18" letter-spacing="0.18em" fill="#161124">
+    BUILD<tspan fill="#7C3AED">.IN</tspan>
+  </text>
+  <defs>
+    <linearGradient id="violetStacked" x1="2" y1="2" x2="38" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9333EA" />
+      <stop offset="60%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#6D28D9" />
+    </linearGradient>
+  </defs>
+</svg>

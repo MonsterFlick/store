@@ -199,20 +199,20 @@ export function CheckoutButton({
         onClick={handleCheckout}
         isLoading={isLoading}
         size="lg"
-        className={className || "w-full text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer"}
+        className={className || "w-full text-sm sm:text-base font-bold whitespace-nowrap cursor-pointer py-3.5"}
       >
-        {!isLoading && <Lock className="w-3.5 h-3.5 mr-1.5 opacity-80 shrink-0" />}
+        {!isLoading && <Lock className="w-4 h-4 mr-2 opacity-80 shrink-0" />}
         <span className="whitespace-nowrap">
           {isLoading && loadingText
             ? loadingText
             : buttonText || `Get Access • ${formatINR(priceINR)}`}
         </span>
-        {!isLoading && <ArrowRight className="w-3.5 h-3.5 ml-1.5 shrink-0" />}
+        {!isLoading && <ArrowRight className="w-4 h-4 ml-2 shrink-0" />}
       </Button>
 
       {showTrustBadge && (
-        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono whitespace-nowrap pt-1">
-          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+        <div className="flex items-center justify-center space-x-1.5 text-xs text-zinc-500 font-mono whitespace-nowrap pt-1">
+          <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
           <span>Instant Digital Access • Secure Razorpay</span>
         </div>
       )}

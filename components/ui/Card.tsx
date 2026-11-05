@@ -3,15 +3,29 @@ import { cn } from "@/lib/utils";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverable?: boolean;
+  variant?: "default" | "glass" | "glassInteractive";
 }
 
-export function Card({ className, hoverable = false, children, ...props }: CardProps) {
+export function Card({
+  className,
+  hoverable = false,
+  variant = "default",
+  children,
+  ...props
+}: CardProps) {
+  const variantStyles = {
+    default: "bg-[var(--surface-card)] border border-[var(--border-subtle)]",
+    glass: "glass-panel border border-black/[0.06] dark:border-white/10 shadow-sm",
+    glassInteractive: "glass-card-interactive border border-black/[0.07] dark:border-white/10",
+  };
+
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-lg)] bg-[var(--surface-card)] border border-[var(--border-subtle)] p-6 transition-all duration-200",
+        "rounded-2xl p-6 transition-all duration-200",
+        variantStyles[variant],
         hoverable &&
-          "hover:border-[var(--border-hover)] hover:shadow-sm cursor-pointer",
+          "hover:border-indigo-500/40 hover:shadow-lg hover:shadow-indigo-500/5 cursor-pointer",
         className
       )}
       {...props}

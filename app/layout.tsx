@@ -51,6 +51,15 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "SoWeBuild Store" }],
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://store.sowebuild.in"),
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/brand/logos/sowebuild-symbol.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     title: "SoWeBuild Store — Premium Digital Playbooks, Guides & Resources",
     description:
@@ -58,6 +67,21 @@ export const metadata: Metadata = {
     siteName: "SoWeBuild Store",
     type: "website",
     locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "SoWeBuild Store — Premium Digital Playbooks & Tools",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SoWeBuild Store — Premium Digital Playbooks, Guides & Resources",
+    description:
+      "A curated digital storefront for high-impact playbooks, interactive guides, developer tools, and career resources.",
+    images: ["/og-image.png"],
   },
 };
 

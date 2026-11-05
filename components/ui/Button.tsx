@@ -4,7 +4,7 @@ import React, { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+  variant?: "primary" | "secondary" | "outline" | "ghost" | "danger" | "glass";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
 }
@@ -26,20 +26,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "inline-flex items-center justify-center font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer active:scale-[0.98] whitespace-nowrap shrink-0";
 
     const sizeStyles = {
-      sm: "h-8 px-3 text-xs rounded-[var(--radius-sm)] gap-1.5",
-      md: "h-9.5 px-4 text-xs sm:text-sm rounded-[var(--radius-md)] gap-2",
-      lg: "h-11 px-5 text-sm sm:text-base rounded-[var(--radius-md)] gap-2",
+      sm: "h-8 px-3 text-xs rounded-lg gap-1.5",
+      md: "h-9.5 px-4 text-xs sm:text-sm rounded-xl gap-2",
+      lg: "h-11 px-5 text-sm sm:text-base rounded-xl gap-2",
     };
 
     const variantStyles = {
       primary:
-        "bg-[var(--accent-primary)] text-white hover:bg-[var(--accent-hover)] shadow-sm hover:shadow",
+        "bg-indigo-600 text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/20 hover:scale-[1.01] active:scale-[0.99]",
       secondary:
         "bg-[var(--background-secondary)] text-[var(--text-primary)] hover:bg-[var(--border-subtle)] border border-[var(--border-subtle)]",
       outline:
         "bg-transparent text-[var(--text-primary)] border border-[var(--border-subtle)] hover:border-[var(--border-hover)] hover:bg-[var(--background-secondary)]",
       ghost:
         "bg-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)]",
+      glass:
+        "bg-white/70 dark:bg-white/[0.08] backdrop-blur-md text-[var(--text-primary)] border border-black/[0.08] dark:border-white/15 hover:bg-white dark:hover:bg-white/[0.14] shadow-xs",
       danger:
         "bg-[var(--status-error)] text-white hover:opacity-90 shadow-sm",
     };

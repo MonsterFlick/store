@@ -6,6 +6,7 @@ import { Navbar } from "@/components/store/Navbar";
 import { Footer } from "@/components/store/Footer";
 import { HeroEcosystem } from "@/components/store/HeroEcosystem";
 import { CategoryUniverse } from "@/components/store/CategoryUniverse";
+import { AgencySpotlight } from "@/components/store/AgencySpotlight";
 import { ProductPreviewModal } from "@/components/store/ProductPreviewModal";
 
 export default function HomePage() {
@@ -49,6 +50,9 @@ export default function HomePage() {
           previewChapter={activePreviewChapter}
         />
       )}
+
+      {/* 3. SoWeBuild Agency Spotlight (Custom Websites & Social Media Growth) */}
+      <AgencySpotlight />
 
       {/* Global Footer */}
       <Footer />

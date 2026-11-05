@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 
 function RegisterForm() {
@@ -77,25 +78,16 @@ function RegisterForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-[var(--radius-xl)] shadow-sm space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <Link
-          href="/"
-          className="inline-flex items-center space-x-1.5 text-zinc-950 dark:text-white font-bold text-lg font-display tracking-tight"
-        >
-          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">
-            &lt;/&gt;
-          </span>
-          <span>sowebuild</span>
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-white/10">
-            store
-          </span>
-        </Link>
-        <h2 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+    <div className="w-full max-w-md mx-auto p-7 sm:p-9 glass-card-interactive rounded-3xl shadow-2xl shadow-black/10 dark:shadow-black/40 space-y-6 relative z-10">
+      {/* Brand Header */}
+      <div className="text-center space-y-3">
+        <div className="flex justify-center">
+          <BrandLogo size="md" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-display">
           Create an account
         </h2>
-        <p className="text-xs text-[var(--text-secondary)]">
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
           Your personal library and access key for custom digital experiences
         </p>
       </div>
@@ -105,7 +97,7 @@ function RegisterForm() {
         type="button"
         disabled={isGooglePending}
         onClick={handleGoogleOAuth}
-        className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 border border-[var(--border-subtle)] rounded-[var(--radius-md)] bg-[var(--surface-card)] hover:bg-[var(--background-secondary)] text-sm font-medium text-[var(--text-primary)] transition-all cursor-pointer shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-white/[0.05] hover:bg-white dark:hover:bg-white/10 text-xs sm:text-sm font-medium text-zinc-950 dark:text-white transition-all cursor-pointer shadow-xs disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
       >
         {isGooglePending ? (
           <svg
@@ -227,8 +219,13 @@ function RegisterForm() {
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[var(--background)]">
-      <Suspense fallback={<div className="text-xs text-[var(--text-muted)]">Loading...</div>}>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[var(--background)] relative overflow-hidden">
+      {/* Ambient Lighting Orbs */}
+      <div className="kr-orb w-[400px] sm:w-[600px] h-[300px] sm:h-[450px] -top-20 left-1/2 -translate-x-1/2 bg-indigo-500/15 dark:bg-indigo-600/20" />
+      <div className="kr-orb w-[300px] sm:w-[450px] h-[250px] sm:h-[350px] bottom-10 left-10 bg-purple-500/12 dark:bg-purple-600/18" />
+      <div className="kr-grid-bg absolute inset-0 z-0 opacity-25 pointer-events-none" />
+
+      <Suspense fallback={<div className="text-xs text-zinc-500 font-mono">Loading register...</div>}>
         <RegisterForm />
       </Suspense>
     </div>

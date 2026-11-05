@@ -69,57 +69,64 @@ export function ProductReviews({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[var(--border-subtle)]">
-        <div>
-          <h3 className="text-xl font-bold tracking-tight text-[var(--text-primary)] flex items-center gap-2">
-            <span>Customer Reviews</span>
-            <span className="text-xs font-mono font-normal text-[var(--text-muted)]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.08] dark:border-white/10">
+        <div className="space-y-1">
+          <div className="inline-flex items-center space-x-1.5 text-xs font-mono font-semibold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+            <Star className="w-3.5 h-3.5 fill-purple-600 dark:fill-purple-400" />
+            <span>Community Feedback</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-display flex items-center gap-2">
+            <span>Verified Reader Reviews</span>
+            <span className="text-sm font-mono font-normal text-zinc-400">
               ({reviews.length})
             </span>
-          </h3>
-          <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-            Verified purchasers only · Authentic reviews without fabricated ratings
+          </h2>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            Authenticated purchasers only · Authentic reviews without fabricated ratings.
           </p>
         </div>
 
         {isEntitled && !showForm && (
           <Button
-            size="sm"
+            size="md"
             variant="outline"
             onClick={() => setShowForm(true)}
-            className="self-start sm:self-auto"
+            className="self-start sm:self-auto text-xs sm:text-sm font-semibold cursor-pointer"
           >
-            <MessageSquarePlus className="w-4 h-4 mr-1.5" />
-            <span>Write a Review</span>
+            <MessageSquarePlus className="w-4 h-4 mr-2" />
+            <span>Write a Verified Review</span>
           </Button>
         )}
       </div>
 
       {feedback && (
-        <div className="p-3 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-xs text-[var(--status-success)]">
-          {feedback}
+        <div className="p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-700 dark:text-emerald-300 flex items-center gap-2">
+          <Check className="w-4 h-4 shrink-0" />
+          <span>{feedback}</span>
         </div>
       )}
 
       {/* Review Form */}
       {showForm && (
-        <Card className="p-5 bg-[var(--surface-elevated)] border border-[var(--border-hover)]">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="p-6 sm:p-7 rounded-3xl glass-card-interactive border border-purple-500/30">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold">Your Rating</span>
-              <div className="flex items-center space-x-1">
+              <span className="text-sm sm:text-base font-bold text-zinc-950 dark:text-white font-display">
+                Your Rating
+              </span>
+              <div className="flex items-center space-x-1.5">
                 {[1, 2, 3, 4, 5].map((star) => (
                   <button
                     key={star}
                     type="button"
                     onClick={() => setRating(star)}
-                    className="p-1 cursor-pointer"
+                    className="p-1 cursor-pointer hover:scale-110 transition-transform"
                   >
                     <Star
                       className={`w-5 h-5 ${
                         star <= rating
                           ? "text-amber-400 fill-amber-400"
-                          : "text-[var(--border-subtle)]"
+                          : "text-zinc-300 dark:text-zinc-700"
                       }`}
                     />
                   </button>
@@ -131,93 +138,102 @@ export function ProductReviews({
               label="Review Headline"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Masterclass in modern V8 execution"
+              placeholder="e.g. Invaluable recruitment systems — skipped generic job boards completely"
               required
+              className="text-sm sm:text-base"
             />
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-[var(--text-secondary)]">
+              <label className="block text-xs sm:text-sm font-semibold text-zinc-700 dark:text-zinc-300 font-display">
                 Review Details
               </label>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="What did you learn? How does the interactive experience compare to static reading?"
+                placeholder="What tactical frameworks did you apply? How does the interactive reader experience compare?"
                 required
                 rows={3}
-                className="w-full p-3 text-sm rounded-[var(--radius-md)] bg-[var(--surface-card)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)] border border-[var(--border-subtle)] focus:outline-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)]"
+                className="w-full p-3.5 text-sm sm:text-base rounded-2xl bg-white/70 dark:bg-white/[0.04] text-zinc-900 dark:text-white placeholder:text-zinc-400 border border-black/[0.08] dark:border-white/10 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500"
               />
             </div>
 
-            <div className="flex items-center justify-end space-x-2 pt-2">
+            <div className="flex items-center justify-end space-x-3 pt-2">
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
+                size="md"
                 onClick={() => setShowForm(false)}
+                className="text-xs sm:text-sm"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 variant="primary"
-                size="sm"
+                size="md"
                 isLoading={isSubmitting}
+                className="text-xs sm:text-sm"
               >
                 Submit Verified Review
               </Button>
             </div>
           </form>
-        </Card>
+        </div>
       )}
 
       {/* Reviews List */}
       {reviews.length > 0 ? (
         <div className="space-y-4">
           {reviews.map((rev) => (
-            <Card key={rev.id} className="p-5 space-y-2.5">
+            <div
+              key={rev.id}
+              className="p-6 rounded-3xl glass-card-interactive space-y-3 border border-black/[0.06] dark:border-white/[0.08]"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-3.5 h-3.5 ${
+                      className={`w-4 h-4 ${
                         i < rev.rating
                           ? "text-amber-400 fill-amber-400"
-                          : "text-[var(--border-subtle)]"
+                          : "text-zinc-200 dark:text-zinc-800"
                       }`}
                     />
                   ))}
                 </div>
 
-                <span className="text-[11px] text-[var(--text-muted)] font-mono">
+                <span className="text-xs text-zinc-400 font-mono">
                   {new Date(rev.created_at).toLocaleDateString("en-IN", {
                     dateStyle: "medium",
                   })}
                 </span>
               </div>
 
-              <h4 className="text-sm font-semibold text-[var(--text-primary)]">
+              <h4 className="text-base sm:text-lg font-bold text-zinc-950 dark:text-white font-display">
                 {rev.title}
               </h4>
 
-              <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans">
                 &ldquo;{rev.content}&rdquo;
               </p>
 
-              <div className="pt-2 flex items-center space-x-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-medium">
-                <ShieldCheck className="w-3.5 h-3.5" />
+              <div className="pt-2 flex items-center space-x-1.5 text-xs text-emerald-600 dark:text-emerald-400 font-semibold font-mono">
+                <ShieldCheck className="w-4 h-4" />
                 <span>Verified Purchaser</span>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       ) : (
-        <Card className="text-center py-8">
-          <p className="text-xs text-[var(--text-muted)]">
-            No reviews yet. Be the first verified purchaser to share your experience.
+        <div className="text-center py-10 rounded-3xl glass-card border border-black/[0.06] dark:border-white/[0.08] p-6 space-y-1">
+          <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
+            No customer reviews yet.
           </p>
-        </Card>
+          <p className="text-xs sm:text-sm text-zinc-400">
+            Be the first verified purchaser to share your feedback and experience.
+          </p>
+        </div>
       )}
     </div>
   );

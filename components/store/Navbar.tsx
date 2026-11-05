@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { BookOpen, User, Sun, Moon } from "lucide-react";
+import { BookOpen, User, Sun, Moon, Compass, Sparkles, ArrowUpRight } from "lucide-react";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
@@ -28,7 +29,7 @@ export function Navbar() {
     });
 
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      setIsScrolled(window.scrollY > 20);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -49,82 +50,96 @@ export function Navbar() {
   };
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-white/80 dark:bg-[#0a0a0e]/80 backdrop-blur-xl border-b border-zinc-200/60 dark:border-white/10 shadow-xs"
-          : "bg-transparent border-b border-transparent"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link
-          href="/"
-          className="flex items-center space-x-2 text-zinc-950 dark:text-white font-bold text-base font-display tracking-tight hover:opacity-90 transition-opacity"
-        >
-          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">
-            &lt;/&gt;
-          </span>
-          <span>sowebuild</span>
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-white/10">
-            store
-          </span>
-        </Link>
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-3 sm:px-6 pt-2.5 sm:pt-4 pointer-events-none">
+      <div
+        className={cn(
+          "max-w-6xl mx-auto h-14 sm:h-15 px-3.5 sm:px-5 flex items-center justify-between rounded-full transition-all duration-300 pointer-events-auto",
+          isScrolled
+            ? "glass-floating-bar shadow-xl shadow-black/5 dark:shadow-black/30"
+            : "bg-white/70 dark:bg-[#0c0c12]/70 backdrop-blur-xl border border-black/[0.06] dark:border-white/[0.08] shadow-xs"
+        )}
+      >
+        {/* Brand Logo & Editorial Indicator */}
+        <BrandLogo size="md" />
 
-        {/* Center Nav Links - Clean & Apple-minimal */}
-        <nav className="hidden md:flex items-center space-x-1 font-sans text-xs font-medium">
+        {/* Center Nav Links - Glass Pill Segment */}
+        <nav className="hidden md:flex items-center space-x-1 p-1 rounded-full bg-zinc-100/70 dark:bg-white/[0.04] border border-black/[0.04] dark:border-white/[0.06] text-xs font-medium">
           <Link
             href="/#catalog"
-            className="px-3.5 py-1.5 rounded-full text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
           >
-            Publications
+            <Compass className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Publications</span>
           </Link>
           <Link
             href="/library"
-            className="px-3.5 py-1.5 rounded-full text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
+            className="px-3.5 py-1.5 rounded-full text-zinc-600 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white hover:bg-white dark:hover:bg-white/10 transition-all flex items-center gap-1.5"
           >
-            My Library
+            <BookOpen className="w-3.5 h-3.5 text-emerald-500" />
+            <span>My Library</span>
           </Link>
+          <a
+            href="https://sowebuild.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3.5 py-1.5 rounded-full text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white hover:bg-purple-500/10 dark:hover:bg-purple-500/20 transition-all flex items-center gap-1.5 group font-medium"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400 group-hover:rotate-12 transition-transform" />
+            <span>Agency</span>
+            <ArrowUpRight className="w-3 h-3 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
         </nav>
 
-        {/* Right Actions: Theme Toggle, Library Icon, Account */}
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Theme Toggle */}
+        {/* Right Actions: Theme Toggle & Account / Library */}
+        <div className="flex items-center space-x-1.5 sm:space-x-2">
+          {/* Theme Toggle Pill */}
           <button
             type="button"
             onClick={toggleTheme}
-            aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
-            className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors cursor-pointer"
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/10 transition-all cursor-pointer"
           >
             {isDark ? (
-              <Sun className="w-4 h-4 text-amber-400" />
+              <Sun className="w-4 h-4 text-amber-400 animate-in spin-in-180 duration-300" />
             ) : (
-              <Moon className="w-4 h-4 text-zinc-700" />
+              <Moon className="w-4 h-4 text-zinc-700 animate-in spin-in-180 duration-300" />
             )}
           </button>
 
-          {/* Library Link (Mobile/Desktop) */}
+          {/* Quick Agency Link (Mobile) */}
+          <a
+            href="https://sowebuild.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden flex items-center justify-center w-8 h-8 rounded-full text-purple-600 dark:text-purple-400 hover:bg-purple-500/10 transition-colors"
+            title="SoWeBuild Agency (sowebuild.in)"
+          >
+            <Sparkles className="w-4 h-4" />
+          </a>
+
+          {/* Quick Library Link (Mobile) */}
           <Link
             href="/library"
-            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:text-indigo-600 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
+            className="md:hidden flex items-center justify-center w-8 h-8 rounded-full text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-white/10 transition-colors"
+            title="My Library"
           >
-            <BookOpen className="w-3.5 h-3.5 text-indigo-500" />
-            <span className="hidden sm:inline">Library</span>
+            <BookOpen className="w-4 h-4 text-indigo-500" />
           </Link>
 
-          {/* Account / Sign In Button */}
+          {/* Account / Sign In CTA */}
           <Link
             href={user ? "/account" : "/auth/login"}
             className={cn(
-              "flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer",
+              "flex items-center space-x-1.5 px-3.5 py-1.5 sm:py-2 rounded-full text-xs font-semibold transition-all duration-200 cursor-pointer shadow-xs",
               user
-                ? "bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-white/20"
-                : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs shadow-indigo-600/20"
+                ? "bg-zinc-100 dark:bg-white/10 text-zinc-900 dark:text-white hover:bg-zinc-200 dark:hover:bg-white/20 border border-zinc-200 dark:border-white/10"
+                : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-600/25 shadow-md hover:scale-[1.02] active:scale-[0.98]"
             )}
           >
             <User className="w-3.5 h-3.5" />
-            <span>{user ? "Account" : "Sign In"}</span>
+            <span className="truncate max-w-[100px] sm:max-w-none">
+              {user ? "Account" : "Sign In"}
+            </span>
           </Link>
         </div>
       </div>

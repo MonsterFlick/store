@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "default" | "secondary" | "accent" | "outline" | "success";
+  variant?: "default" | "secondary" | "accent" | "outline" | "success" | "glass";
 }
 
 export function Badge({
@@ -20,9 +20,11 @@ export function Badge({
     secondary:
       "bg-[var(--surface-elevated)] text-[var(--text-primary)] border border-[var(--border-subtle)] shadow-xs",
     accent:
-      "bg-[var(--accent-light)] text-[var(--accent-primary)] border border-transparent font-semibold",
+      "bg-indigo-50 dark:bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-500/20 font-semibold",
     outline:
       "bg-transparent text-[var(--text-muted)] border border-[var(--border-subtle)]",
+    glass:
+      "glass-pill text-zinc-700 dark:text-zinc-300 font-medium",
     success:
       "bg-emerald-500/10 text-[var(--status-success)] border border-emerald-500/20 font-medium",
   };

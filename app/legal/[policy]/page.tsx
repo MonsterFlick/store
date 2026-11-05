@@ -114,25 +114,30 @@ export default async function LegalPage({
   if (!currentPolicy) notFound();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+    <div className="min-h-screen flex flex-col bg-[var(--background)] relative overflow-hidden">
+      {/* Ambient Lighting Orbs */}
+      <div className="kr-orb w-[450px] sm:w-[650px] h-[350px] sm:h-[450px] -top-24 left-1/3 -translate-x-1/2 bg-indigo-500/10 dark:bg-indigo-600/15" />
+      <div className="kr-grid-bg absolute inset-0 z-0 opacity-20 pointer-events-none" />
+
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-12 flex-1">
-
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 pt-24 sm:pt-28 pb-16 flex-1 relative z-10 w-full">
         <Link
           href="/"
-          className="inline-flex items-center space-x-1.5 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)] mb-8 transition-colors"
+          className="inline-flex items-center space-x-1.5 text-xs text-zinc-500 hover:text-zinc-950 dark:hover:text-white mb-6 transition-all glass-pill px-3 py-1.5 rounded-full"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Store</span>
         </Link>
 
-        <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] mb-8">
-          {currentPolicy.title}
-        </h1>
+        <div className="p-7 sm:p-10 rounded-3xl glass-card-interactive space-y-6">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-950 dark:text-white font-display">
+            {currentPolicy.title}
+          </h1>
 
-        <div className="prose dark:prose-invert max-w-none">
-          {currentPolicy.content}
+          <div className="prose dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-300">
+            {currentPolicy.content}
+          </div>
         </div>
       </main>
 

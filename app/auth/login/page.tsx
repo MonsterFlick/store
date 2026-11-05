@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Sparkles, ArrowRight, Mail } from "lucide-react";
 
 function LoginForm() {
@@ -83,38 +84,29 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-[var(--radius-xl)] shadow-sm space-y-6">
+    <div className="w-full max-w-md mx-auto p-7 sm:p-9 glass-card-interactive rounded-3xl shadow-2xl shadow-black/10 dark:shadow-black/40 space-y-6 relative z-10">
       {/* Brand Header */}
-      <div className="text-center space-y-2">
-        <Link
-          href="/"
-          className="inline-flex items-center space-x-1.5 text-zinc-950 dark:text-white font-bold text-lg font-display tracking-tight"
-        >
-          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold text-sm">
-            &lt;/&gt;
-          </span>
-          <span>sowebuild</span>
-          <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-white/10">
-            store
-          </span>
-        </Link>
-        <h2 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+      <div className="text-center space-y-3">
+        <div className="flex justify-center">
+          <BrandLogo size="md" />
+        </div>
+        <h2 className="text-2xl font-bold tracking-tight text-zinc-950 dark:text-white font-display">
           Welcome back
         </h2>
-        <p className="text-xs text-[var(--text-secondary)]">
-          Access your purchased digital editions and personal library
+        <p className="text-xs text-zinc-600 dark:text-zinc-400">
+          Access your digital library, reader progress, and purchases
         </p>
       </div>
 
       {/* Mode Switcher */}
-      <div className="flex border border-[var(--border-subtle)] rounded-[var(--radius-md)] p-1 bg-[var(--background-secondary)]">
+      <div className="flex p-1 rounded-xl bg-black/[0.03] dark:bg-white/[0.04] border border-black/[0.06] dark:border-white/10">
         <button
           type="button"
           onClick={() => setMode("password")}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 text-xs rounded-lg transition-all cursor-pointer ${
             mode === "password"
-              ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-xs font-semibold"
-              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              ? "bg-white dark:bg-white/10 text-zinc-950 dark:text-white shadow-xs font-semibold"
+              : "text-zinc-500 hover:text-zinc-950 dark:hover:text-white font-medium"
           }`}
         >
           Password
@@ -122,10 +114,10 @@ function LoginForm() {
         <button
           type="button"
           onClick={() => setMode("magic_link")}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-[var(--radius-sm)] transition-all cursor-pointer ${
+          className={`flex-1 py-1.5 text-xs rounded-lg transition-all cursor-pointer ${
             mode === "magic_link"
-              ? "bg-[var(--surface-elevated)] text-[var(--text-primary)] shadow-xs font-semibold"
-              : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              ? "bg-white dark:bg-white/10 text-zinc-950 dark:text-white shadow-xs font-semibold"
+              : "text-zinc-500 hover:text-zinc-950 dark:hover:text-white font-medium"
           }`}
         >
           Magic Link
@@ -137,7 +129,7 @@ function LoginForm() {
         type="button"
         disabled={isGooglePending}
         onClick={handleGoogleOAuth}
-        className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 border border-[var(--border-subtle)] rounded-[var(--radius-md)] bg-[var(--surface-card)] hover:bg-[var(--background-secondary)] text-sm font-medium text-[var(--text-primary)] transition-all cursor-pointer shadow-xs disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center space-x-2 py-2.5 px-4 rounded-xl border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-white/[0.05] hover:bg-white dark:hover:bg-white/10 text-xs sm:text-sm font-medium text-zinc-950 dark:text-white transition-all cursor-pointer shadow-xs disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
       >
         {isGooglePending ? (
           <svg
@@ -180,15 +172,15 @@ function LoginForm() {
             />
           </svg>
         )}
-        <span>{isGooglePending ? "Redirecting to Google..." : "Continue with Google"}</span>
+        <span>{isGooglePending ? "Connecting to Google..." : "Continue with Google"}</span>
       </button>
 
       <div className="relative my-4">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-[var(--border-subtle)]" />
+          <div className="w-full border-t border-black/[0.06] dark:border-white/10" />
         </div>
         <div className="relative flex justify-center text-[11px] uppercase tracking-wider">
-          <span className="bg-[var(--surface-elevated)] px-3 text-[var(--text-muted)]">
+          <span className="bg-white/90 dark:bg-[#121218] px-3 text-zinc-500 font-mono">
             Or with email
           </span>
         </div>
@@ -276,8 +268,13 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[var(--background)]">
-      <Suspense fallback={<div className="text-xs text-[var(--text-muted)]">Loading...</div>}>
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-[var(--background)] relative overflow-hidden">
+      {/* Ambient Lighting Orbs */}
+      <div className="kr-orb w-[400px] sm:w-[600px] h-[300px] sm:h-[450px] -top-20 left-1/2 -translate-x-1/2 bg-indigo-500/15 dark:bg-indigo-600/20" />
+      <div className="kr-orb w-[300px] sm:w-[450px] h-[250px] sm:h-[350px] bottom-10 right-10 bg-purple-500/12 dark:bg-purple-600/18" />
+      <div className="kr-grid-bg absolute inset-0 z-0 opacity-25 pointer-events-none" />
+
+      <Suspense fallback={<div className="text-xs text-zinc-500 font-mono">Loading sign in...</div>}>
         <LoginForm />
       </Suspense>
     </div>

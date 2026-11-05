@@ -47,7 +47,7 @@ export function Drawer({
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/60 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -55,22 +55,22 @@ export function Drawer({
       {/* Drawer Container */}
       <div
         className={cn(
-          "fixed bg-[var(--surface-elevated)] border-[var(--border-subtle)] shadow-2xl flex flex-col z-10",
+          "fixed bg-white/95 dark:bg-[#0e0e14]/95 backdrop-blur-2xl border-black/[0.08] dark:border-white/10 shadow-2xl flex flex-col z-10",
           sideStyles[side]
         )}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[var(--border-subtle)]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-black/[0.06] dark:border-white/10">
           {title ? (
-            <h3 className="font-semibold text-[var(--text-primary)] text-base">{title}</h3>
+            <h3 className="font-semibold text-zinc-950 dark:text-white text-base font-display">{title}</h3>
           ) : (
             <div />
           )}
           <button
             onClick={onClose}
-            className="p-1 rounded-md text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--background-secondary)] transition-colors"
+            className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-950 dark:hover:text-white hover:bg-black/[0.05] dark:hover:bg-white/10 transition-colors cursor-pointer"
             aria-label="Close drawer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto p-6">{children}</div>

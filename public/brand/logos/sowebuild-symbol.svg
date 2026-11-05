@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 60" fill="none">
+  <polygon points="26,2 38,2 14,58 2,58" fill="url(#violetGlow)" />
+  <defs>
+    <linearGradient id="violetGlow" x1="2" y1="2" x2="38" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9333EA" />
+      <stop offset="60%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#6D28D9" />
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,188 +1,130 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { TiltCard } from "@/components/ui/TiltCard";
-import {
-  ArrowRight,
-  Eye,
-  BookOpen,
-  Sparkles,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ArrowDown, ArrowUpRight, Sparkles } from "lucide-react";
 
 export function HeroEcosystem({ onOpenPreview }: { onOpenPreview?: (slug: string) => void }) {
-  const rotatingMediums = [
-    { title: "Software & Micro-Apps", color: "text-emerald-600 dark:text-emerald-400" },
-    { title: "Interactive Books", color: "text-indigo-600 dark:text-indigo-400" },
-    { title: "Video Courses", color: "text-purple-600 dark:text-purple-400" },
-    { title: "Tools & Simulators", color: "text-sky-600 dark:text-sky-400" },
-    { title: "Knowledge Vaults", color: "text-amber-600 dark:text-amber-400" },
+  // Short, punchy kinetic phrases that never wrap or cause overflow
+  const kineticPhrases = [
+    {
+      text: "playbooks.",
+      gradient: "from-purple-600 via-indigo-600 to-violet-500 dark:from-purple-400 dark:via-indigo-300 dark:to-violet-300",
+    },
+    {
+      text: "hiring intel.",
+      gradient: "from-emerald-600 via-teal-600 to-cyan-500 dark:from-emerald-400 dark:via-teal-300 dark:to-cyan-300",
+    },
+    {
+      text: "digital systems.",
+      gradient: "from-indigo-600 via-purple-600 to-pink-500 dark:from-indigo-400 dark:via-purple-300 dark:to-pink-300",
+    },
+    {
+      text: "growth.",
+      gradient: "from-violet-600 via-purple-600 to-indigo-500 dark:from-violet-400 dark:via-purple-300 dark:to-indigo-300",
+    },
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % rotatingMediums.length);
-    }, 3200);
+      setCurrentIndex((prev) => (prev + 1) % kineticPhrases.length);
+    }, 2600);
     return () => clearInterval(interval);
-  }, [rotatingMediums.length]);
+  }, [kineticPhrases.length]);
 
   return (
-    <section className="relative overflow-hidden pt-28 sm:pt-36 lg:pt-40 pb-20 sm:pb-28 border-b border-zinc-200/60 dark:border-white/5 bg-[var(--background)]">
+    <section className="relative overflow-hidden pt-32 sm:pt-40 lg:pt-48 pb-24 sm:pb-32 border-b border-black/[0.05] dark:border-white/[0.06] bg-[var(--background)]">
       {/* Ambient Lighting Orbs */}
-      <div className="kr-orb w-[450px] sm:w-[700px] h-[350px] sm:h-[500px] -top-24 left-1/4 -translate-x-1/2 bg-indigo-500/10 dark:bg-indigo-600/15" />
-      <div className="kr-orb w-[350px] sm:w-[600px] h-[350px] sm:h-[500px] top-1/3 right-4 sm:right-12 bg-purple-500/10 dark:bg-purple-600/15" />
+      <div className="kr-orb w-[500px] sm:w-[800px] h-[380px] sm:h-[550px] -top-20 left-1/2 -translate-x-1/2 bg-purple-600/15 dark:bg-purple-600/20 pointer-events-none" />
+      <div className="kr-orb w-[400px] sm:w-[650px] h-[380px] sm:h-[550px] top-1/3 right-1/4 bg-indigo-500/10 dark:bg-indigo-600/15 pointer-events-none" />
 
-      {/* Subtle Grain Overlay */}
-      <div className="grain-overlay absolute inset-0 z-0 opacity-40 dark:opacity-60 pointer-events-none" />
+      {/* Cyber Grid & Subtle Film Grain */}
+      <div className="kr-grid-bg absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none" />
+      <div className="grain-overlay absolute inset-0 z-0 opacity-25 dark:opacity-40 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
-          
-          {/* Hero Left: Apple-minimal Editorial Copy */}
-          <div className="lg:col-span-7 space-y-6 text-left">
-            
-            {/* Masthead Tag */}
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-zinc-100 dark:bg-white/[0.06] border border-zinc-200 dark:border-white/10 text-xs font-mono shadow-xs backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-              <span className="font-semibold text-zinc-900 dark:text-white tracking-wider">SOWEBUILD</span>
-              <span className="text-zinc-300 dark:text-white/20">·</span>
-              <span className="text-zinc-500 dark:text-zinc-400">DIGITAL EDITIONS</span>
-            </div>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-8 sm:space-y-10">
+        
+        {/* Minimalist Brand Masthead Pill */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-full bg-white/80 dark:bg-white/[0.05] border border-black/[0.06] dark:border-white/10 text-xs font-mono shadow-xs backdrop-blur-xl"
+        >
+          <svg viewBox="0 0 40 60" className="w-2.5 h-3.5 shrink-0" fill="none" aria-hidden="true">
+            <polygon points="26,2 38,2 14,58 2,58" fill="#7C3AED" />
+          </svg>
+          <span className="font-bold text-zinc-950 dark:text-white tracking-widest uppercase">SOWEBUILD</span>
+          <span className="text-zinc-300 dark:text-white/20">·</span>
+          <span className="text-zinc-500 dark:text-zinc-400 font-medium">DIGITAL PRESS &amp; STUDIO</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0 ml-0.5" />
+        </motion.div>
 
-            {/* Confident Headline with Ticker */}
-            <div className="space-y-3">
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-950 dark:text-white leading-[1.12] sm:leading-[1.1] font-display">
-                High-leverage digital assets
-                <span className="block text-zinc-500 dark:text-zinc-400 font-medium">
-                  for ambitious builders.
-                </span>
-              </h1>
-
-              {/* Kinetic Rotating Ticker */}
-              <div className="flex items-center text-lg sm:text-2xl lg:text-3xl font-semibold tracking-tight font-display">
-                <span className="text-zinc-500 dark:text-zinc-400 font-normal shrink-0 mr-2 sm:mr-3">
-                  We engineer
-                </span>
-                <span className="relative inline-flex items-center h-[1.35em] overflow-hidden w-[230px] sm:w-[320px] lg:w-[390px]">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.span
-                      key={currentIndex}
-                      initial={{ y: 24, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: -24, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className={cn(
-                        "absolute left-0 font-extrabold whitespace-nowrap",
-                        rotatingMediums[currentIndex].color
-                      )}
-                    >
-                      {rotatingMediums[currentIndex].title}
-                    </motion.span>
-                  </AnimatePresence>
-                </span>
-              </div>
-            </div>
-
-            {/* 1-Sentence Editorial Subtitle */}
-            <p className="max-w-xl text-base sm:text-lg text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans">
-              Living digital editions and verified industry directories. Built for career leverage with instant reader access on any device.
-            </p>
-
-            {/* Clean Single-Line CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-3">
-              <a
-                href="#catalog"
-                className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-[var(--radius-md)] bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer shadow-sm whitespace-nowrap"
-              >
-                <span>Explore Publications</span>
-                <ArrowRight className="w-4 h-4" />
-              </a>
-
-              {onOpenPreview && (
-                <button
-                  type="button"
-                  onClick={() => onOpenPreview("the-job-search-book")}
-                  className="inline-flex items-center justify-center space-x-2 px-5 py-3 rounded-[var(--radius-md)] border border-zinc-200 dark:border-white/15 bg-white dark:bg-white/[0.05] hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-800 dark:text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer whitespace-nowrap"
+        {/* Hero Kinetic Headline - Permanently Stable 2-Line Layout (Zero Layout Shifts) */}
+        <div className="space-y-3 sm:space-y-4 max-w-4xl mx-auto">
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-zinc-950 dark:text-white leading-[1.12] sm:leading-[1.08] font-display"
+          >
+            <span className="block">We engineer</span>
+            <span className="block h-[1.22em] overflow-hidden relative mt-1 sm:mt-2">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={currentIndex}
+                  initial={{ y: 36, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -36, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className={`absolute inset-x-0 whitespace-nowrap text-transparent bg-clip-text bg-gradient-to-r ${kineticPhrases[currentIndex].gradient}`}
                 >
-                  <Eye className="w-4 h-4 text-indigo-500" />
-                  <span>Read Free Sample</span>
-                </button>
-              )}
-            </div>
+                  {kineticPhrases[currentIndex].text}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </motion.h1>
 
-          </div>
-
-          {/* Hero Right: Clean Volume 01 Editorial Card */}
-          <div className="lg:col-span-5 relative">
-            <TiltCard maxTilt={3} className="rounded-[var(--radius-xl)]">
-              <div className="rounded-[var(--radius-xl)] bg-white dark:bg-[#121218] border border-zinc-200 dark:border-white/15 p-7 sm:p-8 shadow-2xl shadow-indigo-950/5 space-y-5">
-                
-                {/* Volume Top Folio */}
-                <div className="flex items-center justify-between border-b border-zinc-200/80 dark:border-white/10 pb-3 text-xs font-mono">
-                  <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 font-semibold">
-                    <BookOpen className="w-3.5 h-3.5" />
-                    <span>VOLUME 01 · COMPLETE BUNDLE</span>
-                  </div>
-                  <span className="text-[11px] text-zinc-500">Edition 2026</span>
-                </div>
-
-                {/* Title & Editorial Note */}
-                <div className="space-y-1.5">
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 dark:text-white leading-tight font-display">
-                    The Job Search Book
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 font-serif italic">
-                    The Practical Playbook for Getting a Tech Job.
-                  </p>
-                </div>
-
-                {/* Excerpt Pull-Quote */}
-                <div className="p-3.5 rounded-[var(--radius-md)] bg-zinc-50 dark:bg-white/[0.03] border border-zinc-200/60 dark:border-white/5 text-xs font-serif italic text-zinc-700 dark:text-zinc-300 leading-relaxed">
-                  &ldquo;Hiring is a bet made by tired people reading exaggerated claims. Give them proof they cannot explain away.&rdquo;
-                </div>
-
-                {/* Bundle Inclusions Tag */}
-                <div className="p-3 rounded-[var(--radius-md)] bg-emerald-500/10 border border-emerald-500/20 text-xs flex items-center justify-between font-mono">
-                  <span className="text-emerald-700 dark:text-emerald-300 font-medium flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                    + 144-Company Directory
-                  </span>
-                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                    Included Free
-                  </span>
-                </div>
-
-                {/* Action Row */}
-                <div className="flex items-center gap-3 pt-1">
-                  <Link
-                    href="/products/the-job-search-book"
-                    className="flex-1 inline-flex items-center justify-center space-x-2 px-4 py-2.5 rounded-[var(--radius-md)] bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors cursor-pointer whitespace-nowrap shadow-xs"
-                  >
-                    <span>Order Edition • ₹199</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-
-                  {onOpenPreview && (
-                    <button
-                      type="button"
-                      onClick={() => onOpenPreview("the-job-search-book")}
-                      className="inline-flex items-center justify-center space-x-1.5 px-3.5 py-2.5 rounded-[var(--radius-md)] border border-zinc-200 dark:border-white/15 bg-white dark:bg-white/[0.05] hover:bg-zinc-50 dark:hover:bg-white/10 text-zinc-800 dark:text-white text-xs font-medium transition-colors cursor-pointer whitespace-nowrap"
-                    >
-                      <Eye className="w-3.5 h-3.5 text-indigo-500" />
-                      <span>Sample</span>
-                    </button>
-                  )}
-                </div>
-
-              </div>
-            </TiltCard>
-          </div>
-
+          {/* Crisp, Concise Value Statement */}
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-2xl mx-auto text-base sm:text-xl text-zinc-600 dark:text-zinc-300 leading-relaxed font-sans"
+          >
+            Tactical engineering playbooks and verified industry directories. Built for career leverage with instant in-browser reading. Zero fluff.
+          </motion.p>
         </div>
+
+        {/* Clean, Focused Action Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2"
+        >
+          <a
+            href="#catalog"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2.5 px-7 py-3.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold tracking-wide transition-all duration-200 cursor-pointer shadow-xl shadow-purple-600/25 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <span>Explore Publications</span>
+            <ArrowDown className="w-4 h-4" />
+          </a>
+
+          <a
+            href="https://sowebuild.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3.5 rounded-full border border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-white/[0.05] hover:bg-white dark:hover:bg-white/10 text-zinc-900 dark:text-white text-sm font-semibold transition-all backdrop-blur-md cursor-pointer hover:scale-[1.02] active:scale-[0.98] group"
+          >
+            <Sparkles className="w-4 h-4 text-purple-500 group-hover:rotate-12 transition-transform" />
+            <span>SoWeBuild Agency</span>
+            <ArrowUpRight className="w-4 h-4 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </a>
+        </motion.div>
+
       </div>
     </section>
   );

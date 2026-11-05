@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" fill="none">
+  <!-- Background Warm Ivory -->
+  <rect width="1080" height="1080" fill="#FAF8F5" />
+  <!-- Border -->
+  <rect width="1080" height="1080" stroke="#E8DFF2" stroke-width="8" />
+  <!-- Ambient Radial Glow -->
+  <circle cx="540" cy="540" r="480" fill="url(#bgGlow)" />
+  <!-- Safe Zone Border -->
+  <circle cx="540" cy="540" r="490" stroke="#E8DFF2" stroke-width="2" />
+  <!-- Center Slash Symbol -->
+  <g transform="translate(380, 300) scale(8)">
+    <polygon points="26,2 38,2 14,58 2,58" fill="url(#symbolGrad)" filter="url(#glowFilter)" />
+  </g>
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7C3AED" stop-opacity="0.16" />
+      <stop offset="60%" stop-color="#9333EA" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#FAF8F5" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="symbolGrad" x1="2" y1="2" x2="38" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#9333EA" />
+      <stop offset="60%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#6D28D9" />
+    </linearGradient>
+    <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#7C3AED" flood-opacity="0.35" />
+    </filter>
+  </defs>
+</svg>

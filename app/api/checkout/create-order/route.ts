@@ -254,7 +254,7 @@ export async function POST(request: Request) {
       currency: "INR",
       internalOrderId,
       productName: product.name,
-      userEmail: user?.email || "customer@sowebuild.in",
+      userEmail: user?.email || "sowebuild.in@gmail.com",
       userName: user?.user_metadata?.full_name || "Customer",
     });
   } catch (error) {

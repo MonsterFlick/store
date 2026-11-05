@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" fill="none">
+  <!-- Symbol -->
+  <g transform="translate(20, 10)">
+    <polygon points="26,2 38,2 14,58 2,58" fill="url(#violetGlowDark)" filter="drop-shadow(0 0 10px rgba(124,58,237,0.5))" />
+  </g>
+  <!-- Wordmark -->
+  <text x="74" y="34" font-family="'Syne', system-ui, -apple-system, sans-serif" font-weight="700" font-size="20" letter-spacing="0.14em" fill="#FAF8F5">SO WE</text>
+  <text x="74" y="60" font-family="'Syne', system-ui, -apple-system, sans-serif" font-weight="700" font-size="24" letter-spacing="0.14em" fill="#FAF8F5">
+    BUILD<tspan fill="#A78BFA">.IN</tspan>
+  </text>
+  <defs>
+    <linearGradient id="violetGlowDark" x1="2" y1="2" x2="38" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#C4B5FD" />
+      <stop offset="40%" stop-color="#8B5CF6" />
+      <stop offset="100%" stop-color="#7C3AED" />
+    </linearGradient>
+  </defs>
+</svg>
