@@ -31,6 +31,7 @@ export function CheckoutButton({
 }: CheckoutButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const loadRazorpayScript = (): Promise<boolean> => {
@@ -48,6 +49,7 @@ export function CheckoutButton({
 
   const handleCheckout = async () => {
     setIsLoading(true);
+    setLoadingText("Initiating checkout...");
     setError(null);
 
     try {
@@ -62,6 +64,7 @@ export function CheckoutButton({
 
       if (!res.ok) {
         if (res.status === 401) {
+          setLoadingText("Redirecting to sign in...");
           router.push(`/auth/login?next=/products/${productSlug}`);
           return;
         }
@@ -70,17 +73,20 @@ export function CheckoutButton({
 
       // 2. Handle 100% discount / ₹0 Free Orders directly
       if (data.freeOrder) {
+        setLoadingText("Access granted! Loading library...");
         router.push(data.redirectUrl || `/library/${productSlug}`);
         router.refresh();
         return;
       }
 
       // 3. Load Razorpay Checkout Script
+      setLoadingText("Connecting gateway...");
       const scriptLoaded = await loadRazorpayScript();
 
-      // In local development with mock order credentials, allow dev testing simulation
+      // In local development with mock order credentials
       const isDev = process.env.NODE_ENV !== "production";
       if (isDev && data.razorpayOrderId?.startsWith("order_mock_")) {
+        setLoadingText("Simulating test payment...");
         const verifyRes = await fetch("/api/checkout/verify", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -94,18 +100,19 @@ export function CheckoutButton({
         });
 
         if (verifyRes.ok) {
+          setLoadingText("Success! Opening library...");
           router.push(`/library/${productSlug}`);
           router.refresh();
           return;
         } else {
           const verifyErr = await verifyRes.json();
-          throw new Error(verifyErr.error || "Development mock verification failed.");
+          throw new Error(verifyErr.error || "Development verification failed.");
         }
       }
 
       if (!scriptLoaded) {
         throw new Error(
-          "Unable to load secure checkout gateway. Please disable ad-blockers or shields and try again."
+          "Unable to load secure checkout gateway. Please disable ad-blockers and try again."
         );
       }
 
@@ -122,11 +129,12 @@ export function CheckoutButton({
           email: data.userEmail,
         },
         theme: {
-          color: "#6D5DF5",
+          color: "#4f46e5",
         },
         handler: async function (response: any) {
           try {
             setIsLoading(true);
+            setLoadingText("Verifying payment...");
             const verifyRes = await fetch("/api/checkout/verify", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -143,31 +151,38 @@ export function CheckoutButton({
 
             if (!verifyRes.ok) {
               setError(verifyData.error || "Payment verification failed. Please contact support.");
+              setIsLoading(false);
               return;
             }
 
+            setLoadingText("Payment confirmed! Opening library...");
             router.push(`/library/${productSlug}`);
             router.refresh();
           } catch (vErr) {
             setError((vErr as Error).message || "Payment confirmation error.");
-          } finally {
             setIsLoading(false);
           }
         },
         modal: {
           ondismiss: function () {
             setIsLoading(false);
+            setLoadingText(null);
           },
         },
       };
 
       const rzp = new window.Razorpay(options);
       rzp.open();
+      // Keep loading indicator until modal renders
+      setTimeout(() => {
+        setIsLoading(false);
+        setLoadingText(null);
+      }, 1500);
     } catch (err) {
       console.error("Checkout error:", err);
       setError((err as Error).message || "Checkout failed");
-    } finally {
       setIsLoading(false);
+      setLoadingText(null);
     }
   };
 
@@ -184,17 +199,21 @@ export function CheckoutButton({
         onClick={handleCheckout}
         isLoading={isLoading}
         size="lg"
-        className={className || "w-full text-xs sm:text-sm font-semibold whitespace-nowrap"}
+        className={className || "w-full text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer"}
       >
-        <Lock className="w-3.5 h-3.5 mr-1.5 opacity-80 shrink-0" />
-        <span className="whitespace-nowrap">{buttonText || `Get Access • ${formatINR(priceINR)}`}</span>
-        <ArrowRight className="w-3.5 h-3.5 ml-1.5 shrink-0" />
+        {!isLoading && <Lock className="w-3.5 h-3.5 mr-1.5 opacity-80 shrink-0" />}
+        <span className="whitespace-nowrap">
+          {isLoading && loadingText
+            ? loadingText
+            : buttonText || `Get Access • ${formatINR(priceINR)}`}
+        </span>
+        {!isLoading && <ArrowRight className="w-3.5 h-3.5 ml-1.5 shrink-0" />}
       </Button>
 
       {showTrustBadge && (
-        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono whitespace-nowrap">
+        <div className="flex items-center justify-center space-x-1.5 text-[11px] text-[var(--text-muted)] font-mono whitespace-nowrap pt-1">
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-          <span>Instant Digital Access • Verified Checkout</span>
+          <span>Instant Digital Access • Secure Razorpay</span>
         </div>
       )}
     </div>

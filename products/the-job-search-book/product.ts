@@ -4,9 +4,9 @@ export const product: ProductDefinition = {
   slug: "the-job-search-book",
   name: "The Job Search Book: The Practical Playbook for Getting a Tech Job",
   tagline:
-    "The complete 30-chapter tech hiring playbook — PLUS the verified directory of 144+ companies hiring without whiteboards included 100% free.",
+    "The practical engineering playbook for landing top tech roles — with verified hiring directory included free.",
   description:
-    "A comprehensive career launchpad bundle engineered specifically for software engineers, tech students, and career switchers. Includes the complete 30-chapter digital playbook covering the entire recruitment funnel (ATS optimization, GitHub proof of competence, Naukri & LinkedIn dominance, cold sniper outreach, and salary negotiation) PLUS perpetual lifetime access to the verified directory of 144+ companies hiring without algorithmic whiteboards (a ₹99 standalone value, included free).",
+    "A complete 30-chapter digital playbook covering ATS resume algorithms, proof-of-competence GitHub audits, cold sniper outreach, and salary negotiation — plus the verified directory of 144 companies hiring without whiteboard puzzles.",
   type: "bundle",
   template: "ebook",
   capabilities: {
@@ -35,43 +35,43 @@ export const product: ProductDefinition = {
   includedSlugs: ["hiring-organizations"],
   features: [
     "INCLUDED FREE BONUS: Companies That Hire Without Whiteboards Directory (144 Verified Employers, ₹99 Value)",
-    "30 structured, zero-fluff chapters spanning the entire tech hiring lifecycle",
+    "30 structured chapters spanning the entire tech hiring lifecycle",
     "The 8-second recruiter scan breakdown and ATS parsing optimization",
-    "Concrete Action-Context-Result (ACR) framework for developer project bullet points",
-    "Step-by-step GitHub profile and repository audit playbook that hooks tech leads",
-    "Naukri Resdex algorithm dominance guide + real FastForward purchase invoice case study",
-    "Sniper cold outreach scripts for recruiters and engineering leads that get replies",
-    "Engineering STAR method framework for high-stakes behavioral and ownership rounds",
-    "Salary negotiation playbooks, timing tactics, and scripts for the Indian tech market",
-    "Includes complete 30-day daily action calendar and 13-column metrics application tracker",
-    "Instant digital reader & directory access across your desktop, tablet, and mobile devices",
+    "Action-Context-Result (ACR) framework for developer project bullet points",
+    "GitHub profile and repository audit playbook that hooks engineering leads",
+    "Naukri Resdex algorithm dominance guide + real purchase case study",
+    "Sniper cold outreach scripts for recruiters and engineering leads",
+    "Engineering STAR framework for behavioral and ownership rounds",
+    "Salary negotiation playbooks, timing tactics, and scripts",
+    "Includes 30-day daily action calendar and 13-column metrics tracker",
+    "Instant digital reader & directory access across desktop, tablet, and mobile",
     "Dual lifetime access: Both products unlocked automatically in your private library",
   ],
   license: {
     name: "Single-User Lifetime Bundle License",
     terms:
-      "Grants personal, non-commercial, perpetual access to read, study, and utilize both the digital book and the verified hiring directory across authorized devices. Public redistribution, unauthorized copying, or commercial reselling is strictly prohibited.",
+      "Grants personal, non-commercial, perpetual access to read, study, and utilize both the digital book and the verified hiring directory across authorized devices.",
   },
   faq: [
     {
       question: "Is the Verified Directory really included free with this book?",
       answer:
-        "Yes! When you purchase this bundle for ₹199, you get instant lifetime access to BOTH The Job Search Book (30 chapters) AND the complete verified directory of 144+ companies that hire without whiteboards (a ₹99 standalone value) in your personal library. No subscriptions or separate checkouts required.",
+        "Yes! When you purchase this bundle for ₹199, you get instant lifetime access to BOTH The Job Search Book (30 chapters) AND the complete verified directory of 144+ companies that hire without whiteboards (a ₹99 standalone value) in your personal library.",
     },
     {
       question: "Can I buy just the book without the directory?",
       answer:
-        "The book is exclusively offered as part of this complete bundle. We include the directory for free at no extra charge so that you have both the strategy (the 30-chapter playbook) and the actionable target list (144+ verified companies) needed to get hired.",
+        "The book is exclusively offered as part of this complete bundle. We include the directory for free so you have both the strategy (the 30-chapter playbook) and the actionable target list (144+ verified companies).",
     },
     {
       question: "Who is this bundle engineered for?",
       answer:
-        "This bundle is built for junior-to-mid software engineers, final-year tech students, bootcamp graduates, and developers struggling to get interview calls despite writing good code. It demystifies the actual recruitment machinery behind modern tech hiring.",
+        "Engineered for software engineers, tech students, and developers struggling to get interview calls despite writing good code. It demystifies the actual recruitment machinery behind modern tech hiring.",
     },
     {
       question: "How do I access both products after purchasing?",
       answer:
-        "Instant digital reader access is unlocked for both products in your personal SoWeBuild Store library (/library). You can open either the 30-chapter interactive book or the searchable hiring directory anytime on desktop, tablet, or mobile.",
+        "Instant digital reader access is unlocked for both products in your personal SoWeBuild Store library (/library) on desktop, tablet, or mobile.",
     },
     {
       question: "Can I preview the book before buying?",

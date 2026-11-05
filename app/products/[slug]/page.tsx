@@ -12,12 +12,7 @@ import { ProductReviews } from "@/components/reviews/ProductReviews";
 import { BundleIncludedSection } from "@/components/store/BundleIncludedSection";
 import { BundleUpsellBanner } from "@/components/store/BundleUpsellBanner";
 import { EditorialCurriculum } from "@/components/store/EditorialCurriculum";
-import {
-  ArrowLeft,
-  CheckCircle2,
-  HelpCircle,
-  Lock,
-} from "lucide-react";
+import { ArrowLeft, CheckCircle2, HelpCircle } from "lucide-react";
 
 export async function generateStaticParams() {
   const products = getAllProducts();
@@ -140,47 +135,47 @@ export default async function ProductPage({
     ],
   };
 
-  // Curated highlights (4 high-signal editorial points)
   const isBundle = product.type === "bundle" || (product.includedSlugs && product.includedSlugs.length > 0);
+  
+  // 4 Curated High-Signal Pillars
   const curatedHighlights = isBundle
     ? [
         {
-          title: "The 8-Second Recruiter Scan",
-          desc: "ATS algorithm indexing rules, keyword placement, and the ACR (Action-Context-Result) bullet formula.",
+          title: "8-Second Recruiter Scans",
+          desc: "ATS algorithm indexing, keyword layout, and ACR bullet formulas.",
         },
         {
-          title: "Proof of Competence Audits",
-          desc: "Restructuring GitHub repos and engineering case studies so tech leads cannot dismiss your code.",
+          title: "Proof-of-Competence Audits",
+          desc: "Structuring repos and case studies so engineering leads verify your skills.",
         },
         {
-          title: "Sniper Outreach & Sourcing",
-          desc: "Direct cold DM scripts that get recruiter and founder replies, plus Naukri Resdex visibility dominance.",
+          title: "Sniper Cold Outreach",
+          desc: "Direct scripts getting replies from hiring managers on LinkedIn & email.",
         },
         {
           title: "Compensation & Timing Math",
-          desc: "Timing counter-offers, leverage arithmetic, and realistic negotiation frameworks for the tech market.",
+          desc: "Offer leverage, counter-timing, and realistic negotiation frameworks.",
         },
       ]
     : [
         {
           title: "144 Verified Employers",
-          desc: "Curated tech companies hiring across India and worldwide remote without whiteboard trivia.",
+          desc: "Curated tech companies hiring across India and remote without whiteboard puzzles.",
         },
         {
           title: "Evaluation Formats",
-          desc: "Exact breakdown of practical interview rounds, pairing sessions, and take-home assignments.",
+          desc: "Exact breakdown of practical interview rounds, pairing, and take-homes.",
         },
         {
           title: "Direct Careers Links",
-          desc: "Verified application URLs and contact pathways for every cataloged organization.",
+          desc: "Verified application URLs and contact pathways for every cataloged team.",
         },
         {
           title: "Continuous Updates",
-          desc: "Regularly revised hiring criteria, remote eligibility tags, and bookmarkable shortlist tools.",
+          desc: "Regularly revised hiring criteria, remote tags, and bookmarkable shortlist tools.",
         },
       ];
 
-  // Curated 3-question FAQ
   const curatedFaq = product.faq?.slice(0, 3) || [];
 
   return (
@@ -217,17 +212,17 @@ export default async function ProductPage({
         )}
 
         {/* Editorial Product Section */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             
-            {/* Left Column: Editorial Presentation */}
+            {/* Left Column: Apple-minimal Presentation */}
             <div className="lg:col-span-7 space-y-8">
               
               {/* Header Folio */}
               <div className="space-y-3">
                 <div className="flex items-center space-x-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
                   <span className="uppercase font-semibold tracking-wider text-indigo-600 dark:text-indigo-400">
-                    {isBundle ? "EDITION № 01 · CAREER BUNDLE" : "EDITION № 02 · DIRECTORY"}
+                    {isBundle ? "VOLUME 01 · COMPLETE BUNDLE" : "VOLUME 02 · DIRECTORY"}
                   </span>
                   <span>·</span>
                   <span>PERPETUAL ACCESS</span>
@@ -242,24 +237,14 @@ export default async function ProductPage({
                 </p>
               </div>
 
-              {/* Concise Editorial Summary */}
-              <div className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed border-l-2 border-indigo-500/40 pl-4 py-0.5">
-                <p>{product.description}</p>
-              </div>
-
               {/* Dedicated Bundle Breakdown (if bundle) */}
               {isBundle && <BundleIncludedSection />}
 
               {/* Curated Highlights (4 Pillars) */}
               <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">
-                <div className="space-y-1">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                    Core Architecture
-                  </h3>
-                  <h4 className="text-lg font-bold text-[var(--text-primary)] font-display">
-                    What You&apos;ll Master
-                  </h4>
-                </div>
+                <h3 className="text-base sm:text-lg font-bold text-[var(--text-primary)] font-display">
+                  Core Highlights
+                </h3>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   {curatedHighlights.map((feat, i) => (
@@ -269,9 +254,9 @@ export default async function ProductPage({
                     >
                       <div className="flex items-center space-x-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                        <h5 className="text-xs font-bold text-[var(--text-primary)]">
+                        <h4 className="text-xs font-bold text-[var(--text-primary)]">
                           {feat.title}
-                        </h5>
+                        </h4>
                       </div>
                       <p className="text-xs text-[var(--text-secondary)] leading-relaxed pl-6">
                         {feat.desc}
@@ -289,7 +274,7 @@ export default async function ProductPage({
               {/* Curated FAQ */}
               {curatedFaq.length > 0 && (
                 <div className="pt-6 border-t border-[var(--border-subtle)] space-y-4">
-                  <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                  <h3 className="text-base sm:text-lg font-bold text-[var(--text-primary)] font-display">
                     Frequently Asked Questions
                   </h3>
 
@@ -311,14 +296,6 @@ export default async function ProductPage({
                   </div>
                 </div>
               )}
-
-              {/* License Colophon */}
-              <div className="pt-4 border-t border-[var(--border-subtle)] flex items-center space-x-2 text-[11px] font-mono text-[var(--text-muted)]">
-                <Lock className="w-3.5 h-3.5 shrink-0 opacity-70" />
-                <span>
-                  Single-user personal license with perpetual digital reader access across two authorized devices.
-                </span>
-              </div>
 
               {/* Verified Purchaser Reviews */}
               <div className="pt-6 border-t border-[var(--border-subtle)]">

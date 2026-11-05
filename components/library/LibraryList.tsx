@@ -54,7 +54,7 @@ export function LibraryList({
             Find an interactive digital book or engineering handbook worth exploring.
           </p>
         </div>
-        <Link href="/#products">
+        <Link href="/#catalog">
           <Button variant="primary" size="md">
             Explore Publications
           </Button>

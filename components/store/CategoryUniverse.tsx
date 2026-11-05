@@ -11,7 +11,6 @@ import {
   Building2,
   ArrowRight,
   Eye,
-  Layers,
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -47,21 +46,17 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
   }, [allProducts, selectedFormat, searchQuery]);
 
   return (
-    <section id="catalog" className="py-20 sm:py-24 border-b border-zinc-200/80 dark:border-white/5 bg-[var(--background)] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
+    <section id="catalog" className="py-20 sm:py-24 border-b border-zinc-200/60 dark:border-white/5 bg-[var(--background)] relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
         
-        {/* Section Header */}
+        {/* Section Header - Clean & Apple-minimal */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2.5 max-w-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-200 dark:border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs font-mono font-medium">
-              <Layers className="w-3.5 h-3.5" />
-              <span>CURATED CATALOGUE · 2026 EDITIONS</span>
-            </div>
+          <div className="space-y-1.5 max-w-xl">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-950 dark:text-white font-display">
               Publications &amp; Data Assets
             </h2>
-            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-300">
-              Each release is engineered as a standalone web experience. Accessible instantly on any device with perpetual lifetime updates.
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400">
+              Interactive digital releases engineered for career leverage. Instant in-browser reading with perpetual lifetime updates.
             </p>
           </div>
 
@@ -84,7 +79,7 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
             type="button"
             onClick={() => setSelectedFormat("all")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all whitespace-nowrap",
+              "px-3.5 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all whitespace-nowrap",
               selectedFormat === "all"
                 ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-xs"
                 : "bg-white dark:bg-white/[0.05] border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100"
@@ -96,7 +91,7 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
             type="button"
             onClick={() => setSelectedFormat("books")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all flex items-center space-x-1.5 whitespace-nowrap",
+              "px-3.5 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all flex items-center space-x-1.5 whitespace-nowrap",
               selectedFormat === "books"
                 ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-xs"
                 : "bg-white dark:bg-white/[0.05] border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100"
@@ -109,7 +104,7 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
             type="button"
             onClick={() => setSelectedFormat("directories")}
             className={cn(
-              "px-3.5 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all flex items-center space-x-1.5 whitespace-nowrap",
+              "px-3.5 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all flex items-center space-x-1.5 whitespace-nowrap",
               selectedFormat === "directories"
                 ? "bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 shadow-xs"
                 : "bg-white dark:bg-white/[0.05] border border-zinc-200 dark:border-white/10 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100"
@@ -123,23 +118,23 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
         {/* Product Cards Grid */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            {filteredProducts.map((product, pIdx) => {
+            {filteredProducts.map((product) => {
               const isBundle = product.slug === "the-job-search-book";
 
               return (
-                <TiltCard key={product.slug} maxTilt={3} className="h-full rounded-[var(--radius-xl)]">
-                  <div className="h-full flex flex-col justify-between rounded-[var(--radius-xl)] p-6 sm:p-7 transition-all duration-200 bg-white dark:bg-[#121218] border border-zinc-200 dark:border-white/15 shadow-md hover:border-indigo-500/40 space-y-6">
+                <TiltCard key={product.slug} maxTilt={2.5} className="h-full rounded-[var(--radius-xl)]">
+                  <div className="h-full flex flex-col justify-between rounded-[var(--radius-xl)] p-6 sm:p-7 transition-all duration-200 bg-white dark:bg-[#121218] border border-zinc-200 dark:border-white/15 shadow-sm hover:border-indigo-500/40 space-y-6">
                     
                     {/* Top Folio */}
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between text-xs font-mono">
                         <span className="font-semibold text-zinc-500 dark:text-zinc-400">
-                          {isBundle ? "№ 01 · COMPLETE BUNDLE" : "№ 02 · DIRECTORY"}
+                          {isBundle ? "№ 01 · BUNDLE" : "№ 02 · DIRECTORY"}
                         </span>
                         {isBundle ? (
                           <span className="inline-flex items-center space-x-1 text-[11px] font-mono text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-500/20">
                             <Sparkles className="w-3 h-3" />
-                            <span>FREE DIRECTORY INCLUDED</span>
+                            <span>DIRECTORY INCLUDED FREE</span>
                           </span>
                         ) : (
                           <span className="text-[11px] font-mono text-zinc-500">
@@ -159,13 +154,6 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
                           {product.tagline}
                         </p>
                       </div>
-
-                      {/* Inclusions / Highlights */}
-                      <div className="pt-2">
-                        <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                          {product.description}
-                        </p>
-                      </div>
                     </div>
 
                     {/* Bottom Pricing & Actions */}
@@ -182,11 +170,11 @@ export function CategoryUniverse({ onOpenPreview }: CategoryUniverseProps) {
                           )}
                         </div>
                         <span className="text-xs font-mono text-zinc-500">
-                          Lifetime Access
+                          Perpetual Access
                         </span>
                       </div>
 
-                      {/* Action Buttons - Always Single-Line */}
+                      {/* Action Buttons */}
                       <div className="flex items-center gap-3">
                         <Link
                           href={`/products/${product.slug}`}

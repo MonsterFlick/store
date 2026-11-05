@@ -4,9 +4,9 @@ export const product: ProductDefinition = {
   slug: "hiring-organizations",
   name: "Companies That Hire Without Whiteboards: Verified Directory",
   tagline:
-    "140+ top engineering organizations hiring on real-world practical skills, take-home projects, and pairing.",
+    "144 top engineering organizations hiring on real-world practical skills, take-home projects, and pairing.",
   description:
-    "Skip the generic LeetCode grind. This curated, verified interactive directory details 144 companies across India, worldwide remote, and global tech hubs that assess software engineers based on practical system problem-solving, take-home projects, and collaborative pair programming rather than memorized algorithmic whiteboard trivia. Includes exact interview stages, evaluation formats, verified careers links, and location eligibility.",
+    "Skip the generic LeetCode grind. An interactive directory of 144 verified companies across India and remote hiring on real-world engineering skills, pairing sessions, and take-home problems.",
   type: "app",
   template: "custom",
   capabilities: {
@@ -44,28 +44,28 @@ export const product: ProductDefinition = {
   license: {
     name: "Single-User Lifetime Directory License",
     terms:
-      "Grants personal, non-commercial, perpetual access to search, browse, and utilize this verified hiring directory. Bulk automated scraping, public redistribution, or commercial reselling is strictly prohibited.",
+      "Grants personal, non-commercial, perpetual access to search, browse, and utilize this verified hiring directory.",
   },
   faq: [
     {
       question: "What makes these companies different from typical tech employers?",
       answer:
-        "Every company in this directory has replaced high-stress, algorithmic whiteboard quizzes (LeetCode/DSA puzzles) with humane, realistic assessments: take-home projects, practical codebase discussions, or real-world pair programming on day-to-day problems.",
+        "Every company in this directory has replaced high-stress whiteboard quizzes (LeetCode/DSA puzzles) with humane, realistic assessments: take-home projects, codebase discussions, or collaborative pair programming.",
     },
     {
       question: "Are India-based and Remote roles included?",
       answer:
-        "Yes! The directory categorizes organizations into Worldwide Remote (113+), India Tech (17+), and India + Remote (14+), with filterable tags to match your preferred work style.",
+        "Yes! The directory categorizes organizations into Worldwide Remote (113+), India Tech (17+), and India + Remote (14+), with filterable tags.",
     },
     {
       question: "How does access work after payment?",
       answer:
-        "Once your ₹99 payment is complete, you receive instant lifetime digital access in your personal SoWeBuild Store library, complete with search, filtering, and bookmarking.",
+        "Once your payment is complete, you receive instant lifetime digital access in your personal SoWeBuild Store library, complete with search, filtering, and bookmarking.",
     },
     {
       question: "Is this a static PDF or an interactive app?",
       answer:
-        "This is an interactive web application built specifically for this directory. You can search in real time, filter by hiring format, click into interactive company cards for deep-dive interview stages, and save bookmarks.",
+        "This is an interactive web application built specifically for this directory. You can search in real time, filter by hiring format, click into company cards, and save bookmarks.",
     },
   ],
 };

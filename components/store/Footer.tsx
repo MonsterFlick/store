@@ -1,73 +1,53 @@
 import React from "react";
 import Link from "next/link";
 import { clientEnv } from "@/lib/env";
-import { Sparkles, Mail, CheckCircle2, ShieldCheck } from "lucide-react";
+import { Mail } from "lucide-react";
 
 export function Footer() {
   const supportEmail = clientEnv.NEXT_PUBLIC_SUPPORT_EMAIL || "sowebuild.in@gmail.com";
 
   return (
     <footer className="border-t border-[var(--border-subtle)] bg-[var(--background-secondary)] text-[var(--text-secondary)] mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
           {/* Brand Column */}
-          <div className="space-y-4 md:col-span-2">
-            <Link href="/" className="inline-flex items-center space-x-2 text-lg font-bold text-[var(--text-primary)]">
-              <span className="font-mono text-[var(--accent-primary)] font-bold">&lt;/&gt;</span>
+          <div className="space-y-3 md:col-span-2">
+            <Link
+              href="/"
+              className="inline-flex items-center space-x-2 text-base font-bold text-[var(--text-primary)] font-display"
+            >
+              <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold">&lt;/&gt;</span>
               <span>sowebuild</span>
-              <span className="text-[var(--accent-primary)] text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-[var(--accent-light)] border border-[var(--accent-primary)]/20">
+              <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-white/10 text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-white/10">
                 store
               </span>
             </Link>
-            <p className="text-sm text-[var(--text-muted)] max-w-md leading-relaxed">
-              An agnostic digital product engine. Engineering high-leverage software, courses, tactical playbooks, interactive tools, runbook vaults, and operational systems.
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-sm leading-relaxed">
+              Living digital editions, interactive playbooks, and verified directories engineered for career leverage.
             </p>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)] pt-2 font-medium">
-              <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Living Web Artifacts
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Zero-Friction Access
-              </span>
-              <span>•</span>
-              <span className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Lifetime Revisions
-              </span>
-            </div>
           </div>
 
           {/* Catalog Links */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-              Digital Catalog
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] font-mono">
+              Publications
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2 text-xs">
               <li>
                 <Link href="/products/the-job-search-book" className="hover:text-[var(--text-primary)] transition-colors">
-                  The Job Search Book (Live)
+                  The Job Search Book
                 </Link>
               </li>
               <li>
                 <Link href="/products/hiring-organizations" className="hover:text-[var(--text-primary)] transition-colors">
-                  Hiring Organizations (Live)
+                  Hiring Organizations Directory
                 </Link>
               </li>
               <li>
                 <Link href="/#catalog" className="hover:text-[var(--text-primary)] transition-colors">
-                  Product Catalog
+                  All Releases
                 </Link>
               </li>
-              <li>
-                <Link href="/#lab" className="hover:text-[var(--text-primary)] transition-colors">
-                  Interactive Lab
-                </Link>
-              </li>
-
-
               <li>
                 <Link href="/library" className="hover:text-[var(--text-primary)] transition-colors">
                   My Library
@@ -77,17 +57,17 @@ export function Footer() {
           </div>
 
           {/* Legal & Support */}
-          <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)]">
-              Support & Legal
+          <div className="space-y-2.5">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--text-primary)] font-mono">
+              Support &amp; Legal
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2 text-xs">
               <li>
                 <a
                   href={`mailto:${supportEmail}`}
-                  className="flex items-center space-x-2 text-[var(--accent-primary)] hover:underline font-medium"
+                  className="inline-flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
                 >
-                  <Mail className="w-4 h-4 shrink-0" />
+                  <Mail className="w-3.5 h-3.5 shrink-0" />
                   <span>{supportEmail}</span>
                 </a>
               </li>
@@ -111,9 +91,9 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between text-xs text-[var(--text-muted)] gap-3">
-          <p>© {new Date().getFullYear()} SoWeBuild Store (store.sowebuild.in). All rights reserved.</p>
-          <p className="font-mono text-[11px]">Curated digital products engineered for velocity and clarity.</p>
+        <div className="pt-6 border-t border-[var(--border-subtle)] flex flex-col sm:flex-row items-center justify-between text-xs text-[var(--text-muted)] gap-3">
+          <p>© {new Date().getFullYear()} SoWeBuild Store. All rights reserved.</p>
+          <p className="font-mono text-[11px]">Engineered with precision for ambitious builders.</p>
         </div>
       </div>
     </footer>

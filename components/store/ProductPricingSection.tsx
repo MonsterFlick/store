@@ -9,7 +9,7 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { formatINR } from "@/lib/utils";
-import { Eye, ShieldCheck, Check, Sparkles } from "lucide-react";
+import { Eye, Check, Sparkles } from "lucide-react";
 
 export interface ProductPricingSectionProps {
   product: ProductDefinition;
@@ -33,13 +33,13 @@ export function ProductPricingSection({
     <>
       <Card
         id="pricing"
-        className="p-6 sm:p-7 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] shadow-lg shadow-zinc-950/5 space-y-5 rounded-[var(--radius-xl)]"
+        className="p-6 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] shadow-lg shadow-zinc-950/5 space-y-5 rounded-[var(--radius-xl)]"
       >
         {/* Pricing Header */}
         <div className="flex items-start justify-between">
           <div>
             <span className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)] block mb-1">
-              {isBundle ? "Complete Edition" : "Single Edition"}
+              {isBundle ? "Complete Edition" : "Directory Access"}
             </span>
             <div className="flex items-baseline space-x-2.5">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-primary)] font-mono">
@@ -65,7 +65,7 @@ export function ProductPricingSection({
             variant="outline"
             size="md"
             onClick={() => setPreviewOpen(true)}
-            className="w-full text-xs font-medium border-[var(--border-subtle)]"
+            className="w-full text-xs font-medium border-[var(--border-subtle)] cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5 mr-1.5 text-indigo-500" />
             <span>Read Free Sample</span>
@@ -109,28 +109,21 @@ export function ProductPricingSection({
               buttonText={isBundle ? `Buy Bundle • ${formatINR(finalPrice)}` : `Get Access • ${formatINR(finalPrice)}`}
             />
 
-            {/* Micro Inclusions Note */}
-            {isBundle && (
-              <p className="text-[11px] text-center text-zinc-500 dark:text-zinc-400 font-mono">
-                Includes 30-Chapter Book + 144-Company Directory Free
-              </p>
-            )}
-
             {/* Upsell Callout on hiring-organizations */}
             {product.slug === "hiring-organizations" && (
-              <div className="p-3 rounded-[var(--radius-md)] bg-indigo-500/5 border border-indigo-500/20 text-xs space-y-1.5">
+              <div className="p-3 rounded-[var(--radius-md)] bg-indigo-500/5 border border-indigo-500/20 text-xs space-y-1">
                 <div className="flex items-center justify-between font-mono text-[11px]">
                   <span className="font-semibold text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" /> Smarter Value
+                    <Sparkles className="w-3 h-3 text-emerald-500" /> Bundle Deal
                   </span>
                   <span className="text-emerald-600 dark:text-emerald-400 font-bold">Free in Bundle</span>
                 </div>
                 <p className="text-[11px] text-[var(--text-secondary)] leading-snug">
-                  Get this directory free with The Job Search Book bundle for ₹199.
+                  Get this directory included free with The Job Search Book bundle for ₹199.
                 </p>
                 <a
                   href="/products/the-job-search-book"
-                  className="inline-flex items-center text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline gap-1"
+                  className="inline-flex items-center text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline gap-1 pt-0.5"
                 >
                   <span>View Bundle Deal (₹199) →</span>
                 </a>
@@ -138,18 +131,6 @@ export function ProductPricingSection({
             )}
           </div>
         )}
-
-        {/* Capabilities Checklist */}
-        <div className="pt-3 border-t border-[var(--border-subtle)] space-y-2 text-xs text-[var(--text-secondary)]">
-          <div className="flex items-center space-x-2">
-            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span className="text-[11px] leading-tight">Instant in-browser reader on phone, tablet & desktop</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-            <span className="text-[11px] leading-tight">All future revisions and updates included perpetual</span>
-          </div>
-        </div>
       </Card>
 
       <ProductPreviewModal

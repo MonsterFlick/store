@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Plus_Jakarta_Sans, Space_Grotesk, Instrument_Serif, Geist_Mono } from "next/font/google";
 import { CursorEffect } from "@/components/ui/CursorEffect";
 import { SmoothScroll } from "@/components/ui/SmoothScroll";
+import { TopLoader } from "@/components/ui/TopLoader";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -87,6 +89,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-[var(--background)] text-[var(--text-primary)]">
+        <Suspense fallback={null}>
+          <TopLoader />
+        </Suspense>
         <SmoothScroll>
           <CursorEffect />
           {children}
