@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "monsterflick-store",
+  "name": "sowebuild-store",
   "main": ".open-next/worker.js",
   "compatibility_date": "2024-09-23",
   "compatibility_flags": [
@@ -23,6 +23,9 @@
     "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhem1ic2FiYnhybWt2bHlmdHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MTA4MjIsImV4cCI6MjEwODQ4NjgyMn0.YdcaohfSTtwRFcjzYL1l7D7H5-FJlMVMMddIbGDdB2E",
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhem1ic2FiYnhybWt2bHlmdHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MTA4MjIsImV4cCI6MjEwODQ4NjgyMn0.YdcaohfSTtwRFcjzYL1l7D7H5-FJlMVMMddIbGDdB2E",
     "RAZORPAY_MODE": "live",
-    "NEXT_PUBLIC_RAZORPAY_KEY_ID": "rzp_live_TwJKY3H89R2QQJ"
+    "NEXT_PUBLIC_RAZORPAY_KEY_ID": "rzp_live_TwJKY3H89R2QQJ",
+    "CLOUDFLARE_ACCOUNT_ID": "0b73ff2dfbfd4663511aacc92b159501",
+    "CLOUDFLARE_R2_ACCESS_KEY_ID": "844c6e5f038ce65f220a098e4acbc165",
+    "CLOUDFLARE_R2_S3_ENDPOINT": "https://0b73ff2dfbfd4663511aacc92b159501.r2.cloudflarestorage.com"
   }
 }
