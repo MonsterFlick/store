@@ -15,5 +15,14 @@
       "pattern": "store.sowebuild.in/*",
       "zone_name": "sowebuild.in"
     }
-  ]
+  ],
+  "vars": {
+    "NEXT_PUBLIC_APP_URL": "https://store.sowebuild.in",
+    "NEXT_PUBLIC_SUPPORT_EMAIL": "sowebuild.in@gmail.com",
+    "NEXT_PUBLIC_SUPABASE_URL": "https://eazmbsabbxrmkvlyftpm.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhem1ic2FiYnhybWt2bHlmdHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MTA4MjIsImV4cCI6MjEwODQ4NjgyMn0.YdcaohfSTtwRFcjzYL1l7D7H5-FJlMVMMddIbGDdB2E",
+    "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVhem1ic2FiYnhybWt2bHlmdHBtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI5MTA4MjIsImV4cCI6MjEwODQ4NjgyMn0.YdcaohfSTtwRFcjzYL1l7D7H5-FJlMVMMddIbGDdB2E",
+    "RAZORPAY_MODE": "live",
+    "NEXT_PUBLIC_RAZORPAY_KEY_ID": "rzp_live_TwJKY3H89R2QQJ"
+  }
 }
